@@ -27,10 +27,14 @@ This emulator is experimental and in early development. It should be used with c
 
 
 ## Overview
-todo!
+The RL78EMU is an emulator for the Renesas RL78 series of microcontrollers. It aims to provide an accurate simulation of RL78 microcontrollers, allowing developers to test their firmware and software without the need for physical hardware.
 
 ### Features
-todo!
+- Emulation of RL78 CPU (Core 1, Core 2, Core 3).
+- Support for various RL78 peripherals, including timers, UART, SPI, I2C, ADC, and more.
+- CLI (Command-Line Interface) for easy interaction and debugging.
+- GUI (Graphical User Interface) for a user-friendly emulation experience (planned feature).
+- Unix/Posix-platform support.
 
 [(to the top)](#rl78emu)
 
