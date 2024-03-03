@@ -16,10 +16,12 @@
 
 int32_t main(
 	const int32_t argc,
+	const char_t* argv[]);
+
+int32_t main(
+	const int32_t argc,
 	const char_t* argv[])
 {
-	(void)argc;
-	(void)argv;
 	rl78emu_misc_logger_log("rl78emu_cli: hello, world!");
 
 	const rl78emu_cli_config_s config = rl78emu_cli_config_from_cli((uint64_t)argc, argv);
