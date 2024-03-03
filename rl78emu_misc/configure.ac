@@ -1,6 +1,6 @@
 
 # Init autoconf
-AC_INIT([rl78emu_misc], [0.1.0], [https://gitlab.com/joba14/rl78emu/issues], [rl78emu_misc], [https://gitlab.com/joba14/rl78emu])
+AC_INIT([rl78emu_misc], [0.1.0], [https://github.com/joba14/rl78emu/issues], [rl78emu_misc], [https://github.com/joba14/rl78emu])
 
 # Source directory (with sanity check file)
 AC_CONFIG_SRCDIR([./makefile.am])

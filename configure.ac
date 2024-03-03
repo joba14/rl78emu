@@ -1,6 +1,6 @@
 
 # Init autoconf
-AC_INIT([rl78emu], [0.1.0], [https://gitlab.com/joba14/rl78emu/issues], [rl78emu], [https://gitlab.com/joba14/rl78emu])
+AC_INIT([rl78emu], [0.1.0], [https://github.com/joba14/rl78emu/issues], [rl78emu], [https://github.com/joba14/rl78emu])
 
 # Minimum accepted autoconf version
 AC_PREREQ([2.71])
