@@ -1,0 +1,39 @@
+
+# The target
+bin_PROGRAMS = rl78emu_cli
+
+# Target sources
+rl78emu_cli_SOURCES =                                                          \
+	$(srcdir)/source/rl78emu_cli/config.c                                      \
+	$(srcdir)/source/main.c
+
+# Target compiler flags
+rl78emu_cli_CFLAGS =                                                           \
+	-Wall                                                                      \
+	-Wextra                                                                    \
+	-Wpedantic                                                                 \
+	-Werror                                                                    \
+	-Wshadow                                                                   \
+	-Wimplicit                                                                 \
+	-Wreturn-type                                                              \
+	-Wunknown-pragmas                                                          \
+	-Wunused-variable                                                          \
+	-Wunused-function                                                          \
+	-Wmissing-prototypes                                                       \
+	-Wstrict-prototypes                                                        \
+	-Wconversion                                                               \
+	-Wsign-conversion                                                          \
+	-Wunreachable-code                                                         \
+	-std=gnu11
+
+# Target C/C++ preprocessor flags
+rl78emu_cli_CPPFLAGS =                                                         \
+	-I$(srcdir)/include                                                        \
+	-I$(top_srcdir)/build/rl78emu_cli/include                                  \
+	-I$(top_srcdir)/rl78emu_misc/include                                       \
+	-I$(top_srcdir)/rl78emu_core/include
+
+# Target linker flags
+rl78emu_cli_LDFLAGS =                                                          \
+	-L$(top_srcdir)/build/rl78emu_misc -lrl78emu_misc                          \
+	-L$(top_srcdir)/build/rl78emu_core -lrl78emu_core

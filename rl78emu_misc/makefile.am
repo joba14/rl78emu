@@ -1,0 +1,35 @@
+
+# The target
+lib_LTLIBRARIES = librl78emu_misc.la
+
+# Target sources
+librl78emu_misc_la_SOURCES =                                                   \
+	$(srcdir)/source/rl78emu_misc/common.c                                     \
+	$(srcdir)/source/rl78emu_misc/debug.c                                      \
+	$(srcdir)/source/rl78emu_misc/logger.c
+
+# Target compiler flags
+librl78emu_misc_la_CFLAGS =                                                    \
+	-Wall                                                                      \
+	-Wextra                                                                    \
+	-Wpedantic                                                                 \
+	-Werror                                                                    \
+	-Wshadow                                                                   \
+	-Wimplicit                                                                 \
+	-Wreturn-type                                                              \
+	-Wunknown-pragmas                                                          \
+	-Wunused-variable                                                          \
+	-Wunused-function                                                          \
+	-Wmissing-prototypes                                                       \
+	-Wstrict-prototypes                                                        \
+	-Wconversion                                                               \
+	-Wsign-conversion                                                          \
+	-Wunreachable-code                                                         \
+	-std=gnu11
+
+# Target C/C++ preprocessor flags
+librl78emu_misc_la_CPPFLAGS =                                                  \
+	-I$(srcdir)/include
+
+# Target linker flags
+librl78emu_misc_la_LDFLAGS = 

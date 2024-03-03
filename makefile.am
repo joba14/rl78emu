@@ -1,0 +1,6 @@
+
+# Subtargets
+SUBDIRS = \
+	./rl78emu_misc \
+	./rl78emu_core \
+	./rl78emu_cli
