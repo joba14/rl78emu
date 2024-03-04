@@ -15,10 +15,15 @@
 
 #include "rl78emu_misc/common.h"
 
-void rl78f14_cpu_init(
-	void);
+typedef enum
+{
+	rl78core_config_s1,
+	rl78core_config_s2,
+	rl78core_config_s3,
+	rl78core_configs_count
+} rl78core_config_e;
 
-void rl78f14_cpu_reset(
-	void);
+void rl78core_cpu_init(
+	const rl78core_config_e config);
 
 #endif

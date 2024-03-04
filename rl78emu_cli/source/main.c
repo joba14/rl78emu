@@ -12,6 +12,10 @@
 
 #include "rl78emu_misc/logger.h"
 
+#include "rl78emu_core/regs.h"
+#include "rl78emu_core/cpu.h"
+#include "rl78emu_core/mem.h"
+
 #include "rl78emu_cli/config.h"
 
 int32_t main(

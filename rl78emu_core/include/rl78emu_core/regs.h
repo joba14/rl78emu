@@ -86,4 +86,27 @@ typedef union
 	} bits;
 } rl78f14_reg20_u;
 
+typedef union
+{
+	struct
+	{
+		rl78f14_reg08_u x;
+		rl78f14_reg08_u a;
+		rl78f14_reg08_u c;
+		rl78f14_reg08_u b;
+		rl78f14_reg08_u e;
+		rl78f14_reg08_u d;
+		rl78f14_reg08_u l;
+		rl78f14_reg08_u h;
+	};
+
+	struct
+	{
+		rl78f14_reg16_u ax;
+		rl78f14_reg16_u bc;
+		rl78f14_reg16_u de;
+		rl78f14_reg16_u hl;
+	};
+} rl78core_bank_u;
+
 #endif
