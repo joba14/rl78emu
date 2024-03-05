@@ -15,15 +15,21 @@
 
 #include "rl78emu_misc/common.h"
 
-typedef enum
-{
-	rl78core_config_s1,
-	rl78core_config_s2,
-	rl78core_config_s3,
-	rl78core_configs_count
-} rl78core_config_e;
+/**
+ * @brief Initialize cpu.
+ */
+void rl78core_cpu_init(void);
 
-void rl78core_cpu_init(
-	const rl78core_config_e config);
+/**
+ * @brief Check if cpu is halted or not.
+ * 
+ * @return bool_t halted flag
+ */
+bool_t rl78core_cpu_halted(void);
+
+/**
+ * @brief Process a single tick with the cpu.
+ */
+void rl78core_cpu_tick(void);
 
 #endif

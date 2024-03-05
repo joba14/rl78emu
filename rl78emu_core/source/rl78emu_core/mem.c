@@ -13,164 +13,63 @@
 #include "rl78emu_misc/debug.h"
 #include "rl78emu_misc/logger.h"
 
-#include "rl78emu_core/regs.h"
 #include "rl78emu_core/mem.h"
-
-#define rl78f14_mem_flash_capacity 0x100000
-
-#define rl78f14_mem_flash_cfm_start 0xF0000  // todo: figure out the actual values here!
-#define rl78f14_mem_flash_cfm_length 0x1000  // todo: figure out the actual values here!
-
-#define rl78f14_mem_flash_dfm_start 0xF0000  // todo: figure out the actual values here!
-#define rl78f14_mem_flash_dfm_length 0x1000  // todo: figure out the actual values here!
-
-#define rl78f14_mem_flash_ram_start 0xF0000  // todo: figure out the actual values here!
-#define rl78f14_mem_flash_ram_length 0x1000  // todo: figure out the actual values here!
 
 typedef struct
 {
-	uint8_t flash[rl78f14_mem_flash_capacity];
-} rl78f14_mem_s;
+	#define rl78core_mem_flash_capacity 0x100000
+	uint8_t flash[rl78core_mem_flash_capacity];
+} rl78core_mem_s;
 
-static rl78f14_mem_s g_rl78f14_mem;
+static rl78core_mem_s g_rl78core_mem;
 
-void rl78f14_mem_init(
-	void)
+/**
+ * @brief Reference memory at a provided address. It requires the size in bytes
+ * of the referenceable type for safety checks.
+ * 
+ * @param address address to reference memory at
+ * @param size    referenceable type size in bytes
+ * 
+ * @return uint8_t* pointer to the referenced memory
+ */
+static uint8_t* reference_mem_at(const uint20_t address, const uint20_t size);
+
+void rl78core_mem_init(void)
 {
+	g_rl78core_mem = (rl78core_mem_s) {0};
 }
 
-uint8_t rl78f14_mem_read_u08(
-	const uint32_t address)
+uint8_t rl78core_mem_read_u08(const uint20_t address)
 {
-	rl78emu_misc_debug_assert(address < rl78f14_mem_flash_capacity);
-	return (g_rl78f14_mem.flash[address] & 0xFF);
+	const uint8_t* const base = reference_mem_at(address, sizeof(uint8_t));
+	return (*base & 0xFF);
 }
 
-void rl78f14_mem_write_u08(
-	const uint32_t address,
-	const uint8_t value)
+void rl78core_mem_write_u08(const uint20_t address, const uint8_t value)
 {
-	rl78emu_misc_debug_assert(address < rl78f14_mem_flash_capacity);
-	g_rl78f14_mem.flash[address] = (value & 0xFF);
+	uint8_t* const base = reference_mem_at(address, sizeof(uint8_t));
+	*base = (value & 0xFF);
 }
 
-uint16_t rl78f14_mem_read_u16(
-	const uint32_t address)
+uint16_t rl78core_mem_read_u16(const uint20_t address)
 {
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_capacity - 1));
-	return (uint16_t)(
-		(uint16_t)(g_rl78f14_mem.flash[address + 0] & 0x00FF) | \
-		(uint16_t)((uint16_t)(g_rl78f14_mem.flash[address + 1] << 8) & 0xFF00)
-	);
+	const uint8_t* const base = reference_mem_at(address, sizeof(uint16_t));
+	return (uint16_t)((uint16_t)(*(base + 0) & 0x00FF) | \
+	(uint16_t)((uint16_t)(*(base + 1) << 8) & 0xFF00));
 }
 
-void rl78f14_mem_write_u16(
-	const uint32_t address,
-	const uint16_t value)
+void rl78core_mem_write_u16(const uint20_t address, const uint16_t value)
 {
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_capacity - 1));
-	g_rl78f14_mem.flash[address + 0] = (uint8_t)(value & 0x00FF);
-	g_rl78f14_mem.flash[address + 1] = (uint8_t)((uint16_t)(value >> 8) & 0x00FF);
+	uint8_t* const base = reference_mem_at(address, sizeof(uint16_t));
+	*(base + 0) = (uint8_t)(value & 0x00FF);
+	*(base + 1) = (uint8_t)((uint16_t)(value >> 8) & 0x00FF);
 }
 
-inline uint8_t rl78f14_mem_read_u08_from_cfm(
-	const uint32_t address)
+static uint8_t* reference_mem_at(const uint20_t address, const uint20_t size)
 {
-	rl78emu_misc_debug_assert(address >= rl78f14_mem_flash_cfm_start);
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_cfm_start + rl78f14_mem_flash_cfm_length));
-	return rl78f14_mem_read_u08(address);
-}
-
-inline void rl78f14_mem_write_u08_to_cfm(
-	const uint32_t address,
-	const uint8_t value)
-{
-	rl78emu_misc_debug_assert(address >= rl78f14_mem_flash_cfm_start);
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_cfm_start + rl78f14_mem_flash_cfm_length));
-	rl78f14_mem_write_u08(address, value);
-}
-
-inline uint16_t rl78f14_mem_read_u16_from_cfm(
-	const uint32_t address)
-{
-	rl78emu_misc_debug_assert(address >= rl78f14_mem_flash_cfm_start);
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_cfm_start + rl78f14_mem_flash_cfm_length - 1));
-	return rl78f14_mem_read_u16(address);
-}
-
-inline void rl78f14_mem_write_u16_to_cfm(
-	const uint32_t address,
-	const uint16_t value)
-{
-	rl78emu_misc_debug_assert(address >= rl78f14_mem_flash_cfm_start);
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_cfm_start + rl78f14_mem_flash_cfm_length - 1));
-	rl78f14_mem_write_u16(address, value);
-}
-
-inline uint8_t rl78f14_mem_read_u08_from_dfm(
-	const uint32_t address)
-{
-	rl78emu_misc_debug_assert(address >= rl78f14_mem_flash_dfm_start);
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_dfm_start + rl78f14_mem_flash_dfm_length));
-	return rl78f14_mem_read_u08(address);
-}
-
-inline void rl78f14_mem_write_u08_to_dfm(
-	const uint32_t address,
-	const uint8_t value)
-{
-	rl78emu_misc_debug_assert(address >= rl78f14_mem_flash_dfm_start);
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_dfm_start + rl78f14_mem_flash_dfm_length));
-	rl78f14_mem_write_u08(address, value);
-}
-
-inline uint16_t rl78f14_mem_read_u16_from_dfm(
-	const uint32_t address)
-{
-	rl78emu_misc_debug_assert(address >= rl78f14_mem_flash_dfm_start);
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_dfm_start + rl78f14_mem_flash_dfm_length - 1));
-	return rl78f14_mem_read_u16(address);
-}
-
-inline void rl78f14_mem_write_u16_to_dfm(
-	const uint32_t address,
-	const uint16_t value)
-{
-	rl78emu_misc_debug_assert(address >= rl78f14_mem_flash_dfm_start);
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_dfm_start + rl78f14_mem_flash_dfm_length - 1));
-	rl78f14_mem_write_u16(address, value);
-}
-
-inline uint8_t rl78f14_mem_read_u08_from_ram(
-	const uint32_t address)
-{
-	rl78emu_misc_debug_assert(address >= rl78f14_mem_flash_ram_start);
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_ram_start + rl78f14_mem_flash_ram_length));
-	return rl78f14_mem_read_u08(address);
-}
-
-inline void rl78f14_mem_write_u08_to_ram(
-	const uint32_t address,
-	const uint8_t value)
-{
-	rl78emu_misc_debug_assert(address >= rl78f14_mem_flash_ram_start);
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_ram_start + rl78f14_mem_flash_ram_length));
-	rl78f14_mem_write_u08(address, value);
-}
-
-inline uint16_t rl78f14_mem_read_u16_from_ram(
-	const uint32_t address)
-{
-	rl78emu_misc_debug_assert(address >= rl78f14_mem_flash_ram_start);
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_ram_start + rl78f14_mem_flash_ram_length - 1));
-	return rl78f14_mem_read_u16(address);
-}
-
-inline void rl78f14_mem_write_u16_to_ram(
-	const uint32_t address,
-	const uint16_t value)
-{
-	rl78emu_misc_debug_assert(address >= rl78f14_mem_flash_ram_start);
-	rl78emu_misc_debug_assert(address < (rl78f14_mem_flash_ram_start + rl78f14_mem_flash_ram_length - 1));
-	rl78f14_mem_write_u16(address, value);
+	rl78emu_misc_debug_assert(size > 0);
+	rl78emu_misc_debug_assert(address < (rl78core_mem_flash_capacity - size + 1));
+	uint8_t* const base = &g_rl78core_mem.flash[address];
+	rl78emu_misc_debug_assert(base != NULL);
+	return base;
 }

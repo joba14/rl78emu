@@ -20,6 +20,7 @@
 
 typedef bool bool_t;
 typedef char char_t;
+typedef uint32_t uint20_t;
 
 /**
  * @brief Wrapper for c's stdlib malloc function.

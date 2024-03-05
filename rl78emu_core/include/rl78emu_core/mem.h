@@ -15,63 +15,53 @@
 
 #include "rl78emu_misc/common.h"
 
-void rl78f14_mem_init(
-	void);
+/**
+ * @brief Initialize memory.
+ */
+void rl78core_mem_init(void);
 
-uint8_t rl78f14_mem_read_u08(
-	const uint32_t address);
+/**
+ * @brief Read 8-bit value from a provided address in the memory.
+ * 
+ * @param address address to read at
+ * 
+ * @return uint8_t read 8-bit value
+ */
+uint8_t rl78core_mem_read_u08(const uint20_t address);
 
-void rl78f14_mem_write_u08(
-	const uint32_t address,
-	const uint8_t value);
+/**
+ * @brief Write 8-bit value into a provided address in the memory.
+ * 
+ * @param address address to write value at
+ * @param value   value to write
+ */
+void rl78core_mem_write_u08(const uint20_t address, const uint8_t value);
 
-uint16_t rl78f14_mem_read_u16(
-	const uint32_t address);
+/**
+ * @brief Read 16-bit value from a provided address in the memory.
+ * 
+ * @note 16-bit value cannot be read at the end of a memory range. For example,
+ * reading a 16-bit value at address 0x09 in a memory of size 10, would raise a
+ * runtime error, since 16-bit value cannot be read from a memory range of less
+ * than 2 bytes length.
+ * 
+ * @param address address to read at
+ * 
+ * @return uint16_t read 16-bit value
+ */
+uint16_t rl78core_mem_read_u16(const uint20_t address);
 
-void rl78f14_mem_write_u16(
-	const uint32_t address,
-	const uint16_t value);
-
-uint8_t rl78f14_mem_read_u08_from_cfm(
-	const uint32_t address);
-
-void rl78f14_mem_write_u08_to_cfm(
-	const uint32_t address,
-	const uint8_t value);
-
-uint16_t rl78f14_mem_read_u16_from_cfm(
-	const uint32_t address);
-
-void rl78f14_mem_write_u16_to_cfm(
-	const uint32_t address,
-	const uint16_t value);
-
-uint8_t rl78f14_mem_read_u08_from_dfm(
-	const uint32_t address);
-
-void rl78f14_mem_write_u08_to_dfm(
-	const uint32_t address,
-	const uint8_t value);
-
-uint16_t rl78f14_mem_read_u16_from_dfm(
-	const uint32_t address);
-
-void rl78f14_mem_write_u16_to_dfm(
-	const uint32_t address,
-	const uint16_t value);
-
-uint8_t rl78f14_mem_read_u08_from_ram(
-	const uint32_t address);
-
-void rl78f14_mem_write_u08_to_ram(
-	const uint32_t address,
-	const uint8_t value);
-
-uint16_t rl78f14_mem_read_u16_from_ram(
-	const uint32_t address);
-
-void rl78f14_mem_write_u16_to_ram(
-	const uint32_t address,
-	const uint16_t value);
+/**
+ * @brief Write 16-bit value from a provided address in the memory.
+ * 
+ * @note 16-bit value cannot be written at the end of a memory range. For example,
+ * reading a 16-bit value at address 0x09 in a memory of size 10, would raise a
+ * runtime error, since 16-bit value cannot be read from a memory range of less
+ * than 2 bytes length.
+ * 
+ * @param address address to write value at
+ * @param value   value to write
+ */
+void rl78core_mem_write_u16(const uint20_t address, const uint16_t value);
 
 #endif
