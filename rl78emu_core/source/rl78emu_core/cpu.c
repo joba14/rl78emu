@@ -53,6 +53,27 @@ typedef struct
 
 static rl78core_cpu_s g_rl78core_cpu;
 
+// todo: short direct addressing (saddr) [0xFFE20; 0xFFF20) } 256 bytes
+uint8_t short_direct_addressing_read_u08(const uint8_t address);
+void short_direct_addressing_write_u08(const uint8_t address, const uint8_t value);
+
+// todo: sfr addressing (sfr) [0xFFF00; 0x100000) } 256 bytes
+uint8_t sfr_addressing_read_u08(const uint8_t address);
+void sfr_addressing_write_u08(const uint8_t address, const uint8_t value);
+
+// todo: register addressing [0xFFEE0; 0xFFF00) } 32 bytes
+uint8_t gpr_addressing_read_u08(const uint8_t address);
+void gpr_addressing_write_u08(const uint8_t address, const uint8_t value);
+
+// todo: direct addressing [0x00000; 0x100000) } 1Mb
+uint8_t direct_addressing_read_u08(const uint20_t address);
+void direct_addressing_write_u08(const uint20_t address, const uint8_t value);
+
+// todo: register indirect addressing [0x00000; 0x100000) } 1Mb
+// todo: based addressing [0x00000; 0x100000) } 1Mb
+// todo: based indexed addressing [0x00000; 0x100000) } 1Mb
+
+
 static uint20_t get_current_bank_base_address(void);
 
 static uint8_t read_general_purpose_register_u08(const uint8_t offset);
