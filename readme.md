@@ -15,6 +15,9 @@
 - [Overview](#overview)
 	- [Features](#features)
 - [Getting Started](#getting-started)
+	- [Cloning the Project](#clonging-the-project)
+	- [Building the Project](#building-the-project)
+	- [Generating the Documentation](#generating-the-documentation)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -41,7 +44,37 @@ The RL78EMU is an emulator for the Renesas RL78 series of microcontrollers. It a
 
 
 ## Getting Started
-todo!
+
+### Cloning the Project
+To clone the project repository, use the following command:
+```sh
+> git clone https://github.com/joba14/rl78emu.git <dir-to-clone-to>
+```
+
+### Building the Project
+Before building the project, ensure you have the necessary dependencies installed. This project requires the following:
+- autoconf
+- automake
+
+Once you have the dependencies installed, follow these steps to build the project:
+```sh
+> cd <root-of-the-repo>    # Enter the root of the repository.
+> chmod +x ./autogen.sh    # Set executable permission for the ./autogen.sh script.
+> cd ./scripts             # Enter the ./scripts sub-directory.
+> chmod +x ./*.sh          # Set executable permission for all shell scripts in scripts dir.
+> ./rebuild.sh             # Rebuild the project.
+> ./check.sh               # Run the unit tests.
+```
+
+### Generating the Documentation
+Before generating the documentation, ensure you have the necessary dependencies installed. This project requires the following:
+- doxygen
+
+Once you have the dependencies installed, follow these steps to generate the documentation:
+```sh
+> cd <root-of-the-repo>    # Enter the root of the repository.
+> doxygen ./doxyfile.sh    # Run the doxygen with doxyfile.sh configuration.
+```
 
 [(to the top)](#rl78emu)
 
