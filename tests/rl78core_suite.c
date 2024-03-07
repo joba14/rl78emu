@@ -10,10 +10,6 @@
  * @date 2024-03-07
  */
 
-#include "rl78misc/common.h"
-#include "rl78misc/debug.h"
-#include "rl78misc/logger.h"
-
 #include "rl78core/reg.h"
 #include "rl78core/mem.h"
 #include "rl78core/cpu.h"
@@ -35,4 +31,9 @@ utester_define_test(test3)
 	utester_assert_true(2 == 2);
 }
 
-utester_run_suite(rl78core_suite, &test1, &test2, &test3);
+utester_run_suite(
+	rl78core_suite,
+		&test1,
+		&test2,
+		&test3
+);
