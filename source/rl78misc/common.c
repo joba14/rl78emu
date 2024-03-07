@@ -49,11 +49,11 @@ void* rl78misc_realloc(
 	return pointer;
 }
 
-void rl78misc_free(
+void* rl78misc_free(
 	const void* pointer)
 {
 	free((void*)pointer);
-	pointer = NULL;
+	return NULL;
 }
 
 void rl78misc_exit(

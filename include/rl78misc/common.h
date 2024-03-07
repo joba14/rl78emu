@@ -51,8 +51,10 @@ void* rl78misc_realloc(void* pointer, const uint64_t size);
  * @note After freeing the memory, the pointer will be set to NULL.
  * 
  * @param pointer pointer to the memory region to free
+ * 
+ * @return void*
  */
-void rl78misc_free(const void* pointer);
+void* rl78misc_free(const void* pointer);
 
 /**
  * @brief Wrapper for c's stdlib exit function.
