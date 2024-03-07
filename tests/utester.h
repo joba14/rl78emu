@@ -180,13 +180,13 @@ struct utester_test_s
 			if (test->status)                                                  \
 			{                                                                  \
 				utester_logger_info(                                           \
-					"    " ansi_green "test passed" ansi_reset);               \
+					"  " ansi_green "test passed" ansi_reset);                 \
 				++passed_count;                                                \
 			}                                                                  \
 			else                                                               \
 			{                                                                  \
 				utester_logger_error(                                          \
-					"    " ansi_red "test failed" ansi_reset);                 \
+					"  " ansi_red "test failed" ansi_reset);                   \
 				++failed_count;                                                \
 			}                                                                  \
 		}                                                                      \
