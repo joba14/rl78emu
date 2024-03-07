@@ -53,8 +53,10 @@ To clone the project repository, use the following command:
 
 ### Building the Project
 Before building the project, ensure you have the necessary dependencies installed. This project requires the following:
+- gcc/cc
 - autoconf
 - automake
+- libtool
 
 Once you have the dependencies installed, follow these steps to build the project:
 ```sh
