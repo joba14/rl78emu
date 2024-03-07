@@ -6,7 +6,7 @@
 
 
 # RL78EMU
-**The RL78 Emulator**<br>[Report a bug](https://github.com/joba14/rl78emu/issues/new) · [Request a feature](https://github.com/rl78emu/kite/issues/new)
+**The RL78 Emulator**<br>[Report a bug](https://github.com/joba14/rl78emu/issues/new) · [Request a feature](https://github.com/rl78emu/issues/new)
 
 
 ## Table of Contents
