@@ -26,14 +26,26 @@ int32_t main(
 	const int32_t argc,
 	const char_t* argv[])
 {
-	rl78misc_logger_log("rl78cli: hello, world!");
+	rl78misc_logger_log("rl78emu: hello, world!");
 
 	const rl78cli_config_s config = rl78cli_config_from_cli((uint64_t)argc, argv);
 	(void)config;
 
 	rl78core_mem_init();
 	rl78core_cpu_init();
-	// todo: flash the binary into the mem.
+
+	// todo: flash the binary into the mem:
+	// [
+		const uint8_t rom[] =
+		{
+			0x50, 0x69
+		};
+
+		for (uint20_t address = 0; address < sizeof(rom); ++address)
+		{
+			rl78core_mem_write_u08(address, rom[address]);
+		}
+	// ]
 
 	while (!rl78core_cpu_halted())
 	{
