@@ -168,14 +168,6 @@ AC_CHECK_FUNC([strlen], [],
 	AC_MSG_ERROR([The 'strlen' function was not found! Cannot proceed with the build process without it...])
 )
 
-AC_CHECK_FUNC([isalpha], [],
-	AC_MSG_ERROR([The 'isalpha' function was not found! Cannot proceed with the build process without it...])
-)
-
-AC_CHECK_FUNC([isdigit], [],
-	AC_MSG_ERROR([The 'isdigit' function was not found! Cannot proceed with the build process without it...])
-)
-
 AC_CHECK_FUNC([fopen], [],
 	AC_MSG_ERROR([The 'fopen' function was not found! Cannot proceed with the build process without it...])
 )
