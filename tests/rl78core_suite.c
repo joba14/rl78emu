@@ -16,24 +16,70 @@
 
 #include "./utester.h"
 
-utester_define_test(test1)
+utester_define_test(rl78core_mem_read_u08_test)
 {
-	utester_assert_true(1 == 1);
+	rl78core_mem_init();
+	const uint20_t LENGTH = 5;
+
+	for (uint20_t index = 0; index < LENGTH; ++index)
+	{
+		const uint8_t byte = rl78core_mem_read_u08(index);
+		utester_assert_equal(byte, 0);
+	}
 }
 
-utester_define_test(test2)
+utester_define_test(rl78core_mem_write_u08_test)
 {
-	utester_assert_true(1 != 2);
+	rl78core_mem_init();
+	const uint8_t BYTE = 0x0A;
+	const uint20_t LENGTH = 5;
+
+	for (uint20_t index = 0; index < LENGTH; ++index)
+	{
+		rl78core_mem_write_u08(index, BYTE);
+	}
+
+	for (uint20_t index = 0; index < LENGTH; ++index)
+	{
+		const uint8_t byte = rl78core_mem_read_u08(index);
+		utester_assert_equal(byte, BYTE);
+	}
 }
 
-utester_define_test(test3)
+utester_define_test(rl78core_mem_read_u16_test)
 {
-	utester_assert_true(2 == 2);
+	rl78core_mem_init();
+	const uint20_t LENGTH = 10;
+
+	for (uint20_t index = 0; index < LENGTH; index += 2)
+	{
+		const uint16_t byte = rl78core_mem_read_u16(index);
+		utester_assert_equal(byte, 0);
+	}
+}
+
+utester_define_test(rl78core_mem_write_u16_test)
+{
+	rl78core_mem_init();
+	const uint16_t BYTE = 0xA0;
+	const uint20_t LENGTH = 10;
+
+	for (uint20_t index = 0; index < LENGTH; index += 2)
+	{
+		rl78core_mem_write_u16(index, BYTE);
+	}
+
+	for (uint20_t index = 0; index < LENGTH; index += 2)
+	{
+		const uint16_t byte = rl78core_mem_read_u16(index);
+		utester_assert_equal(byte, BYTE);
+	}
 }
 
 utester_run_suite(
 	rl78core_suite,
-		&test1,
-		&test2,
-		&test3
+		&rl78core_mem_read_u08_test,
+		&rl78core_mem_write_u08_test,
+		&rl78core_mem_read_u16_test,
+		&rl78core_mem_write_u16_test,
 );
