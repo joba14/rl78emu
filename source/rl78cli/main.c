@@ -12,7 +12,6 @@
 
 #include "rl78misc/logger.h"
 
-#include "rl78core/reg.h"
 #include "rl78core/mem.h"
 #include "rl78core/cpu.h"
 
@@ -36,20 +35,23 @@ int32_t main(
 
 	// todo: flash the binary into the mem:
 	// [
-		const uint8_t rom[] =
+		#define rom_length 2
+		const uint8_t rom[rom_length] =
 		{
 			0x50, 0x69
 		};
 
-		for (uint20_t address = 0; address < sizeof(rom); ++address)
+		for (uint20_t address = 0; address < rom_length; ++address)
 		{
 			rl78core_mem_write_u08(address, rom[address]);
 		}
 	// ]
 
-	while (!rl78core_cpu_halted())
+	for (uint64_t tick_count = 0; !rl78core_cpu_halted(); ++tick_count)
 	{
+		if (tick_count >= (rom_length - 1)) rl78core_cpu_halt();
 		rl78core_cpu_tick();
+		rl78misc_logger_log("tick_count=%lu", tick_count);
 	}
 
 	return 0;
