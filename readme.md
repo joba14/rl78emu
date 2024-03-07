@@ -15,7 +15,7 @@
 - [Overview](#overview)
 	- [Features](#features)
 - [Getting Started](#getting-started)
-	- [Cloning the Project](#clonging-the-project)
+	- [Cloning the Project](#cloning-the-project)
 	- [Building the Project](#building-the-project)
 	- [Generating the Documentation](#generating-the-documentation)
 - [Contributing](#contributing)
