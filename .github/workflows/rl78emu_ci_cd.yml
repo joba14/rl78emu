@@ -1,0 +1,23 @@
+name: rl78emu_ci_cd
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: display current directory
+      run: pwd && ls -la
+    - name: apply permissions for scripts
+      run: chmod +x ./autogen.sh && chmod +x ./scripts/*.sh
+    - name: rebuild repo
+      run: ./scripts/rebuild.sh
+    - name: check repo
+      run: ./scripts/check.sh
