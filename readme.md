@@ -1,12 +1,13 @@
 
 <a href="https://github.com/joba14/rl78emu"><img src="./logo.svg" alt="Logo" width="400"></a><br>
-[![Licenses](https://img.shields.io/badge/license-RL78EMU_GPLv1-brightgreen.svg?style=for-the-badge)](./license.md)
+![License](https://img.shields.io/badge/license-RL78EMU_GPLv1-brightgreen.svg?style=for-the-badge)
 ![Languages](https://img.shields.io/badge/languages-C-brightgreen.svg?style=for-the-badge)
 ![Platforms](https://img.shields.io/badge/platforms-Linux-brightgreen.svg?style=for-the-badge)
+<br>
 
 
 # RL78EMU
-**The RL78 Emulator**<br>[Report a bug](https://github.com/joba14/rl78emu/issues/new) · [Request a feature](https://github.com/rl78emu/issues/new)
+**The RL78 Emulator**<br>[Report a bug](https://github.com/joba14/rl78emu/issues/new) · [Request a feature](https://github.com/joba14/rl78emu/issues/new)
 
 
 ## Table of Contents
