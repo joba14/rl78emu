@@ -13,7 +13,6 @@
 #include "rl78misc/debug.h"
 #include "rl78misc/logger.h"
 
-#include "rl78core/reg.h"
 #include "rl78core/mem.h"
 #include "rl78core/cpu.h"
 
@@ -54,7 +53,7 @@ typedef enum
 typedef struct
 {
 	bool_t halted;
-	rl78core_reg20_u pc;
+	uint20_t pc;
 } rl78core_cpu_s;
 
 static rl78core_cpu_s g_rl78core_cpu;
@@ -86,9 +85,14 @@ void rl78core_cpu_init(void)
 {
 	g_rl78core_cpu = (rl78core_cpu_s)
 	{
-		.halted   = false,
-		.pc.value = 0x00000,
+		.halted = false,
+		.pc = 0x00000,
 	};
+}
+
+void rl78core_cpu_halt(void)
+{
+	g_rl78core_cpu.halted = true;
 }
 
 bool_t rl78core_cpu_halted(void)
@@ -98,6 +102,11 @@ bool_t rl78core_cpu_halted(void)
 
 void rl78core_cpu_tick(void)
 {
+	if (rl78core_cpu_halted())
+	{
+		return;
+	}
+
 	switch (fetch_instruction_byte())
 	{
 		case 0x50:  // MOV X, #byte
@@ -424,5 +433,5 @@ uint20_t based_indexed_address_to_absolute_address(const uint20_t address)
 
 static uint8_t fetch_instruction_byte(void)
 {
-	return rl78core_mem_read_u08(g_rl78core_cpu.pc.value++);
+	return rl78core_mem_read_u08(g_rl78core_cpu.pc++);
 }

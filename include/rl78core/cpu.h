@@ -21,6 +21,11 @@
 void rl78core_cpu_init(void);
 
 /**
+ * @brief Halt the cpu.
+ */
+void rl78core_cpu_halt(void);
+
+/**
  * @brief Check if cpu is halted or not.
  * 
  * @return bool_t halted flag
