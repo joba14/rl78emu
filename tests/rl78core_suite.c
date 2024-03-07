@@ -10,7 +10,6 @@
  * @date 2024-03-07
  */
 
-#include "rl78core/reg.h"
 #include "rl78core/mem.h"
 #include "rl78core/cpu.h"
 
