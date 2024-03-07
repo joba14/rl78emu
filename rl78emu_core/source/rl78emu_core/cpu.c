@@ -103,14 +103,46 @@ void rl78core_cpu_tick(void)
 {
 	switch (fetch_instruction_byte())
 	{
-		case 0x50: { write_general_purpose_register_u08(rl78core_gpr_x, fetch_instruction_byte()); } break;  // MOV X, #byte
-		case 0x51: { write_general_purpose_register_u08(rl78core_gpr_a, fetch_instruction_byte()); } break;  // MOV A, #byte
-		case 0x52: { write_general_purpose_register_u08(rl78core_gpr_c, fetch_instruction_byte()); } break;  // MOV C, #byte
-		case 0x53: { write_general_purpose_register_u08(rl78core_gpr_b, fetch_instruction_byte()); } break;  // MOV B, #byte
-		case 0x54: { write_general_purpose_register_u08(rl78core_gpr_e, fetch_instruction_byte()); } break;  // MOV E, #byte
-		case 0x55: { write_general_purpose_register_u08(rl78core_gpr_d, fetch_instruction_byte()); } break;  // MOV D, #byte
-		case 0x56: { write_general_purpose_register_u08(rl78core_gpr_l, fetch_instruction_byte()); } break;  // MOV L, #byte
-		case 0x57: { write_general_purpose_register_u08(rl78core_gpr_h, fetch_instruction_byte()); } break;  // MOV H, #byte
+		case 0x50:  // MOV X, #byte
+		{
+			write_general_purpose_register_u08(rl78core_gpr_x, fetch_instruction_byte());
+		} break;
+
+		case 0x51:  // MOV A, #byte
+		{
+			write_general_purpose_register_u08(rl78core_gpr_a, fetch_instruction_byte());
+		} break;
+
+		case 0x52:  // MOV C, #byte
+		{
+			write_general_purpose_register_u08(rl78core_gpr_c, fetch_instruction_byte());
+		} break;
+
+		case 0x53:  // MOV B, #byte
+		{
+			write_general_purpose_register_u08(rl78core_gpr_b, fetch_instruction_byte());
+		} break;
+
+		case 0x54:  // MOV E, #byte
+		{
+			write_general_purpose_register_u08(rl78core_gpr_e, fetch_instruction_byte());
+		} break;
+
+		case 0x55:  // MOV D, #byte
+		{
+			write_general_purpose_register_u08(rl78core_gpr_d, fetch_instruction_byte());
+		} break;
+
+		case 0x56:  // MOV L, #byte
+		{
+			write_general_purpose_register_u08(rl78core_gpr_l, fetch_instruction_byte());
+		} break;
+
+		case 0x57:  // MOV H, #byte
+		{
+			write_general_purpose_register_u08(rl78core_gpr_h, fetch_instruction_byte());
+		} break;
+
 
 		case 0xCD:  // MOV saddr, #byte
 		{
