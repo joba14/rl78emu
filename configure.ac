@@ -15,12 +15,7 @@ AC_CONFIG_AUX_DIR([./aux])
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 
 # Setup output targets
-AC_CONFIG_FILES([
-	makefile
-	rl78emu_misc/makefile
-	rl78emu_core/makefile
-	rl78emu_cli/makefile
-])
+AC_CONFIG_FILES([makefile ./include/rl78emu/version.h:version.h.in])
 
 # Initializing linking tool
 LT_INIT

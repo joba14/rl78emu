@@ -1,6 +1,94 @@
 
-# Subtargets
-SUBDIRS =                                                                      \
-	./rl78emu_misc                                                             \
-	./rl78emu_core                                                             \
-	./rl78emu_cli
+shared_SOURCES =                                                               \
+	$(srcdir)/source/rl78misc/common.c                                         \
+	$(srcdir)/source/rl78misc/debug.c                                          \
+	$(srcdir)/source/rl78misc/logger.c                                         \
+	$(srcdir)/source/rl78core/mem.c                                            \
+	$(srcdir)/source/rl78core/cpu.c                                            \
+	$(srcdir)/source/rl78cli/config.c
+
+shared_CFLAGS =                                                                \
+	-Wall                                                                      \
+	-Wextra                                                                    \
+	-Wpedantic                                                                 \
+	-Werror                                                                    \
+	-Wshadow                                                                   \
+	-Wimplicit                                                                 \
+	-Wreturn-type                                                              \
+	-Wunknown-pragmas                                                          \
+	-Wunused-variable                                                          \
+	-Wunused-function                                                          \
+	-Wmissing-prototypes                                                       \
+	-Wstrict-prototypes                                                        \
+	-Wconversion                                                               \
+	-Wsign-conversion                                                          \
+	-Wunreachable-code                                                         \
+	-std=gnu11
+
+shared_CPPFLAGS =                                                              \
+	-I$(srcdir)/include                                                        \
+	-I$(top_srcdir)/build/include
+
+shared_LDFLAGS =
+
+# ---------------------------------------------------------------------------- #
+
+# The target
+bin_PROGRAMS = rl78emu
+
+# Target sources
+rl78emu_SOURCES =                                                              \
+	$(shared_SOURCES)                                                          \
+	$(srcdir)/source/rl78cli/main.c
+
+# Target compiler flags
+rl78emu_CFLAGS =                                                               \
+	$(shared_CFLAGS)
+
+# Target C/C++ preprocessor flags
+rl78emu_CPPFLAGS =                                                             \
+	$(shared_CPPFLAGS)
+
+# Target linker flags
+rl78emu_LDFLAGS =                                                              \
+	$(shared_LDFLAGS)
+
+# ---------------------------------------------------------------------------- #
+
+# The tests targets
+check_PROGRAMS = rl78misc_suite rl78core_suite
+
+# Tests targets sources
+rl78misc_suite_SOURCES =                                                       \
+	$(shared_SOURCES)                                                          \
+	$(srcdir)/tests/rl78misc_suite.c
+
+rl78core_suite_SOURCES =                                                       \
+	$(shared_SOURCES)                                                          \
+	$(srcdir)/tests/rl78core_suite.c
+
+# Target compiler flags
+rl78misc_suite_CFLAGS =                                                        \
+	$(shared_CFLAGS)
+
+rl78core_suite_CFLAGS =                                                        \
+	$(shared_CFLAGS)
+
+# Target C/C++ preprocessor flags
+rl78misc_suite_CPPFLAGS =                                                      \
+	$(shared_CPPFLAGS)
+
+rl78core_suite_CPPFLAGS =                                                      \
+	$(shared_CPPFLAGS)
+
+# Target linker flags
+rl78misc_suite_LDFLAGS =                                                       \
+	$(shared_LDFLAGS)
+
+rl78core_suite_LDFLAGS =                                                       \
+	$(shared_LDFLAGS)
+
+# Check local target
+check-local: rl78misc_suite rl78core_suite
+	./rl78misc_suite
+	./rl78core_suite
