@@ -189,5 +189,5 @@ utester_run_suite(
 		&rl78misc_memcmp_test,
 		&rl78misc_strlen_test,
 		&rl78misc_strcmp_test,
-		&rl78misc_strncmp_test
+		&rl78misc_strncmp_test,
 );
