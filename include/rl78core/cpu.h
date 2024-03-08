@@ -16,7 +16,7 @@
 #include "rl78misc/common.h"
 
 /**
- * @brief Initialize cpu.
+ * @brief Initialize the cpu.
  */
 void rl78core_cpu_init(void);
 

@@ -58,16 +58,45 @@ typedef struct
 
 static rl78core_cpu_s g_rl78core_cpu;
 
-// todo: short direct addressing (saddr) [0xFFE20; 0xFFF20) } 256 bytes
+/**
+ * @brief Convert short direct address in the range of [0xFFE20; 0xFFF20) into
+ * an absolute address in range of [0x00000; 0x100000).
+ * 
+ * @param address relative short address
+ * 
+ * @return uint20_t absolute address
+ */
 uint20_t short_direct_address_to_absolute_address(const uint8_t address);
 
-// todo: sfr addressing [0xFFF00; 0x100000) } 256 bytes
+/**
+ * @brief Convert special function register in the range of [0xFFF00; 0x100000)
+ * into an absolute address in range of [0x00000; 0x100000).
+ * 
+ * @param address relative special function register address
+ * 
+ * @return uint20_t absolute address
+ */
 uint20_t special_function_register_to_absolute_address(const uint8_t address);
 
-// todo: gpr addressing [0xFFEE0; 0xFFF00) } 32 bytes
+/**
+ * @brief Convert general purpose register in the range of [0xFFEE0; 0xFFF00)
+ * into an absolute address in range of [0x00000; 0x100000).
+ * 
+ * @param offset general purpose register offset in registers bank
+ * 
+ * @return uint20_t absolute address
+ */
 uint20_t general_purpose_register_to_absolute_address(const uint8_t offset);
 
-// todo: direct addressing [0x00000; 0x100000) } 1Mb
+/**
+ * @brief Convert direct address in the range of [0x00000; 0x100000) into an
+ * absolute address in range of [0x00000; 0x100000).
+ * 
+ * @param address_low  lower 8 bits of the direct address
+ * @param address_high higher 8 bits of the direct address
+ * 
+ * @return uint20_t absolute address
+ */
 uint20_t direct_address_to_absolute_address(const uint8_t address_low, const uint8_t address_high);
 
 // todo: register indirect addressing [0x00000; 0x100000) } 1Mb
@@ -79,6 +108,13 @@ uint20_t based_address_to_absolute_address(const uint20_t address);
 // todo: based indexed addressing [0x00000; 0x100000) } 1Mb
 uint20_t based_indexed_address_to_absolute_address(const uint20_t address);
 
+/**
+ * @brief Fetch instruction byte from the flash at pc register address.
+ * 
+ * @warning The pc register is incremented by one after the fetch.
+ * 
+ * @return uint8_t fetched byte
+ */
 static uint8_t fetch_instruction_byte(void);
 
 void rl78core_cpu_init(void)
@@ -353,53 +389,52 @@ void rl78core_cpu_tick(void)
 
 uint20_t short_direct_address_to_absolute_address(const uint8_t address)
 {
-	#define short_direct_addressing_start (uint20_t)0xFFE20
-	#define short_direct_addressing_length 0x100
+	const uint20_t short_direct_addressing_start = 0xFFE20;
+	const uint16_t short_direct_addressing_length = 0x100;
 
 	rl78misc_debug_assert((short_direct_addressing_start + address) < \
-		(short_direct_addressing_start + short_direct_addressing_length));
-	const uint20_t absolute_address = short_direct_addressing_start + address;
+		(short_direct_addressing_start + short_direct_addressing_length)
+	);
 
-	#undef short_direct_addressing_start
-	#undef short_direct_addressing_length
+	const uint20_t absolute_address = short_direct_addressing_start + address;
 	return absolute_address;
 }
 
 uint20_t special_function_register_to_absolute_address(const uint8_t address)
 {
-	#define special_function_register_start (uint20_t)0xFFF00
-	#define special_function_register_length 0x100
+	const uint20_t special_function_register_start = 0xFFF00;
+	const uint16_t special_function_register_length = 0x100;
 
 	rl78misc_debug_assert((special_function_register_start + address) < \
-		(special_function_register_start + special_function_register_length));
-	const uint20_t absolute_address = special_function_register_start + address;
+		(special_function_register_start + special_function_register_length)
+	);
 
-	#undef special_function_register_start
-	#undef special_function_register_length
+	const uint20_t absolute_address = special_function_register_start + address;
 	return absolute_address;
 }
 
 uint20_t general_purpose_register_to_absolute_address(const uint8_t offset)
 {
-	#define general_purpose_register_count_per_bank 8
-	#define general_purpose_register_start (uint20_t)0xFFEE0
-	#define general_purpose_register_length 0x20
+	const uint8_t  general_purpose_register_count_per_bank = 8;
+	const uint20_t general_purpose_register_start = 0xFFEE0;
+	const uint8_t  general_purpose_register_length = 0x20;
 
 	rl78misc_debug_assert(offset < general_purpose_register_count_per_bank);
 	const uint8_t psw_value = rl78core_mem_read_u08(rl78core_fixed_sfr_psw);
 	// +----+---+------+----+------+------+------+----+      +------+------+
 	// | IE | Z | RBS1 | AC | RBS0 | ISP1 | ISP0 | CY |  ->  | RBS1 | RBS0 |
 	// +----+---+------+----+------+------+------+----+      +------+------+
-	const uint8_t current_gpr_bank = (uint8_t)((uint8_t)(psw_value & 0x08) >> 3) | (uint8_t)((uint8_t)(psw_value & 0x20) >> 4);
+	const uint8_t current_gpr_bank = (uint8_t)(
+		(uint8_t)((uint8_t)(psw_value & 0x08) >> 3) |
+		(uint8_t)((uint8_t)(psw_value & 0x20) >> 4)
+	);
 	const uint8_t address = (uint8_t)((uint8_t)(current_gpr_bank * general_purpose_register_count_per_bank) + offset);
 
 	rl78misc_debug_assert((general_purpose_register_start + address) < \
-		(general_purpose_register_start + general_purpose_register_length));
-	const uint20_t absolute_address = general_purpose_register_start + address;
+		(general_purpose_register_start + general_purpose_register_length)
+	);
 
-	#undef general_purpose_register_count_per_bank
-	#undef general_purpose_register_start
-	#undef general_purpose_register_length
+	const uint20_t absolute_address = general_purpose_register_start + address;
 	return absolute_address;
 }
 
@@ -409,7 +444,11 @@ uint20_t direct_address_to_absolute_address(const uint8_t address_low, const uin
 	// +---+---+---+---+-----+-----+-----+-----+      +-----+-----+-----+-----+
 	// | 0 | 0 | 0 | 0 | ES3 | ES2 | ES1 | ES0 |  ->  | ES3 | ES2 | ES1 | ES0 |
 	// +---+---+---+---+-----+-----+-----+-----+      +-----+-----+-----+-----+
-	const uint20_t absolute_address = (uint20_t)(address_low & 0xFF) | (uint20_t)((uint20_t)(address_high & 0xFF) << 8) | (uint20_t)((uint20_t)(es_value & 0x0F) << 16);
+	const uint20_t absolute_address = (uint20_t)(
+		(uint20_t)(address_low & 0xFF) |
+		(uint20_t)((uint20_t)(address_high & 0xFF) << 8) |
+		(uint20_t)((uint20_t)(es_value & 0x0F) << 16)
+	);
 	return absolute_address;
 }
 
