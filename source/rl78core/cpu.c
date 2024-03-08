@@ -175,9 +175,9 @@ void rl78core_cpu_tick(void)
 
 		case 0xCD:  // MOV saddr, #byte
 		{
-			const uint8_t short_address = fetch_instruction_byte();
+			const uint8_t saddr = fetch_instruction_byte();
 			const uint8_t data = fetch_instruction_byte();
-			const uint20_t absolute_address = short_direct_address_to_absolute_address(short_address);
+			const uint20_t absolute_address = short_direct_address_to_absolute_address(saddr);
 			rl78core_mem_write_u08(absolute_address, data);
 			// todo: handle flags if needed!
 		} break;
@@ -193,10 +193,10 @@ void rl78core_cpu_tick(void)
 
 		case 0xCF:  // MOV !addr16, #byte
 		{
-			const uint8_t address_low = fetch_instruction_byte();
-			const uint8_t address_high = fetch_instruction_byte();
+			const uint8_t addrl = fetch_instruction_byte();
+			const uint8_t addrh = fetch_instruction_byte();
 			const uint8_t data = fetch_instruction_byte();
-			const uint20_t absolute_address = direct_address_to_absolute_address(address_low, address_high);
+			const uint20_t absolute_address = direct_address_to_absolute_address(addrl, addrh);
 			rl78core_mem_write_u08(absolute_address, data);
 			// todo: handle flags if needed!
 		} break;
