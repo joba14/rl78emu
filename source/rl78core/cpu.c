@@ -353,7 +353,7 @@ void rl78core_cpu_tick(void)
 
 uint20_t short_direct_address_to_absolute_address(const uint8_t address)
 {
-	#define short_direct_addressing_start 0xFFE20
+	#define short_direct_addressing_start (uint20_t)0xFFE20
 	#define short_direct_addressing_length 0x100
 
 	rl78misc_debug_assert((short_direct_addressing_start + address) < \
@@ -367,7 +367,7 @@ uint20_t short_direct_address_to_absolute_address(const uint8_t address)
 
 uint20_t special_function_register_to_absolute_address(const uint8_t address)
 {
-	#define special_function_register_start 0xFFF00
+	#define special_function_register_start (uint20_t)0xFFF00
 	#define special_function_register_length 0x100
 
 	rl78misc_debug_assert((special_function_register_start + address) < \
@@ -382,7 +382,7 @@ uint20_t special_function_register_to_absolute_address(const uint8_t address)
 uint20_t general_purpose_register_to_absolute_address(const uint8_t offset)
 {
 	#define general_purpose_register_count_per_bank 8
-	#define general_purpose_register_start 0xFFEE0
+	#define general_purpose_register_start (uint20_t)0xFFEE0
 	#define general_purpose_register_length 0x20
 
 	rl78misc_debug_assert(offset < general_purpose_register_count_per_bank);
@@ -391,7 +391,7 @@ uint20_t general_purpose_register_to_absolute_address(const uint8_t offset)
 	// | IE | Z | RBS1 | AC | RBS0 | ISP1 | ISP0 | CY |  ->  | RBS1 | RBS0 |
 	// +----+---+------+----+------+------+------+----+      +------+------+
 	const uint8_t current_gpr_bank = (uint8_t)((uint8_t)(psw_value & 0x08) >> 3) | (uint8_t)((uint8_t)(psw_value & 0x20) >> 4);
-	const uint8_t address = (uint8_t)(current_gpr_bank * general_purpose_register_count_per_bank) + offset;
+	const uint8_t address = (uint8_t)((uint8_t)(current_gpr_bank * general_purpose_register_count_per_bank) + offset);
 
 	rl78misc_debug_assert((general_purpose_register_start + address) < \
 		(general_purpose_register_start + general_purpose_register_length));
@@ -409,7 +409,7 @@ uint20_t direct_address_to_absolute_address(const uint8_t address_low, const uin
 	// +---+---+---+---+-----+-----+-----+-----+      +-----+-----+-----+-----+
 	// | 0 | 0 | 0 | 0 | ES3 | ES2 | ES1 | ES0 |  ->  | ES3 | ES2 | ES1 | ES0 |
 	// +---+---+---+---+-----+-----+-----+-----+      +-----+-----+-----+-----+
-	const uint20_t absolute_address = ((address_low & 0xFF) << 0) | ((address_high & 0xFF) << 8) | ((es_value & 0x0F) << 16);
+	const uint20_t absolute_address = (uint20_t)(address_low & 0xFF) | (uint20_t)((uint20_t)(address_high & 0xFF) << 8) | (uint20_t)((uint20_t)(es_value & 0x0F) << 16);
 	return absolute_address;
 }
 
