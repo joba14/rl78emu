@@ -54,9 +54,9 @@ To clone the project repository, use the following command:
 ### Building the Project
 Before building the project, ensure you have the necessary dependencies installed. This project requires the following:
 - gcc/cc
-- autoconf
-- automake
-- libtool
+- gnu autotools:
+	- autoconf>=2.71
+	- automake
 
 Once you have the dependencies installed, follow these steps to build the project:
 ```sh
@@ -70,7 +70,7 @@ Once you have the dependencies installed, follow these steps to build the projec
 
 ### Generating the Documentation
 Before generating the documentation, ensure you have the necessary dependencies installed. This project requires the following:
-- doxygen
+- doxygen>=1.9.6
 
 Once you have the dependencies installed, follow these steps to generate the documentation:
 ```sh
