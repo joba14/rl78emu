@@ -3,7 +3,7 @@
 AC_INIT([rl78emu], [0.1.0], [https://github.com/joba14/rl78emu/issues], [rl78emu], [https://github.com/joba14/rl78emu])
 
 # Minimum accepted autoconf version
-AC_PREREQ([2.69])
+AC_PREREQ([2.71])
 
 # Source directory (with sanity check file)
 AC_CONFIG_SRCDIR([./makefile.am])
