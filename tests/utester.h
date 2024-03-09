@@ -109,7 +109,8 @@ struct utester_test_s
 	do                                                                         \
 	{                                                                          \
 		test->status = true;                                                   \
-		utester_logger_warn("    passing empty test.");                        \
+		utester_logger_warn(                                                   \
+			"    " ansi_yellow "passing empty test." ansi_reset);              \
 		return;                                                                \
 	} while (0)
 
@@ -120,7 +121,8 @@ struct utester_test_s
 		                                                                       \
 		if (!test->status)                                                     \
 		{                                                                      \
-			utester_logger_error("    assert '%s' failed at %s:%lu",           \
+			utester_logger_error(                                              \
+				"    assert '%s' " ansi_red "failed" ansi_reset " at %s:%lu",  \
 				#_expression, (const char_t*)__FILE__, (uint64_t)__LINE__      \
 			);                                                                 \
 			return;                                                            \
@@ -129,7 +131,10 @@ struct utester_test_s
 		{                                                                      \
 			if (test->verbose)                                                 \
 			{                                                                  \
-				utester_logger_info("    assert '%s' passed.", #_expression);  \
+				utester_logger_info(                                           \
+					"    assert '%s' " ansi_green "passed" ansi_reset ".",     \
+					#_expression                                               \
+				);                                                             \
 			}                                                                  \
 		}                                                                      \
 	} while (0)
