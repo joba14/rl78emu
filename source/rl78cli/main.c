@@ -49,9 +49,9 @@ int32_t main(
 
 	for (uint64_t tick_count = 0; !rl78core_cpu_halted(); ++tick_count)
 	{
-		if (tick_count >= (rom_length - 1)) rl78core_cpu_halt();
 		rl78core_cpu_tick();
 		rl78misc_logger_log("tick_count=%lu", tick_count);
+		rl78misc_logger_log("----------");
 	}
 
 	return 0;
