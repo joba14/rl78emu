@@ -10,20 +10,18 @@
  * @date 2024-03-03
  */
 
+#include "rl78misc/debug.h"
 #include "rl78misc/logger.h"
 
 #include "rl78core/mem.h"
 #include "rl78core/cpu.h"
 
 #include "rl78cli/config.h"
+#include "rl78cli/main.h"
 
-int32_t main(
-	const int32_t argc,
-	const char_t* argv[]);
+static void flash_rom_to_mem(const uint8_t* const rom, const uint20_t length);
 
-int32_t main(
-	const int32_t argc,
-	const char_t* argv[])
+int32_t main(const int32_t argc, const char_t* argv[])
 {
 	rl78misc_logger_log("rl78emu: hello, world!");
 
@@ -34,18 +32,9 @@ int32_t main(
 	rl78core_cpu_init();
 
 	// todo: flash the binary into the mem:
-	// [
-		#define rom_length 2
-		const uint8_t rom[rom_length] =
-		{
-			0x50, 0x69
-		};
-
-		for (uint20_t address = 0; address < rom_length; ++address)
-		{
-			rl78core_mem_write_u08(address, rom[address]);
-		}
-	// ]
+	#define rom_length 2
+	const uint8_t rom[rom_length] = { 0x50, 0x69 };
+	flash_rom_to_mem(rom, rom_length);
 
 	for (uint64_t tick_count = 0; !rl78core_cpu_halted(); ++tick_count)
 	{
@@ -55,4 +44,15 @@ int32_t main(
 	}
 
 	return 0;
+}
+
+static void flash_rom_to_mem(const uint8_t* const rom, const uint20_t length)
+{
+	rl78misc_debug_assert(rom != NULL);
+	rl78misc_debug_assert(length > 0);
+
+	for (uint20_t address = 0; address < length; ++address)
+	{
+		rl78core_mem_write_u08(address, rom[address]);
+	}
 }
