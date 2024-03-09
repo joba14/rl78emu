@@ -16,7 +16,7 @@ jobs:
     - name: display current directory
       run: pwd && ls -la
     - name: update and install dependencies
-    - run: sudo apt update -y && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt install gcc autoconf automake
+      run: sudo apt update -y && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt install gcc autoconf automake
     - name: apply permissions for scripts
       run: chmod +x ./autogen.sh && chmod +x ./scripts/*.sh
     - name: rebuild repo
