@@ -47,10 +47,8 @@ typedef struct
 {
 	bool_t halted;
 	uint20_t pc;
-
 	uint8_t x, a, c, b, e, d, l, h;
 	uint16_t ax, bc, de, hl;
-
 	uint8_t spl, sph, psw, cs, es, pmc, mem;
 } rl78core_cpu_stats_s;
 
@@ -58,6 +56,11 @@ typedef struct
  * @brief Initialize the cpu.
  */
 void rl78core_cpu_init(void);
+
+/**
+ * @brief Reset the cpu.
+ */
+void rl78core_cpu_reset(void);
 
 /**
  * @brief Halt the cpu.

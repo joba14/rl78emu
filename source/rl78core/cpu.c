@@ -101,15 +101,6 @@ static uint20_t general_purpose_register_to_absolute_address(const uint8_t offse
 /* static */ uint20_t based_indexed_address_to_absolute_address(const uint20_t address);
 
 /**
- * @brief Fetch instruction byte from the flash at pc register address.
- * 
- * @warning The pc register is incremented by one after the fetch.
- * 
- * @return uint8_t fetched byte
- */
-static uint8_t fetch_instruction_byte(void);
-
-/**
  * @brief Fetch instruction from the flash (5 bytes).
  * 
  * @warning The pc register is incremented by 5. The pc will be updated in the
@@ -129,6 +120,11 @@ static void execute_instruction(void);
 
 void rl78core_cpu_init(void)
 {
+	rl78core_cpu_reset();
+}
+
+void rl78core_cpu_reset(void)
+{
 	g_rl78core_cpu = (const rl78core_cpu_s)
 	{
 		.fetch       = (const rl78core_fetch_s) {0},
@@ -136,6 +132,8 @@ void rl78core_cpu_init(void)
 		.halted      = false,
 		.pc          = 0x00000,
 	};
+
+	// todo: finish implementing!
 }
 
 void rl78core_cpu_halt(void)
@@ -255,25 +253,37 @@ void rl78core_cpu_tick(void)
 	if (g_rl78core_cpu.halted)
 	{
 		return;
+	} 
+	
+	// note: emulating the cycles ~~~v~~~~~~~~
+	if (g_rl78core_cpu.instruction.cycles > 1)
+	{
+		--(g_rl78core_cpu.instruction.cycles);
+		return;
 	}
 
 	// 1. MEM (memory access): Decoded instruction is executed and memory at target address is accessed.
+	if (g_rl78core_cpu.halted)
+	{
+		return;
+	}
+
 	execute_instruction();
 
+	// 2, ID (instruction decode): Instruction is decoded and address is calculated.
 	if (g_rl78core_cpu.halted)
 	{
 		return;
 	}
 
-	// 2, ID (instruction decode): Instruction is decoded and address is calculated.
 	decode_instruction();
 
+	// 3. IF (instruction fetch): Instruction is fetched and fetch pointer is incremented.
 	if (g_rl78core_cpu.halted)
 	{
 		return;
 	}
 
-	// 3. IF (instruction fetch): Instruction is fetched and fetch pointer is incremented.
 	fetch_instruction();
 }
 
@@ -364,18 +374,13 @@ static uint20_t general_purpose_register_to_absolute_address(const uint8_t offse
 	return 0;
 }
 
-static uint8_t fetch_instruction_byte(void)
-{
-	return rl78core_mem_read_u08(g_rl78core_cpu.pc++);
-}
-
 static void fetch_instruction(void)
 {
 	g_rl78core_cpu.fetch.fetched = false;
 
 	for (uint8_t index = 0; index < rl78core_ins_max_size; ++index)
 	{
-		g_rl78core_cpu.fetch.buffer[index] = fetch_instruction_byte();
+		g_rl78core_cpu.fetch.buffer[index] = rl78core_mem_read_u08(g_rl78core_cpu.pc++);
 	}
 
 	g_rl78core_cpu.fetch.fetched = true;
@@ -394,16 +399,6 @@ static void decode_instruction(void)
 
 	switch (first_byte)
 	{
-		case 0x00:  // NOP
-		{
-			g_rl78core_cpu.instruction = (const rl78core_ins_s)
-			{
-				.opcode = first_byte,
-				.length = 1,
-				.cycles = 1,
-			};
-		} break;
-
 		case 0x50:  // MOV X, #byte
 		{
 			g_rl78core_cpu.instruction = (const rl78core_ins_s)
@@ -500,10 +495,51 @@ static void decode_instruction(void)
 			};
 		} break;
 
+		case 0x00:  // NOP
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode = first_byte,
+				.length = 1,
+				.cycles = 1,
+			};
+		} break;
+
+		case 0x61:  // HALT/STOP
+		{
+			switch (second_byte)
+			{
+				case 0xED:  // HALT
+				{
+					g_rl78core_cpu.instruction = (const rl78core_ins_s)
+					{
+						.opcode = (uint16_t)(first_byte | (uint16_t)(second_byte << 8)),
+						.length = 2,
+						.cycles = 3,
+					};
+				} break;
+
+				case 0xFD:  // STOP
+				{
+					g_rl78core_cpu.instruction = (const rl78core_ins_s)
+					{
+						.opcode = (uint16_t)(first_byte | (uint16_t)(second_byte << 8)),
+						.length = 2,
+						.cycles = 3,
+					};
+				} break;
+
+				default:
+				{
+					rl78core_cpu_reset();
+					return;
+				} break;
+			}
+		} break;
+
 		default:
 		{
-			g_rl78core_cpu.instruction.decoded = false;
-			g_rl78core_cpu.halted = true;
+			rl78core_cpu_reset();
 			return;
 		} break;
 	}
@@ -521,10 +557,6 @@ static void execute_instruction(void)
 
 	switch (g_rl78core_cpu.instruction.opcode)
 	{
-		case 0x00:  // NOP
-		{
-		} break;
-
 		case 0x50:  // MOV X, #byte
 		case 0x51:  // MOV A, #byte
 		case 0x52:  // MOV C, #byte
@@ -537,9 +569,23 @@ static void execute_instruction(void)
 			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, g_rl78core_cpu.instruction.data);
 		} break;
 
+		case 0x00:  // NOP
+		{
+		} break;
+
+		case 0xED61:  // HALT
+		{
+			rl78core_cpu_halt();
+		} break;
+
+		case 0xFD61:  // STOP
+		{
+			// todo: implement!
+		} break;
+
 		default:
 		{
-			g_rl78core_cpu.halted = true;
+			rl78core_cpu_reset();
 			return;
 		} break;
 	}
