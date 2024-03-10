@@ -18,60 +18,62 @@
 utester_define_test(rl78core_mem_read_u08_test)
 {
 	rl78core_mem_init();
-	const uint20_t LENGTH = 5;
+	const uint8_t expected_value = 0;
+	const uint20_t length = 5;
 
-	for (uint20_t index = 0; index < LENGTH; ++index)
+	for (uint20_t index = 0; index < length; ++index)
 	{
-		const uint8_t byte = rl78core_mem_read_u08(index);
-		utester_assert_equal(byte, 0);
+		const uint8_t actual_value = rl78core_mem_read_u08(index);
+		utester_assert_equal(actual_value, expected_value);
 	}
 }
 
 utester_define_test(rl78core_mem_write_u08_test)
 {
 	rl78core_mem_init();
-	const uint8_t BYTE = 0x0A;
-	const uint20_t LENGTH = 5;
+	const uint8_t expected_value = 0x0A;
+	const uint20_t length = 5;
 
-	for (uint20_t index = 0; index < LENGTH; ++index)
+	for (uint20_t index = 0; index < length; ++index)
 	{
-		rl78core_mem_write_u08(index, BYTE);
+		rl78core_mem_write_u08(index, expected_value);
 	}
 
-	for (uint20_t index = 0; index < LENGTH; ++index)
+	for (uint20_t index = 0; index < length; ++index)
 	{
-		const uint8_t byte = rl78core_mem_read_u08(index);
-		utester_assert_equal(byte, BYTE);
+		const uint8_t actual_value = rl78core_mem_read_u08(index);
+		utester_assert_equal(actual_value, expected_value);
 	}
 }
 
 utester_define_test(rl78core_mem_read_u16_test)
 {
 	rl78core_mem_init();
-	const uint20_t LENGTH = 10;
+	const uint8_t expected_value = 0;
+	const uint20_t length = 10;
 
-	for (uint20_t index = 0; index < LENGTH; index += 2)
+	for (uint20_t index = 0; index < length; index += 2)
 	{
-		const uint16_t byte = rl78core_mem_read_u16(index);
-		utester_assert_equal(byte, 0);
+		const uint16_t actual_value = rl78core_mem_read_u16(index);
+		utester_assert_equal(actual_value, expected_value);
 	}
 }
 
 utester_define_test(rl78core_mem_write_u16_test)
 {
 	rl78core_mem_init();
-	const uint16_t BYTE = 0xA0;
-	const uint20_t LENGTH = 10;
+	const uint8_t expected_value = 0x0A;
+	const uint20_t length = 10;
 
-	for (uint20_t index = 0; index < LENGTH; index += 2)
+	for (uint20_t index = 0; index < length; index += 2)
 	{
-		rl78core_mem_write_u16(index, BYTE);
+		rl78core_mem_write_u16(index, expected_value);
 	}
 
-	for (uint20_t index = 0; index < LENGTH; index += 2)
+	for (uint20_t index = 0; index < length; index += 2)
 	{
-		const uint16_t byte = rl78core_mem_read_u16(index);
-		utester_assert_equal(byte, BYTE);
+		const uint16_t actual_value = rl78core_mem_read_u16(index);
+		utester_assert_equal(actual_value, expected_value);
 	}
 }
 
