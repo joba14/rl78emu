@@ -55,7 +55,7 @@ To clone the project repository, use the following command:
 Before building the project, ensure you have the necessary dependencies installed. This project requires the following:
 - gcc/cc
 - gnu autotools:
-	- autoconf>=2.71
+	- autoconf>=2.69
 	- automake
 
 Once you have the dependencies installed, follow these steps to build the project:
