@@ -396,6 +396,8 @@ static void decode_instruction(void)
 
 	const uint8_t first_byte  = g_rl78core_cpu.fetch.buffer[0];
 	const uint8_t second_byte = g_rl78core_cpu.fetch.buffer[1];
+	const uint8_t third_byte  = g_rl78core_cpu.fetch.buffer[2];
+	const uint8_t fourth_byte = g_rl78core_cpu.fetch.buffer[3];
 
 	switch (first_byte)
 	{
@@ -495,6 +497,65 @@ static void decode_instruction(void)
 			};
 		} break;
 
+		case 0xCD:  // MOV saddr, #byte
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.address = short_direct_address_to_absolute_address(second_byte),
+				.data    = third_byte,
+				.length  = 3,
+				.cycles  = 1,
+			};
+		} break;
+
+		case 0xCE:  // MOV sfr, #byte
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.address = special_function_register_to_absolute_address(second_byte),
+				.data    = third_byte,
+				.length  = 3,
+				.cycles  = 1,
+			};
+		} break;
+
+		case 0xCF:  // MOV !addr16, #byte
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.address = direct_address_to_absolute_address(second_byte, third_byte),
+				.data    = fourth_byte,
+				.length  = 4,
+				.cycles  = 1,
+			};
+		} break;
+
+		case 0x60:  // MOV A, X
+		case 0x62:  // MOV A, C
+		case 0x63:  // MOV A, B
+		case 0x64:  // MOV A, E
+		case 0x65:  // MOV A, D
+		case 0x66:  // MOV A, L
+		case 0x67:  // MOV A, H
+		case 0x70:  // MOV X, A
+		case 0x72:  // MOV C, A
+		case 0x73:  // MOV B, A
+		case 0x74:  // MOV E, A
+		case 0x75:  // MOV D, A
+		case 0x76:  // MOV L, A
+		case 0x77:  // MOV H, A
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x00:  // NOP
 		{
 			g_rl78core_cpu.instruction = (const rl78core_ins_s)
@@ -565,8 +626,81 @@ static void execute_instruction(void)
 		case 0x55:  // MOV D, #byte
 		case 0x56:  // MOV L, #byte
 		case 0x57:  // MOV H, #byte
+		case 0xCD:  // MOV saddr, #byte
+		case 0xCE:  // MOV sfr, #byte
+		case 0xCF:  // MOV !addr16, #byte
 		{
 			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, g_rl78core_cpu.instruction.data);
+		} break;
+
+		case 0x60:  // MOV A, X
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_x));
+		} break;
+
+		case 0x62:  // MOV A, C
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_c));
+		} break;
+
+		case 0x63:  // MOV A, B
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_b));
+		} break;
+
+		case 0x64:  // MOV A, E
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_e));
+		} break;
+
+		case 0x65:  // MOV A, D
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_d));
+		} break;
+
+		case 0x66:  // MOV A, L
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_l));
+		} break;
+
+		case 0x67:  // MOV A, H
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_h));
+		} break;
+
+		case 0x70:  // MOV X, A
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_x, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+		} break;
+
+		case 0x72:  // MOV C, A
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_c, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+		} break;
+
+		case 0x73:  // MOV B, A
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_b, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+		} break;
+
+		case 0x74:  // MOV E, A
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_e, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+		} break;
+
+		case 0x75:  // MOV D, A
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_d, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+		} break;
+
+		case 0x76:  // MOV L, A
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_l, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+		} break;
+
+		case 0x77:  // MOV H, A
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_h, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
 		} break;
 
 		case 0x00:  // NOP
