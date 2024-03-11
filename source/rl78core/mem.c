@@ -36,7 +36,13 @@ static uint8_t* reference_mem_at(const uint20_t address, const uint20_t size);
 
 void rl78core_mem_init(void)
 {
+	rl78core_mem_reset();
+}
+
+void rl78core_mem_reset(void)
+{
 	g_rl78core_mem = (rl78core_mem_s) {0};
+	// todo: finish implementing!
 }
 
 uint8_t rl78core_mem_read_u08(const uint20_t address)
