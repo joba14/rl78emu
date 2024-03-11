@@ -58,7 +58,7 @@ static rl78core_cpu_s g_rl78core_cpu;
  * 
  * @return uint20_t absolute address
  */
-/* static */ uint20_t short_direct_address_to_absolute_address(const uint8_t address);
+static uint20_t short_direct_address_to_absolute_address(const uint8_t address);
 
 /**
  * @brief Convert special function register in the range of [0xFFF00; 0x100000)
@@ -89,7 +89,7 @@ static uint20_t general_purpose_register_to_absolute_address(const uint8_t offse
  * 
  * @return uint20_t absolute address
  */
-/* static */ uint20_t direct_address_to_absolute_address(const uint8_t address_low, const uint8_t address_high);
+static uint20_t direct_address_to_absolute_address(const uint8_t address_low, const uint8_t address_high);
 
 // todo: register indirect addressing [0x00000; 0x100000) } 1Mb
 /* static */ uint20_t indirect_register_address_to_absolute_address(const uint20_t address);
@@ -287,7 +287,7 @@ void rl78core_cpu_tick(void)
 	fetch_instruction();
 }
 
-/* static */ uint20_t short_direct_address_to_absolute_address(const uint8_t address)
+static uint20_t short_direct_address_to_absolute_address(const uint8_t address)
 {
 	const uint20_t short_direct_addressing_start = 0xFFE20;
 	const uint16_t short_direct_addressing_length = 0x100;
@@ -341,7 +341,7 @@ static uint20_t general_purpose_register_to_absolute_address(const uint8_t offse
 	return absolute_address;
 }
 
-/* static */ uint20_t direct_address_to_absolute_address(const uint8_t address_low, const uint8_t address_high)
+static uint20_t direct_address_to_absolute_address(const uint8_t address_low, const uint8_t address_high)
 {
 	const uint8_t es_value = rl78core_cpu_read_sfr08(rl78core_sfr08_es);
 	// +---+---+---+---+-----+-----+-----+-----+      +-----+-----+-----+-----+
@@ -405,11 +405,10 @@ static void decode_instruction(void)
 		{
 			g_rl78core_cpu.instruction = (const rl78core_ins_s)
 			{
-				.opcode  = first_byte,
-				.address = general_purpose_register_to_absolute_address(rl78core_gpr08_x),
-				.data    = second_byte,
-				.length  = 2,
-				.cycles  = 1,
+				.opcode = first_byte,
+				.data   = second_byte,
+				.length = 2,
+				.cycles = 1,
 			};
 		} break;
 
@@ -417,11 +416,10 @@ static void decode_instruction(void)
 		{
 			g_rl78core_cpu.instruction = (const rl78core_ins_s)
 			{
-				.opcode  = first_byte,
-				.address = general_purpose_register_to_absolute_address(rl78core_gpr08_a),
-				.data    = second_byte,
-				.length  = 2,
-				.cycles  = 1,
+				.opcode = first_byte,
+				.data   = second_byte,
+				.length = 2,
+				.cycles = 1,
 			};
 		} break;
 
@@ -429,11 +427,10 @@ static void decode_instruction(void)
 		{
 			g_rl78core_cpu.instruction = (const rl78core_ins_s)
 			{
-				.opcode  = first_byte,
-				.address = general_purpose_register_to_absolute_address(rl78core_gpr08_c),
-				.data    = second_byte,
-				.length  = 2,
-				.cycles  = 1,
+				.opcode = first_byte,
+				.data   = second_byte,
+				.length = 2,
+				.cycles = 1,
 			};
 		} break;
 
@@ -441,11 +438,10 @@ static void decode_instruction(void)
 		{
 			g_rl78core_cpu.instruction = (const rl78core_ins_s)
 			{
-				.opcode  = first_byte,
-				.address = general_purpose_register_to_absolute_address(rl78core_gpr08_b),
-				.data    = second_byte,
-				.length  = 2,
-				.cycles  = 1,
+				.opcode = first_byte,
+				.data   = second_byte,
+				.length = 2,
+				.cycles = 1,
 			};
 		} break;
 
@@ -453,11 +449,10 @@ static void decode_instruction(void)
 		{
 			g_rl78core_cpu.instruction = (const rl78core_ins_s)
 			{
-				.opcode  = first_byte,
-				.address = general_purpose_register_to_absolute_address(rl78core_gpr08_e),
-				.data    = second_byte,
-				.length  = 2,
-				.cycles  = 1,
+				.opcode = first_byte,
+				.data   = second_byte,
+				.length = 2,
+				.cycles = 1,
 			};
 		} break;
 
@@ -465,11 +460,10 @@ static void decode_instruction(void)
 		{
 			g_rl78core_cpu.instruction = (const rl78core_ins_s)
 			{
-				.opcode  = first_byte,
-				.address = general_purpose_register_to_absolute_address(rl78core_gpr08_d),
-				.data    = second_byte,
-				.length  = 2,
-				.cycles  = 1,
+				.opcode = first_byte,
+				.data   = second_byte,
+				.length = 2,
+				.cycles = 1,
 			};
 		} break;
 
@@ -477,11 +471,10 @@ static void decode_instruction(void)
 		{
 			g_rl78core_cpu.instruction = (const rl78core_ins_s)
 			{
-				.opcode  = first_byte,
-				.address = general_purpose_register_to_absolute_address(rl78core_gpr08_l),
-				.data    = second_byte,
-				.length  = 2,
-				.cycles  = 1,
+				.opcode = first_byte,
+				.data   = second_byte,
+				.length = 2,
+				.cycles = 1,
 			};
 		} break;
 
@@ -489,11 +482,10 @@ static void decode_instruction(void)
 		{
 			g_rl78core_cpu.instruction = (const rl78core_ins_s)
 			{
-				.opcode  = first_byte,
-				.address = general_purpose_register_to_absolute_address(rl78core_gpr08_h),
-				.data    = second_byte,
-				.length  = 2,
-				.cycles  = 1,
+				.opcode = first_byte,
+				.data   = second_byte,
+				.length = 2,
+				.cycles = 1,
 			};
 		} break;
 
@@ -534,18 +526,135 @@ static void decode_instruction(void)
 		} break;
 
 		case 0x60:  // MOV A, X
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x62:  // MOV A, C
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x63:  // MOV A, B
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x64:  // MOV A, E
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x65:  // MOV A, D
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x66:  // MOV A, L
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x67:  // MOV A, H
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x70:  // MOV X, A
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x72:  // MOV C, A
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x73:  // MOV B, A
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x74:  // MOV E, A
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x75:  // MOV D, A
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x76:  // MOV L, A
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.length  = 1,
+				.cycles  = 1,
+			};
+		} break;
+
 		case 0x77:  // MOV H, A
 		{
 			g_rl78core_cpu.instruction = (const rl78core_ins_s)
@@ -553,6 +662,72 @@ static void decode_instruction(void)
 				.opcode  = first_byte,
 				.length  = 1,
 				.cycles  = 1,
+			};
+		} break;
+
+		case 0x8D:  // MOV A, saddr
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.address = short_direct_address_to_absolute_address(second_byte),
+				.length  = 2,
+				.cycles  = 1,
+			};
+		} break;
+
+		case 0x9D:  // MOV saddr, A
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.address = short_direct_address_to_absolute_address(second_byte),
+				.length  = 2,
+				.cycles  = 1,
+			};
+		} break;
+
+		case 0x8E:  // MOV A, sfr
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.address = special_function_register_to_absolute_address(second_byte),
+				.length  = 2,
+				.cycles  = 1,
+			};
+		} break;
+
+		case 0x9E:  // MOV sfr, A
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.address = special_function_register_to_absolute_address(second_byte),
+				.length  = 2,
+				.cycles  = 1,
+			};
+		} break;
+
+		case 0x8F:  // MOV A, !addr16
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.address = direct_address_to_absolute_address(second_byte, third_byte),
+				.length  = 3,
+				.cycles  = 1,  // todo: set the actual value!
+			};
+		} break;
+
+		case 0x9F:  // MOV !addr16, A
+		{
+			g_rl78core_cpu.instruction = (const rl78core_ins_s)
+			{
+				.opcode  = first_byte,
+				.address = direct_address_to_absolute_address(second_byte, third_byte),
+				.length  = 3,
+				.cycles  = 1,  // todo: set the actual value!
 			};
 		} break;
 
@@ -619,15 +794,55 @@ static void execute_instruction(void)
 	switch (g_rl78core_cpu.instruction.opcode)
 	{
 		case 0x50:  // MOV X, #byte
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_x, g_rl78core_cpu.instruction.data);
+		} break;
+
 		case 0x51:  // MOV A, #byte
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, g_rl78core_cpu.instruction.data);
+		} break;
+
 		case 0x52:  // MOV C, #byte
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_c, g_rl78core_cpu.instruction.data);
+		} break;
+
 		case 0x53:  // MOV B, #byte
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_b, g_rl78core_cpu.instruction.data);
+		} break;
+
 		case 0x54:  // MOV E, #byte
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_e, g_rl78core_cpu.instruction.data);
+		} break;
+
 		case 0x55:  // MOV D, #byte
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_d, g_rl78core_cpu.instruction.data);
+		} break;
+
 		case 0x56:  // MOV L, #byte
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_l, g_rl78core_cpu.instruction.data);
+		} break;
+
 		case 0x57:  // MOV H, #byte
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_h, g_rl78core_cpu.instruction.data);
+		} break;
+
 		case 0xCD:  // MOV saddr, #byte
+		{
+			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, g_rl78core_cpu.instruction.data);
+		} break;
+
 		case 0xCE:  // MOV sfr, #byte
+		{
+			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, g_rl78core_cpu.instruction.data);
+		} break;
+
 		case 0xCF:  // MOV !addr16, #byte
 		{
 			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, g_rl78core_cpu.instruction.data);
@@ -703,6 +918,36 @@ static void execute_instruction(void)
 			rl78core_cpu_write_gpr08(rl78core_gpr08_h, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
 		} break;
 
+		case 0x8D:  // MOV A, saddr
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.instruction.address));
+		} break;
+
+		case 0x9D:  // MOV saddr, A
+		{
+			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+		} break;
+
+		case 0x8E:  // MOV A, sfr
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.instruction.address));
+		} break;
+
+		case 0x9E:  // MOV sfr, A
+		{
+			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+		} break;
+
+		case 0x8F:  // MOV A, !addr16
+		{
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.instruction.address));
+		} break;
+
+		case 0x9F:  // MOV !addr16, A
+		{
+			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+		} break;
+
 		case 0x00:  // NOP
 		{
 		} break;
@@ -714,6 +959,7 @@ static void execute_instruction(void)
 
 		case 0xFD61:  // STOP
 		{
+			rl78misc_debug_assert(!"0xFD61 (STOP) is not implemented yet!");
 			// todo: implement!
 		} break;
 
