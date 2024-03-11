@@ -380,6 +380,7 @@ static void fetch_instruction(void)
 
 	for (uint8_t index = 0; index < rl78core_ins_max_size; ++index)
 	{
+		// todo: handle the out of bounds event - reset?
 		g_rl78core_cpu.fetch.buffer[index] = rl78core_mem_read_u08(g_rl78core_cpu.pc++);
 	}
 
