@@ -21,6 +21,11 @@
 void rl78core_mem_init(void);
 
 /**
+ * @brief Reset memory.
+ */
+void rl78core_mem_reset(void);
+
+/**
  * @brief Read 8-bit value from a provided address in the memory.
  * 
  * @param address address to read at
