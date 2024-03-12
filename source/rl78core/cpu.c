@@ -21,6 +21,10 @@
  * https://llvm-gcc-renesas.com/pdf/r01us0015ej0220_rl78.pdf @ 92 page.
  */
 
+// TODO: define an enum or defines - it is near impossible to safely test and
+//       implement new instructions using hex literals as the ids for the
+//       instructions.
+
 typedef struct
 {
 	#define rl78core_ins_max_size 5
