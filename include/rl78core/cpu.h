@@ -75,14 +75,14 @@ void rl78core_cpu_halt(void);
 bool_t rl78core_cpu_halted(void);
 
 /**
- * @brief Read the 10-bit value of the pc register.
+ * @brief Read the 20-bit value of the pc register.
  * 
  * @param value value to write to the pc register
  */
 uint20_t rl78core_cpu_read_pc(void);
 
 /**
- * @brief Read the 10-bit value of the pc register.
+ * @brief Read the 20-bit value of the pc register.
  */
 void rl78core_cpu_write_pc(const uint20_t value);
 
