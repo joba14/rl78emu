@@ -45,7 +45,6 @@
 
 typedef struct
 {
-	bool_t halted;
 	uint20_t pc;
 	uint8_t x, a, c, b, e, d, l, h;
 	uint16_t ax, bc, de, hl;
@@ -154,12 +153,14 @@ uint16_t rl78core_cpu_read_sfr16(const uint8_t sfr16);
  */
 void rl78core_cpu_write_sfr16(const uint8_t sfr16, const uint16_t value);
 
+#ifndef NDEBUG
 /**
  * @brief Get the statistics of the cpu.
  * 
  * @param stats cpu statistics
  */
 void rl78core_cpu_get_stats(rl78core_cpu_stats_s* const stats);
+#endif
 
 /**
  * @brief Process a single tick with the cpu.

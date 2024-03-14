@@ -21,7 +21,7 @@
  * https://llvm-gcc-renesas.com/pdf/r01us0015ej0220_rl78.pdf @ 92 page.
  */
 
-// TODO: define an enum or defines - it is near impossible to safely test and
+// todo: define an enum or defines - it is near impossible to safely test and
 //       implement new instructions using hex literals as the ids for the
 //       instructions.
 
@@ -224,6 +224,7 @@ void rl78core_cpu_write_sfr16(const uint8_t sfr16, const uint16_t value)
 	// todo: handle flags if needed!
 }
 
+#ifndef NDEBUG
 void rl78core_cpu_get_stats(rl78core_cpu_stats_s* const stats)
 {
 	rl78misc_debug_assert(stats != NULL);
@@ -251,6 +252,7 @@ void rl78core_cpu_get_stats(rl78core_cpu_stats_s* const stats)
 	stats->pmc = rl78core_cpu_read_sfr08(rl78core_sfr08_pmc);
 	stats->mem = rl78core_cpu_read_sfr08(rl78core_sfr08_mem);
 }
+#endif
 
 void rl78core_cpu_tick(void)
 {
