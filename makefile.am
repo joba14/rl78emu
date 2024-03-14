@@ -37,58 +37,44 @@ shared_LDFLAGS =
 bin_PROGRAMS = rl78emu
 
 # Target sources
-rl78emu_SOURCES =                                                              \
-	$(shared_SOURCES)                                                          \
-	$(srcdir)/source/rl78cli/main.c
+rl78emu_SOURCES = $(shared_SOURCES) $(srcdir)/source/rl78cli/main.c
 
 # Target compiler flags
-rl78emu_CFLAGS =                                                               \
-	$(shared_CFLAGS)
+rl78emu_CFLAGS = $(shared_CFLAGS)
 
 # Target C/C++ preprocessor flags
-rl78emu_CPPFLAGS =                                                             \
-	$(shared_CPPFLAGS)
+rl78emu_CPPFLAGS = $(shared_CPPFLAGS)
 
 # Target linker flags
-rl78emu_LDFLAGS =                                                              \
-	$(shared_LDFLAGS)
+rl78emu_LDFLAGS = $(shared_LDFLAGS)
 
 # ---------------------------------------------------------------------------- #
 
 # The tests targets
-check_PROGRAMS = rl78misc_suite rl78core_suite
+check_PROGRAMS = rl78misc_suite rl78core_suite rl78inst_suite
 
 # Tests targets sources
-rl78misc_suite_SOURCES =                                                       \
-	$(shared_SOURCES)                                                          \
-	$(srcdir)/tests/rl78misc_suite.c
-
-rl78core_suite_SOURCES =                                                       \
-	$(shared_SOURCES)                                                          \
-	$(srcdir)/tests/rl78core_suite.c
+rl78misc_suite_SOURCES = $(shared_SOURCES) $(srcdir)/tests/rl78misc_suite.c
+rl78core_suite_SOURCES = $(shared_SOURCES) $(srcdir)/tests/rl78core_suite.c
+rl78inst_suite_SOURCES = $(shared_SOURCES) $(srcdir)/tests/rl78inst_suite.c
 
 # Target compiler flags
-rl78misc_suite_CFLAGS =                                                        \
-	$(shared_CFLAGS)
-
-rl78core_suite_CFLAGS =                                                        \
-	$(shared_CFLAGS)
+rl78misc_suite_CFLAGS = $(shared_CFLAGS)
+rl78core_suite_CFLAGS = $(shared_CFLAGS)
+rl78inst_suite_CFLAGS = $(shared_CFLAGS)
 
 # Target C/C++ preprocessor flags
-rl78misc_suite_CPPFLAGS =                                                      \
-	$(shared_CPPFLAGS)
-
-rl78core_suite_CPPFLAGS =                                                      \
-	$(shared_CPPFLAGS)
+rl78misc_suite_CPPFLAGS = $(shared_CPPFLAGS)
+rl78core_suite_CPPFLAGS = $(shared_CPPFLAGS)
+rl78inst_suite_CPPFLAGS = $(shared_CPPFLAGS)
 
 # Target linker flags
-rl78misc_suite_LDFLAGS =                                                       \
-	$(shared_LDFLAGS)
-
-rl78core_suite_LDFLAGS =                                                       \
-	$(shared_LDFLAGS)
+rl78misc_suite_LDFLAGS = $(shared_LDFLAGS)
+rl78core_suite_LDFLAGS = $(shared_LDFLAGS)
+rl78inst_suite_LDFLAGS = $(shared_LDFLAGS)
 
 # Check local target
-check-local: rl78misc_suite rl78core_suite
+check-local: rl78misc_suite rl78core_suite rl78inst_suite
 	./rl78misc_suite
 	./rl78core_suite
+	./rl78inst_suite
