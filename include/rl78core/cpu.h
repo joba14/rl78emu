@@ -153,6 +153,42 @@ uint16_t rl78core_cpu_read_sfr16(const uint8_t sfr16);
  */
 void rl78core_cpu_write_sfr16(const uint8_t sfr16, const uint16_t value);
 
+/**
+ * @brief Read the 8-bit value from provided short direct address.
+ * 
+ * @param saddr short direct address
+ * 
+ * @return uint8_t value from the provided address
+ */
+uint8_t rl78core_cpu_read_saddr(const uint8_t saddr);
+
+/**
+ * @brief Write the 8-bit value to provided short direct address.
+ * 
+ * @param saddr short direct address
+ * @param value value to write to the provided address
+ */
+void rl78core_cpu_write_saddr(const uint8_t saddr, const uint8_t value);
+
+/**
+ * @brief Read the 8-bit value from provided direct address.
+ * 
+ * @param addrl lower 8-bits of the 16 bit direct address
+ * @param addrh higher 8-bits of the 16 bit direct address
+ * 
+ * @return uint8_t value from the provided address
+ */
+uint8_t rl78core_cpu_read_daddr(const uint8_t addrl, const uint8_t addrh);
+
+/**
+ * @brief Write the 8-bit value to provided direct address.
+ * 
+ * @param addrl lower 8-bits of the 16 bit direct address
+ * @param addrh higher 8-bits of the 16 bit direct address
+ * @param value value to write to the provided address
+ */
+void rl78core_cpu_write_daddr(const uint8_t addrl, const uint8_t addrh, const uint8_t value);
+
 #ifndef NDEBUG
 /**
  * @brief Get the statistics of the cpu.
