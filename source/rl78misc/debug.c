@@ -16,11 +16,7 @@
 #	include <stdlib.h>
 #	include <stdio.h>
 
-void rl78misc_debug_assert_impl(
-	const bool_t expression,
-	const char_t* const expression_string,
-	const char_t* const file,
-	const uint64_t line)
+void rl78misc_debug_assert_impl(const bool_t expression, const char_t* const expression_string, const char_t* const file, const uint64_t line)
 {
 	if (!expression)
 	{

@@ -16,15 +16,9 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-static void log_with_tag(
-	FILE* const stream,
-	const char_t* const tag,
-	const char_t* const format,
-	va_list args);
+static void log_with_tag(FILE* const stream, const char_t* const tag, const char_t* const format, va_list args);
 
-void rl78misc_logger_log(
-	const char_t* const format,
-	...)
+void rl78misc_logger_log(const char_t* const format, ...)
 {
 	rl78misc_debug_assert(format != NULL);
 	va_list args; va_start(args, format);
@@ -32,9 +26,7 @@ void rl78misc_logger_log(
 	va_end(args);
 }
 
-void rl78misc_logger_info(
-	const char_t* const format,
-	...)
+void rl78misc_logger_info(const char_t* const format, ...)
 {
 	rl78misc_debug_assert(format != NULL);
 	va_list args; va_start(args, format);
@@ -42,9 +34,7 @@ void rl78misc_logger_info(
 	va_end(args);
 }
 
-void rl78misc_logger_warn(
-	const char_t* const format,
-	...)
+void rl78misc_logger_warn(const char_t* const format, ...)
 {
 	rl78misc_debug_assert(format != NULL);
 	va_list args; va_start(args, format);
@@ -52,9 +42,7 @@ void rl78misc_logger_warn(
 	va_end(args);
 }
 
-void rl78misc_logger_error(
-	const char_t* const format,
-	...)
+void rl78misc_logger_error(const char_t* const format, ...)
 {
 	rl78misc_debug_assert(format != NULL);
 	va_list args; va_start(args, format);
@@ -62,11 +50,7 @@ void rl78misc_logger_error(
 	va_end(args);
 }
 
-static void log_with_tag(
-	FILE* const stream,
-	const char_t* const tag,
-	const char_t* const format,
-	va_list args)
+static void log_with_tag(FILE* const stream, const char_t* const tag, const char_t* const format, va_list args)
 {
 	rl78misc_debug_assert(stream != NULL);
 	rl78misc_debug_assert(format != NULL);

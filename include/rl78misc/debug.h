@@ -24,11 +24,7 @@
  * @param file              file in which assert exists
  * @param line              line in which assert exists
  */
-void rl78misc_debug_assert_impl(
-	const bool_t expression,
-	const char_t* const expression_string,
-	const char_t* const file,
-	const uint64_t line);
+void rl78misc_debug_assert_impl(const bool_t expression, const char_t* const expression_string, const char_t* const file, const uint64_t line);
 
 /**
  * @brief Debug assert wrapper.
