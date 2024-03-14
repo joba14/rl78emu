@@ -26,9 +26,6 @@
 	}                                                                          \
 	((void)0)
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_x_byte_test.
- */
 utester_define_test(rl78inst_move_x_byte_test)
 {
 	init_and_flash_rom(
@@ -47,9 +44,6 @@ utester_define_test(rl78inst_move_x_byte_test)
 	rl78core_cpu_tick(); x = rl78core_cpu_read_gpr08(rl78core_gpr08_x); utester_assert_equal(x, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_byte_test.
- */
 utester_define_test(rl78inst_move_a_byte_test)
 {
 	init_and_flash_rom(
@@ -68,9 +62,6 @@ utester_define_test(rl78inst_move_a_byte_test)
 	rl78core_cpu_tick(); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_c_byte_test.
- */
 utester_define_test(rl78inst_move_c_byte_test)
 {
 	init_and_flash_rom(
@@ -89,9 +80,6 @@ utester_define_test(rl78inst_move_c_byte_test)
 	rl78core_cpu_tick(); c = rl78core_cpu_read_gpr08(rl78core_gpr08_c); utester_assert_equal(c, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_b_byte_test.
- */
 utester_define_test(rl78inst_move_b_byte_test)
 {
 	init_and_flash_rom(
@@ -110,9 +98,6 @@ utester_define_test(rl78inst_move_b_byte_test)
 	rl78core_cpu_tick(); b = rl78core_cpu_read_gpr08(rl78core_gpr08_b); utester_assert_equal(b, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_e_byte_test.
- */
 utester_define_test(rl78inst_move_e_byte_test)
 {
 	init_and_flash_rom(
@@ -131,9 +116,6 @@ utester_define_test(rl78inst_move_e_byte_test)
 	rl78core_cpu_tick(); e = rl78core_cpu_read_gpr08(rl78core_gpr08_e); utester_assert_equal(e, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_d_byte_test.
- */
 utester_define_test(rl78inst_move_d_byte_test)
 {
 	init_and_flash_rom(
@@ -152,9 +134,6 @@ utester_define_test(rl78inst_move_d_byte_test)
 	rl78core_cpu_tick(); d = rl78core_cpu_read_gpr08(rl78core_gpr08_d); utester_assert_equal(d, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_l_byte_test.
- */
 utester_define_test(rl78inst_move_l_byte_test)
 {
 	init_and_flash_rom(
@@ -173,9 +152,6 @@ utester_define_test(rl78inst_move_l_byte_test)
 	rl78core_cpu_tick(); l = rl78core_cpu_read_gpr08(rl78core_gpr08_l); utester_assert_equal(l, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_h_byte_test.
- */
 utester_define_test(rl78inst_move_h_byte_test)
 {
 	init_and_flash_rom(
@@ -194,18 +170,12 @@ utester_define_test(rl78inst_move_h_byte_test)
 	rl78core_cpu_tick(); h = rl78core_cpu_read_gpr08(rl78core_gpr08_h); utester_assert_equal(h, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_saddr_byte_test.
- */
 utester_define_test(rl78inst_move_saddr_byte_test)
 {
 	// todo: implement the test!
 	allow_empty;
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_sfr_byte_test.
- */
 utester_define_test(rl78inst_move_sfr_byte_test)
 {
 	init_and_flash_rom(
@@ -224,9 +194,6 @@ utester_define_test(rl78inst_move_sfr_byte_test)
 	rl78core_cpu_tick(); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_addr16_byte_test.
- */
 utester_define_test(rl78inst_move_addr16_byte_test)
 {
 	init_and_flash_rom(
@@ -245,9 +212,6 @@ utester_define_test(rl78inst_move_addr16_byte_test)
 	rl78core_cpu_tick(); value = rl78core_mem_read_u08(0x00F0); utester_assert_equal(value, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_x_test.
- */
 utester_define_test(rl78inst_move_a_x_test)
 {
 	init_and_flash_rom(
@@ -266,9 +230,6 @@ utester_define_test(rl78inst_move_a_x_test)
 	rl78core_cpu_tick(); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_c_test.
- */
 utester_define_test(rl78inst_move_a_c_test)
 {
 	init_and_flash_rom(
@@ -287,9 +248,6 @@ utester_define_test(rl78inst_move_a_c_test)
 	rl78core_cpu_tick(); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_b_test.
- */
 utester_define_test(rl78inst_move_a_b_test)
 {
 	init_and_flash_rom(
@@ -308,9 +266,6 @@ utester_define_test(rl78inst_move_a_b_test)
 	rl78core_cpu_tick(); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_e_test.
- */
 utester_define_test(rl78inst_move_a_e_test)
 {
 	init_and_flash_rom(
@@ -329,9 +284,6 @@ utester_define_test(rl78inst_move_a_e_test)
 	rl78core_cpu_tick(); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_d_test.
- */
 utester_define_test(rl78inst_move_a_d_test)
 {
 	init_and_flash_rom(
@@ -350,9 +302,6 @@ utester_define_test(rl78inst_move_a_d_test)
 	rl78core_cpu_tick(); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_l_test.
- */
 utester_define_test(rl78inst_move_a_l_test)
 {
 	init_and_flash_rom(
@@ -371,9 +320,6 @@ utester_define_test(rl78inst_move_a_l_test)
 	rl78core_cpu_tick(); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_h_test.
- */
 utester_define_test(rl78inst_move_a_h_test)
 {
 	init_and_flash_rom(
@@ -392,9 +338,6 @@ utester_define_test(rl78inst_move_a_h_test)
 	rl78core_cpu_tick(); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_x_a_test.
- */
 utester_define_test(rl78inst_move_x_a_test)
 {
 	init_and_flash_rom(
@@ -413,9 +356,6 @@ utester_define_test(rl78inst_move_x_a_test)
 	rl78core_cpu_tick(); x = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(x, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_c_a_test.
- */
 utester_define_test(rl78inst_move_c_a_test)
 {
 	init_and_flash_rom(
@@ -434,9 +374,6 @@ utester_define_test(rl78inst_move_c_a_test)
 	rl78core_cpu_tick(); c = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(c, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_b_a_test.
- */
 utester_define_test(rl78inst_move_b_a_test)
 {
 	init_and_flash_rom(
@@ -455,9 +392,6 @@ utester_define_test(rl78inst_move_b_a_test)
 	rl78core_cpu_tick(); b = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(b, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_e_a_test.
- */
 utester_define_test(rl78inst_move_e_a_test)
 {
 	init_and_flash_rom(
@@ -476,9 +410,6 @@ utester_define_test(rl78inst_move_e_a_test)
 	rl78core_cpu_tick(); e = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(e, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_d_a_test.
- */
 utester_define_test(rl78inst_move_d_a_test)
 {
 	init_and_flash_rom(
@@ -497,9 +428,6 @@ utester_define_test(rl78inst_move_d_a_test)
 	rl78core_cpu_tick(); d = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(d, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_l_a_test.
- */
 utester_define_test(rl78inst_move_l_a_test)
 {
 	init_and_flash_rom(
@@ -518,9 +446,6 @@ utester_define_test(rl78inst_move_l_a_test)
 	rl78core_cpu_tick(); l = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(l, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_h_a_test.
- */
 utester_define_test(rl78inst_move_h_a_test)
 {
 	init_and_flash_rom(
@@ -539,27 +464,18 @@ utester_define_test(rl78inst_move_h_a_test)
 	rl78core_cpu_tick(); h = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(h, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_saddr_test.
- */
 utester_define_test(rl78inst_move_a_saddr_test)
 {
 	// todo: implement the test!
 	allow_empty;
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_saddr_a_test.
- */
 utester_define_test(rl78inst_move_saddr_a_test)
 {
 	// todo: implement the test!
 	allow_empty;
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_sfr_test.
- */
 utester_define_test(rl78inst_move_a_sfr_test)
 {
 	init_and_flash_rom(
@@ -578,9 +494,6 @@ utester_define_test(rl78inst_move_a_sfr_test)
 	rl78core_cpu_tick(); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_sfr_a_test.
- */
 utester_define_test(rl78inst_move_sfr_a_test)
 {
 	init_and_flash_rom(
@@ -599,9 +512,6 @@ utester_define_test(rl78inst_move_sfr_a_test)
 	rl78core_cpu_tick(); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_addr16_test.
- */
 utester_define_test(rl78inst_move_a_addr16_test)
 {
 	init_and_flash_rom(
@@ -620,9 +530,6 @@ utester_define_test(rl78inst_move_a_addr16_test)
 	rl78core_cpu_tick(); a = rl78core_mem_read_u08(0x00F0); utester_assert_equal(a, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_addr16_a_test.
- */
 utester_define_test(rl78inst_move_addr16_a_test)
 {
 	init_and_flash_rom(
@@ -641,9 +548,6 @@ utester_define_test(rl78inst_move_addr16_a_test)
 	rl78core_cpu_tick(); value = rl78core_mem_read_u08(0x00F0); utester_assert_equal(value, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_psw_byte_test.
- */
 utester_define_test(rl78inst_move_psw_byte_test)
 {
 	init_and_flash_rom(
@@ -662,9 +566,6 @@ utester_define_test(rl78inst_move_psw_byte_test)
 	rl78core_cpu_tick(); psw = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(psw, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_psw_test.
- */
 utester_define_test(rl78inst_move_a_psw_test)
 {
 	init_and_flash_rom(
@@ -683,9 +584,6 @@ utester_define_test(rl78inst_move_a_psw_test)
 	rl78core_cpu_tick(); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_psw_a_test.
- */
 utester_define_test(rl78inst_move_psw_a_test)
 {
 	init_and_flash_rom(
@@ -704,9 +602,6 @@ utester_define_test(rl78inst_move_psw_a_test)
 	rl78core_cpu_tick(); pws = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(pws, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_es_byte_test.
- */
 utester_define_test(rl78inst_move_es_byte_test)
 {
 	init_and_flash_rom(
@@ -725,18 +620,12 @@ utester_define_test(rl78inst_move_es_byte_test)
 	rl78core_cpu_tick(); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_es_saddr_test.
- */
 utester_define_test(rl78inst_move_es_saddr_test)
 {
 	// todo: implement the test!
 	allow_empty;
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_es_test.
- */
 utester_define_test(rl78inst_move_a_es_test)
 {
 	init_and_flash_rom(
@@ -755,9 +644,6 @@ utester_define_test(rl78inst_move_a_es_test)
 	rl78core_cpu_tick(); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_es_a_test.
- */
 utester_define_test(rl78inst_move_es_a_test)
 {
 	init_and_flash_rom(
@@ -776,9 +662,6 @@ utester_define_test(rl78inst_move_es_a_test)
 	rl78core_cpu_tick(); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_cs_byte_test.
- */
 utester_define_test(rl78inst_move_cs_byte_test)
 {
 	init_and_flash_rom(
@@ -800,9 +683,6 @@ utester_define_test(rl78inst_move_cs_byte_test)
 // ------------------------------------- Page 1 End ------------------------------------- //
 // ------------------------------------ Page 2 Begin ------------------------------------ //
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_a_cs_test.
- */
 utester_define_test(rl78inst_move_a_cs_test)
 {
 	init_and_flash_rom(
@@ -821,9 +701,6 @@ utester_define_test(rl78inst_move_a_cs_test)
 	rl78core_cpu_tick(); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
-/**
- * @brief Construct a new utester define test for rl78inst_move_cs_a_test.
- */
 utester_define_test(rl78inst_move_cs_a_test)
 {
 	init_and_flash_rom(
