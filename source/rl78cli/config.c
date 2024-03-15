@@ -103,7 +103,7 @@ static bool_t match_option(const char_t* const option, const char_t* const long_
 	const uint64_t short_name_length = rl78misc_strlen(short_name);
 
 	return (
-		((option_length == long_name_length) && rl78misc_strncmp(option, long_name, option_length) == 0) ||
-		((option_length == short_name_length) && rl78misc_strncmp(option, short_name, option_length) == 0)
+		((option_length ==  long_name_length) && (rl78misc_strncmp(option, long_name,  option_length) == 0)) ||
+		((option_length == short_name_length) && (rl78misc_strncmp(option, short_name, option_length) == 0))
 	);
 }
