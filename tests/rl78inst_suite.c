@@ -15,18 +15,48 @@
 
 #include "./utester.h"
 
-#define init_and_flash_rom(...)                                                \
+#define init_env_flash_rom_and_display_info(_info, _rom)                       \
 	do                                                                         \
 	{                                                                          \
 		rl78core_mem_init();                                                   \
 		rl78core_cpu_init();                                                   \
 		                                                                       \
-		const uint8_t rom[] = { __VA_ARGS__ };                                 \
-		for (uint20_t address = 0; address < sizeof(rom); ++address)           \
+		const uint8_t rom[] = _rom;                                            \
+		const uint64_t rom_length = (sizeof(rom) / sizeof(rom[0]));            \
+		                                                                       \
+		for (uint20_t address = 0; address < rom_length; ++address)            \
 		{                                                                      \
 			rl78core_mem_write_u08(address, rom[address]);                     \
 		}                                                                      \
+		                                                                       \
+		const char_t* lines[] = _info;                                         \
+		const uint64_t lines_count = (sizeof(lines) / sizeof(lines[0]));       \
+		                                                                       \
+		for (uint64_t index = 0; index < lines_count; ++index)                 \
+		{                                                                      \
+			utester_logger_info("    %s", lines[index]);                       \
+		}                                                                      \
+		                                                                       \
+		utester_logger_info(                                                   \
+			"    * Bytes    - "                                                \
+			"Length of the entire instruction in bytes."                       \
+		);                                                                     \
+		                                                                       \
+		utester_logger_info(                                                   \
+			"    * Clocks 1 - "                                                \
+			"Number of CPU clocks (fCLK) when the internal RAM area, SFR "     \
+			"area, or extended SFR area is accessed, or when no data is "      \
+			"accessed."                                                        \
+		);                                                                     \
+		                                                                       \
+		utester_logger_info(                                                   \
+			"    * Clocks 2 - "                                                \
+			"Number of CPU clocks (fCLK) when the code flash memory area "     \
+			"is accessed."                                                     \
+		);                                                                     \
 	} while (0)
+
+#define comma ,
 
 #define tick_amount(_n)                                                        \
 	do                                                                         \
@@ -39,16 +69,17 @@
 
 utester_define_test(rl78inst_move_x_byte_test)
 {
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV X, #byte  |  r <- byte  |   2   |    1     |    -     |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x50, 0x0A,  // MOV X, 0x0A
-		0x50, 0x00,  // MOV X, 0x00
-		0x50, 0x0A,  // MOV X, 0x0A
+	init_env_flash_rom_and_display_info({
+			"+----------------+-------------+-------+----------+----------+" comma
+			"| Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+			"|  MOV X, #byte  |  r <- byte  |   2   |    1     |    -     |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+		}, {
+			0x50 comma 0x0A comma  // MOV X, 0x0A
+			0x50 comma 0x00 comma  // MOV X, 0x00
+			0x50 comma 0x0A comma  // MOV X, 0x0A
+		}
 	);
 
 	uint8_t x;
@@ -63,17 +94,19 @@ utester_define_test(rl78inst_move_x_byte_test)
 
 utester_define_test(rl78inst_move_a_byte_test)
 {
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, #byte  |  r <- byte  |   2   |    1     |    -     |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x51, 0x0A,  // MOV A, 0x0A
-		0x51, 0x00,  // MOV A, 0x00
-		0x51, 0x0A,  // MOV A, 0x0A
+	init_env_flash_rom_and_display_info({
+			"+----------------+-------------+-------+----------+----------+" comma
+			"| Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+			"|  MOV A, #byte  |  r <- byte  |   2   |    1     |    -     |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+		}, {
+			0x51 comma 0x0A comma  // MOV A, 0x0A
+			0x51 comma 0x00 comma  // MOV A, 0x00
+			0x51 comma 0x0A comma  // MOV A, 0x0A
+		}
 	);
+
 
 	uint8_t a;
 	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
@@ -87,16 +120,17 @@ utester_define_test(rl78inst_move_a_byte_test)
 
 utester_define_test(rl78inst_move_c_byte_test)
 {
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV C, #byte  |  r <- byte  |   2   |    1     |    -     |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x52, 0x0A,  // MOV C, 0x0A
-		0x52, 0x00,  // MOV C, 0x00
-		0x52, 0x0A,  // MOV C, 0x0A
+	init_env_flash_rom_and_display_info({
+			"+----------------+-------------+-------+----------+----------+" comma
+			"| Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+			"|  MOV C, #byte  |  r <- byte  |   2   |    1     |    -     |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+		}, {
+			0x52 comma 0x0A comma  // MOV C, 0x0A
+			0x52 comma 0x00 comma  // MOV C, 0x00
+			0x52 comma 0x0A comma  // MOV C, 0x0A
+		}
 	);
 
 	uint8_t c;
@@ -111,16 +145,17 @@ utester_define_test(rl78inst_move_c_byte_test)
 
 utester_define_test(rl78inst_move_b_byte_test)
 {
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV B, #byte  |  r <- byte  |   2   |    1     |    -     |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x53, 0x0A,  // MOV B, 0x0A
-		0x53, 0x00,  // MOV B, 0x00
-		0x53, 0x0A,  // MOV B, 0x0A
+	init_env_flash_rom_and_display_info({
+			"+----------------+-------------+-------+----------+----------+" comma
+			"| Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+			"|  MOV B, #byte  |  r <- byte  |   2   |    1     |    -     |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+		}, {
+			0x53 comma 0x0A comma  // MOV B, 0x0A
+			0x53 comma 0x00 comma  // MOV B, 0x00
+			0x53 comma 0x0A comma  // MOV B, 0x0A
+		}
 	);
 
 	uint8_t b;
@@ -135,16 +170,17 @@ utester_define_test(rl78inst_move_b_byte_test)
 
 utester_define_test(rl78inst_move_e_byte_test)
 {
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV E, #byte  |  r <- byte  |   2   |    1     |    -     |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x54, 0x0A,  // MOV E, 0x0A
-		0x54, 0x00,  // MOV E, 0x00
-		0x54, 0x0A,  // MOV E, 0x0A
+	init_env_flash_rom_and_display_info({
+			"+----------------+-------------+-------+----------+----------+" comma
+			"| Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+			"|  MOV E, #byte  |  r <- byte  |   2   |    1     |    -     |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+		}, {
+			0x54 comma 0x0A comma  // MOV E, 0x0A
+			0x54 comma 0x00 comma  // MOV E, 0x00
+			0x54 comma 0x0A comma  // MOV E, 0x0A
+		}
 	);
 
 	uint8_t e;
@@ -159,16 +195,17 @@ utester_define_test(rl78inst_move_e_byte_test)
 
 utester_define_test(rl78inst_move_d_byte_test)
 {
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV D, #byte  |  r <- byte  |   2   |    1     |    -     |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x55, 0x0A,  // MOV D, 0x0A
-		0x55, 0x00,  // MOV D, 0x00
-		0x55, 0x0A,  // MOV D, 0x0A
+	init_env_flash_rom_and_display_info({
+			"+----------------+-------------+-------+----------+----------+" comma
+			"| Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+			"|  MOV D, #byte  |  r <- byte  |   2   |    1     |    -     |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+		}, {
+			0x55 comma 0x0A comma  // MOV D, 0x0A
+			0x55 comma 0x00 comma  // MOV D, 0x00
+			0x55 comma 0x0A comma  // MOV D, 0x0A
+		}
 	);
 
 	uint8_t d;
@@ -183,16 +220,17 @@ utester_define_test(rl78inst_move_d_byte_test)
 
 utester_define_test(rl78inst_move_l_byte_test)
 {
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV L, #byte  |  r <- byte  |   2   |    1     |    -     |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x56, 0x0A,  // MOV L, 0x0A
-		0x56, 0x00,  // MOV L, 0x00
-		0x56, 0x0A,  // MOV L, 0x0A
+	init_env_flash_rom_and_display_info({
+			"+----------------+-------------+-------+----------+----------+" comma
+			"| Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+			"|  MOV L, #byte  |  r <- byte  |   2   |    1     |    -     |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+		}, {
+			0x56 comma 0x0A comma  // MOV L, 0x0A
+			0x56 comma 0x00 comma  // MOV L, 0x00
+			0x56 comma 0x0A comma  // MOV L, 0x0A
+		}
 	);
 
 	uint8_t l;
@@ -207,16 +245,17 @@ utester_define_test(rl78inst_move_l_byte_test)
 
 utester_define_test(rl78inst_move_h_byte_test)
 {
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV H, #byte  |  r <- byte  |   2   |    1     |    -     |");
-	utester_logger_info("    +----------------+-------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x57, 0x0A,  // MOV H, 0x0A
-		0x57, 0x00,  // MOV H, 0x00
-		0x57, 0x0A,  // MOV H, 0x0A
+	init_env_flash_rom_and_display_info({
+			"+----------------+-------------+-------+----------+----------+" comma
+			"| Instruction    | Template    | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+			"|  MOV H, #byte  |  r <- byte  |   2   |    1     |    -     |" comma
+			"+----------------+-------------+-------+----------+----------+" comma
+		}, {
+			0x57 comma 0x0A comma  // MOV H, 0x0A
+			0x57 comma 0x00 comma  // MOV H, 0x00
+			0x57 comma 0x0A comma  // MOV H, 0x0A
+		}
 	);
 
 	uint8_t h;
@@ -231,16 +270,17 @@ utester_define_test(rl78inst_move_h_byte_test)
 
 utester_define_test(rl78inst_move_saddr_byte_test)
 {
-	utester_logger_info("    +--------------------+-------------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction        | Template          | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +--------------------+-------------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV saddr, #byte  |  (saddr) <- byte  |   3   |    1     |    -     |");
-	utester_logger_info("    +--------------------+-------------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0xCD, 0x0A, 0x0A,  // MOV saddr(0x0A), 0x0A
-		0xCD, 0x0A, 0x00,  // MOV saddr(0x0A), 0x00
-		0xCD, 0x0A, 0x0A,  // MOV saddr(0x0A), 0x0A
+	init_env_flash_rom_and_display_info({
+			"+--------------------+-------------------+-------+----------+----------+" comma
+			"| Instruction        | Template          | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+--------------------+-------------------+-------+----------+----------+" comma
+			"|  MOV saddr, #byte  |  (saddr) <- byte  |   3   |    1     |    -     |" comma
+			"+--------------------+-------------------+-------+----------+----------+" comma
+		}, {
+			0xCD comma 0x0A comma 0x0A comma  // MOV saddr(0x0A), 0x0A
+			0xCD comma 0x0A comma 0x00 comma  // MOV saddr(0x0A), 0x00
+			0xCD comma 0x0A comma 0x0A comma  // MOV saddr(0x0A), 0x0A
+		}
 	);
 
 	uint8_t value;
@@ -255,16 +295,17 @@ utester_define_test(rl78inst_move_saddr_byte_test)
 
 utester_define_test(rl78inst_move_sfr_byte_test)
 {
-	utester_logger_info("    +------------------+---------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction      | Template      | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +------------------+---------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV sfr, #byte  |  sfr <- byte  |   3   |    1     |    -     |");
-	utester_logger_info("    +------------------+---------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0xCE, 0xF8, 0x0A,  // MOV sfr(0xF8), 0x0A
-		0xCE, 0xF8, 0x00,  // MOV sfr(0xF8), 0x00
-		0xCE, 0xF8, 0x0A,  // MOV sfr(0xF8), 0x0A
+	init_env_flash_rom_and_display_info({
+			"+------------------+---------------+-------+----------+----------+" comma
+			"| Instruction      | Template      | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+------------------+---------------+-------+----------+----------+" comma
+			"|  MOV sfr, #byte  |  sfr <- byte  |   3   |    1     |    -     |" comma
+			"+------------------+---------------+-------+----------+----------+" comma
+		}, {
+			0xCE comma 0xF8 comma 0x0A comma  // MOV sfr(0xF8), 0x0A
+			0xCE comma 0xF8 comma 0x00 comma  // MOV sfr(0xF8), 0x00
+			0xCE comma 0xF8 comma 0x0A comma  // MOV sfr(0xF8), 0x0A
+		}
 	);
 
 	uint8_t spl;
@@ -279,16 +320,17 @@ utester_define_test(rl78inst_move_sfr_byte_test)
 
 utester_define_test(rl78inst_move_addr16_byte_test)
 {
-	utester_logger_info("    +----------------------+--------------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction          | Template           | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +----------------------+--------------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV !addr16, #byte  |  (addr16) <- byte  |   4   |    1     |    -     |");
-	utester_logger_info("    +----------------------+--------------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0xCF, 0xF0, 0x00, 0x0A,  // MOV addr16(0xF0, 0x00), 0x0A
-		0xCF, 0xF0, 0x00, 0x00,  // MOV addr16(0xF0, 0x00), 0x00
-		0xCF, 0xF0, 0x00, 0x0A,  // MOV addr16(0xF0, 0x00), 0x0A
+	init_env_flash_rom_and_display_info({
+			"+----------------------+--------------------+-------+----------+----------+" comma
+			"| Instruction          | Template           | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+----------------------+--------------------+-------+----------+----------+" comma
+			"|  MOV !addr16, #byte  |  (addr16) <- byte  |   4   |    1     |    -     |" comma
+			"+----------------------+--------------------+-------+----------+----------+" comma
+		}, {
+			0xCF comma 0xF0 comma 0x00 comma 0x0A comma  // MOV addr16(0xF0, 0x00), 0x0A
+			0xCF comma 0xF0 comma 0x00 comma 0x00 comma  // MOV addr16(0xF0, 0x00), 0x00
+			0xCF comma 0xF0 comma 0x00 comma 0x0A comma  // MOV addr16(0xF0, 0x00), 0x0A
+		}
 	);
 
 	uint8_t value;
@@ -303,16 +345,17 @@ utester_define_test(rl78inst_move_addr16_byte_test)
 
 utester_define_test(rl78inst_move_a_x_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, X   |  A <- r  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x60,  // MOV A, X
-		0x60,  // MOV A, X
-		0x60,  // MOV A, X
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV A, X   |  A <- r  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x60 comma  // MOV A, X
+			0x60 comma  // MOV A, X
+			0x60 comma  // MOV A, X
+		}
 	);
 
 	uint8_t a;
@@ -327,16 +370,17 @@ utester_define_test(rl78inst_move_a_x_test)
 
 utester_define_test(rl78inst_move_a_c_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, C   |  A <- r  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x62,  // MOV A, C
-		0x62,  // MOV A, C
-		0x62,  // MOV A, C
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV A, C   |  A <- r  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x62 comma  // MOV A, C
+			0x62 comma  // MOV A, C
+			0x62 comma  // MOV A, C
+		}
 	);
 
 	uint8_t a;
@@ -351,16 +395,17 @@ utester_define_test(rl78inst_move_a_c_test)
 
 utester_define_test(rl78inst_move_a_b_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, B   |  A <- r  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x63,  // MOV A, B
-		0x63,  // MOV A, B
-		0x63,  // MOV A, B
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV A, B   |  A <- r  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x63 comma  // MOV A, B
+			0x63 comma  // MOV A, B
+			0x63 comma  // MOV A, B
+		}
 	);
 
 	uint8_t a;
@@ -375,16 +420,17 @@ utester_define_test(rl78inst_move_a_b_test)
 
 utester_define_test(rl78inst_move_a_e_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, E   |  A <- r  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x64,  // MOV A, E
-		0x64,  // MOV A, E
-		0x64,  // MOV A, E
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV A, E   |  A <- r  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x64 comma  // MOV A, E
+			0x64 comma  // MOV A, E
+			0x64 comma  // MOV A, E
+		}
 	);
 
 	uint8_t a;
@@ -399,16 +445,17 @@ utester_define_test(rl78inst_move_a_e_test)
 
 utester_define_test(rl78inst_move_a_d_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, D   |  A <- r  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x65,  // MOV A, D
-		0x65,  // MOV A, D
-		0x65,  // MOV A, D
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV A, D   |  A <- r  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x65 comma  // MOV A, D
+			0x65 comma  // MOV A, D
+			0x65 comma  // MOV A, D
+		}
 	);
 
 	uint8_t a;
@@ -423,16 +470,17 @@ utester_define_test(rl78inst_move_a_d_test)
 
 utester_define_test(rl78inst_move_a_l_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, L   |  A <- r  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x66,  // MOV A, L
-		0x66,  // MOV A, L
-		0x66,  // MOV A, L
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV A, L   |  A <- r  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x66 comma  // MOV A, L
+			0x66 comma  // MOV A, L
+			0x66 comma  // MOV A, L
+		}
 	);
 
 	uint8_t a;
@@ -447,16 +495,17 @@ utester_define_test(rl78inst_move_a_l_test)
 
 utester_define_test(rl78inst_move_a_h_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, H   |  A <- r  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x67,  // MOV A, H
-		0x67,  // MOV A, H
-		0x67,  // MOV A, H
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV A, H   |  A <- r  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x67 comma  // MOV A, H
+			0x67 comma  // MOV A, H
+			0x67 comma  // MOV A, H
+		}
 	);
 
 	uint8_t a;
@@ -471,16 +520,17 @@ utester_define_test(rl78inst_move_a_h_test)
 
 utester_define_test(rl78inst_move_x_a_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV X, A   |  r <- A  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x70,  // MOV X, A
-		0x70,  // MOV X, A
-		0x70,  // MOV X, A
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV X, A   |  r <- A  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x70 comma  // MOV X, A
+			0x70 comma  // MOV X, A
+			0x70 comma  // MOV X, A
+		}
 	);
 
 	uint8_t x;
@@ -495,16 +545,17 @@ utester_define_test(rl78inst_move_x_a_test)
 
 utester_define_test(rl78inst_move_c_a_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV C, A   |  r <- A  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x72,  // MOV C, A
-		0x72,  // MOV C, A
-		0x72,  // MOV C, A
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV C, A   |  r <- A  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x72 comma  // MOV C, A
+			0x72 comma  // MOV C, A
+			0x72 comma  // MOV C, A
+		}
 	);
 
 	uint8_t c;
@@ -519,16 +570,17 @@ utester_define_test(rl78inst_move_c_a_test)
 
 utester_define_test(rl78inst_move_b_a_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV B, A   |  r <- A  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x73,  // MOV B, A
-		0x73,  // MOV B, A
-		0x73,  // MOV B, A
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV B, A   |  r <- A  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x73 comma  // MOV B, A
+			0x73 comma  // MOV B, A
+			0x73 comma  // MOV B, A
+		}
 	);
 
 	uint8_t b;
@@ -543,16 +595,17 @@ utester_define_test(rl78inst_move_b_a_test)
 
 utester_define_test(rl78inst_move_e_a_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV E, A   |  r <- A  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x74,  // MOV E, A
-		0x74,  // MOV E, A
-		0x74,  // MOV E, A
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV E, A   |  r <- A  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x74 comma  // MOV E, A
+			0x74 comma  // MOV E, A
+			0x74 comma  // MOV E, A
+		}
 	);
 
 	uint8_t e;
@@ -567,16 +620,17 @@ utester_define_test(rl78inst_move_e_a_test)
 
 utester_define_test(rl78inst_move_d_a_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV D, A   |  r <- A  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x75,  // MOV D, A
-		0x75,  // MOV D, A
-		0x75,  // MOV D, A
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV D, A   |  r <- A  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x75 comma  // MOV D, A
+			0x75 comma  // MOV D, A
+			0x75 comma  // MOV D, A
+		}
 	);
 
 	uint8_t d;
@@ -591,16 +645,17 @@ utester_define_test(rl78inst_move_d_a_test)
 
 utester_define_test(rl78inst_move_l_a_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV L, A   |  r <- A  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x76,  // MOV L, A
-		0x76,  // MOV L, A
-		0x76,  // MOV L, A
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV L, A   |  r <- A  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x76 comma  // MOV L, A
+			0x76 comma  // MOV L, A
+			0x76 comma  // MOV L, A
+		}
 	);
 
 	uint8_t l;
@@ -615,16 +670,17 @@ utester_define_test(rl78inst_move_l_a_test)
 
 utester_define_test(rl78inst_move_h_a_test)
 {
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV H, A   |  r <- A  |   1   |    1     |    -     |");
-	utester_logger_info("    +-------------+----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x77,  // MOV H, A
-		0x77,  // MOV H, A
-		0x77,  // MOV H, A
+	init_env_flash_rom_and_display_info({
+			"+-------------+----------+-------+----------+----------+" comma
+			"| Instruction | Template | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+			"|  MOV H, A   |  r <- A  |   1   |    1     |    -     |" comma
+			"+-------------+----------+-------+----------+----------+" comma
+		}, {
+			0x77 comma  // MOV H, A
+			0x77 comma  // MOV H, A
+			0x77 comma  // MOV H, A
+		}
 	);
 
 	uint8_t h;
@@ -639,16 +695,17 @@ utester_define_test(rl78inst_move_h_a_test)
 
 utester_define_test(rl78inst_move_a_saddr_test)
 {
-	utester_logger_info("    +----------------+----------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction    | Template       | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +----------------+----------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, saddr  |  A <- (saddr)  |   2   |    1     |    -     |");
-	utester_logger_info("    +----------------+----------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x8D, 0x0A,  // MOV A, saddr(0x0A)
-		0x8D, 0x0A,  // MOV A, saddr(0x0A)
-		0x8D, 0x0A,  // MOV A, saddr(0x0A)
+	init_env_flash_rom_and_display_info({
+			"+----------------+----------------+-------+----------+----------+" comma
+			"| Instruction    | Template       | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+----------------+----------------+-------+----------+----------+" comma
+			"|  MOV A, saddr  |  A <- (saddr)  |   2   |    1     |    -     |" comma
+			"+----------------+----------------+-------+----------+----------+" comma
+		}, {
+			0x8D comma 0x0A comma  // MOV A, saddr(0x0A)
+			0x8D comma 0x0A comma  // MOV A, saddr(0x0A)
+			0x8D comma 0x0A comma  // MOV A, saddr(0x0A)
+		}
 	);
 
 	uint8_t a;
@@ -663,16 +720,17 @@ utester_define_test(rl78inst_move_a_saddr_test)
 
 utester_define_test(rl78inst_move_saddr_a_test)
 {
-	utester_logger_info("    +----------------+----------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction    | Template       | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +----------------+----------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV saddr, A  |  (saddr) <- A  |   2   |    1     |    -     |");
-	utester_logger_info("    +----------------+----------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x9D, 0x0A,  // MOV saddr(0x0A), A
-		0x9D, 0x0A,  // MOV saddr(0x0A), A
-		0x9D, 0x0A,  // MOV saddr(0x0A), A
+	init_env_flash_rom_and_display_info({
+			"+----------------+----------------+-------+----------+----------+" comma
+			"| Instruction    | Template       | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+----------------+----------------+-------+----------+----------+" comma
+			"|  MOV saddr, A  |  (saddr) <- A  |   2   |    1     |    -     |" comma
+			"+----------------+----------------+-------+----------+----------+" comma
+		}, {
+			0x9D comma 0x0A comma  // MOV saddr(0x0A), A
+			0x9D comma 0x0A comma  // MOV saddr(0x0A), A
+			0x9D comma 0x0A comma  // MOV saddr(0x0A), A
+		}
 	);
 
 	uint8_t value;
@@ -687,16 +745,17 @@ utester_define_test(rl78inst_move_saddr_a_test)
 
 utester_define_test(rl78inst_move_a_sfr_test)
 {
-	utester_logger_info("    +--------------+------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction  | Template   | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +--------------+------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV sfr, A  |  A <- sfr  |   2   |    1     |    -     |");
-	utester_logger_info("    +--------------+------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x8E, 0xF8,  // MOV A, sfr(0xF8)
-		0x8E, 0xF8,  // MOV A, sfr(0xF8)
-		0x8E, 0xF8,  // MOV A, sfr(0xF8)
+	init_env_flash_rom_and_display_info({
+			"+--------------+------------+-------+----------+----------+" comma
+			"| Instruction  | Template   | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+--------------+------------+-------+----------+----------+" comma
+			"|  MOV sfr, A  |  A <- sfr  |   2   |    1     |    -     |" comma
+			"+--------------+------------+-------+----------+----------+" comma
+		}, {
+			0x8E comma 0xF8 comma  // MOV A, sfr(0xF8)
+			0x8E comma 0xF8 comma  // MOV A, sfr(0xF8)
+			0x8E comma 0xF8 comma  // MOV A, sfr(0xF8)
+		}
 	);
 
 	uint8_t a;
@@ -711,16 +770,17 @@ utester_define_test(rl78inst_move_a_sfr_test)
 
 utester_define_test(rl78inst_move_sfr_a_test)
 {
-	utester_logger_info("    +--------------+------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction  | Template   | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +--------------+------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, sfr  |  sfr <- A  |   2   |    1     |    -     |");
-	utester_logger_info("    +--------------+------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x9E, 0xF8,  // MOV sfr(0xF8), A
-		0x9E, 0xF8,  // MOV sfr(0xF8), A
-		0x9E, 0xF8,  // MOV sfr(0xF8), A
+	init_env_flash_rom_and_display_info({
+			"+--------------+------------+-------+----------+----------+" comma
+			"| Instruction  | Template   | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+--------------+------------+-------+----------+----------+" comma
+			"|  MOV A, sfr  |  sfr <- A  |   2   |    1     |    -     |" comma
+			"+--------------+------------+-------+----------+----------+" comma
+		}, {
+			0x9E comma 0xF8 comma  // MOV sfr(0xF8), A
+			0x9E comma 0xF8 comma  // MOV sfr(0xF8), A
+			0x9E comma 0xF8 comma  // MOV sfr(0xF8), A
+		}
 	);
 
 	uint8_t spl;
@@ -735,16 +795,17 @@ utester_define_test(rl78inst_move_sfr_a_test)
 
 utester_define_test(rl78inst_move_a_addr16_test)
 {
-	utester_logger_info("    +------------------+-----------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction      | Template        | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +------------------+-----------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, !addr16  |  A <- (addr16)  |   3   |    1     |    4     |");
-	utester_logger_info("    +------------------+-----------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x8F, 0xF0, 0x00,  // MOV A, addr16(0xF0, 0x00)
-		0x8F, 0xF0, 0x00,  // MOV A, addr16(0xF0, 0x00)
-		0x8F, 0xF0, 0x00,  // MOV A, addr16(0xF0, 0x00)
+	init_env_flash_rom_and_display_info({
+			"+------------------+-----------------+-------+----------+----------+" comma
+			"| Instruction      | Template        | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+------------------+-----------------+-------+----------+----------+" comma
+			"|  MOV A, !addr16  |  A <- (addr16)  |   3   |    1     |    4     |" comma
+			"+------------------+-----------------+-------+----------+----------+" comma
+		}, {
+			0x8F comma 0xF0 comma 0x00 comma  // MOV A, addr16(0xF0, 0x00)
+			0x8F comma 0xF0 comma 0x00 comma  // MOV A, addr16(0xF0, 0x00)
+			0x8F comma 0xF0 comma 0x00 comma  // MOV A, addr16(0xF0, 0x00)
+		}
 	);
 
 	// todo: handle both cases of clocks!
@@ -762,16 +823,17 @@ utester_define_test(rl78inst_move_a_addr16_test)
 
 utester_define_test(rl78inst_move_addr16_a_test)
 {
-	utester_logger_info("    +------------------+-----------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction      | Template        | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +------------------+-----------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV !addr16, A  |  (addr16) <- A  |   3   |    1     |    -     |");
-	utester_logger_info("    +------------------+-----------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x9F, 0xF0, 0x00,  // MOV addr16(0xF0, 0x00), A
-		0x9F, 0xF0, 0x00,  // MOV addr16(0xF0, 0x00), A
-		0x9F, 0xF0, 0x00,  // MOV addr16(0xF0, 0x00), A
+	init_env_flash_rom_and_display_info({
+			"+------------------+-----------------+-------+----------+----------+" comma
+			"| Instruction      | Template        | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+------------------+-----------------+-------+----------+----------+" comma
+			"|  MOV !addr16, A  |  (addr16) <- A  |   3   |    1     |    -     |" comma
+			"+------------------+-----------------+-------+----------+----------+" comma
+		}, {
+			0x9F comma 0xF0 comma 0x00 comma  // MOV addr16(0xF0, 0x00), A
+			0x9F comma 0xF0 comma 0x00 comma  // MOV addr16(0xF0, 0x00), A
+			0x9F comma 0xF0 comma 0x00 comma  // MOV addr16(0xF0, 0x00), A
+		}
 	);
 
 	uint8_t value;
@@ -786,16 +848,17 @@ utester_define_test(rl78inst_move_addr16_a_test)
 
 utester_define_test(rl78inst_move_psw_byte_test)
 {
-	utester_logger_info("    +------------------+---------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction      | Template      | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +------------------+---------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV PSW, #byte  |  PSW <- byte  |   3   |    3     |    -     |");
-	utester_logger_info("    +------------------+---------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0xCE, 0xFA, 0x0A,  // MOV PSW, 0x0A
-		0xCE, 0xFA, 0x00,  // MOV PSW, 0x00
-		0xCE, 0xFA, 0x0A,  // MOV PSW, 0x0A
+	init_env_flash_rom_and_display_info({
+			"+------------------+---------------+-------+----------+----------+" comma
+			"| Instruction      | Template      | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+------------------+---------------+-------+----------+----------+" comma
+			"|  MOV PSW, #byte  |  PSW <- byte  |   3   |    3     |    -     |" comma
+			"+------------------+---------------+-------+----------+----------+" comma
+		}, {
+			0xCE comma 0xFA comma 0x0A comma  // MOV PSW, 0x0A
+			0xCE comma 0xFA comma 0x00 comma  // MOV PSW, 0x00
+			0xCE comma 0xFA comma 0x0A comma  // MOV PSW, 0x0A
+		}
 	);
 
 	uint8_t psw;
@@ -810,16 +873,17 @@ utester_define_test(rl78inst_move_psw_byte_test)
 
 utester_define_test(rl78inst_move_a_psw_test)
 {
-	utester_logger_info("    +--------------+------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction  | Template   | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +--------------+------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, PSW  |  A <- PSW  |   2   |    1     |    -     |");
-	utester_logger_info("    +--------------+------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x8E, 0xFA,  // MOV A, PSW
-		0x8E, 0xFA,  // MOV A, PSW
-		0x8E, 0xFA,  // MOV A, PSW
+	init_env_flash_rom_and_display_info({
+			"+--------------+------------+-------+----------+----------+" comma
+			"| Instruction  | Template   | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+--------------+------------+-------+----------+----------+" comma
+			"|  MOV A, PSW  |  A <- PSW  |   2   |    1     |    -     |" comma
+			"+--------------+------------+-------+----------+----------+" comma
+		}, {
+			0x8E comma 0xFA comma  // MOV A, PSW
+			0x8E comma 0xFA comma  // MOV A, PSW
+			0x8E comma 0xFA comma  // MOV A, PSW
+		}
 	);
 
 	uint8_t a;
@@ -834,16 +898,17 @@ utester_define_test(rl78inst_move_a_psw_test)
 
 utester_define_test(rl78inst_move_psw_a_test)
 {
-	utester_logger_info("    +--------------+------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction  | Template   | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +--------------+------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV PSW, A  |  PSW <- A  |   2   |    3     |    -     |");
-	utester_logger_info("    +--------------+------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x9E, 0xFA,  // MOV PSW, A
-		0x9E, 0xFA,  // MOV PSW, A
-		0x9E, 0xFA,  // MOV PSW, A
+	init_env_flash_rom_and_display_info({
+			"+--------------+------------+-------+----------+----------+" comma
+			"| Instruction  | Template   | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+--------------+------------+-------+----------+----------+" comma
+			"|  MOV PSW, A  |  PSW <- A  |   2   |    3     |    -     |" comma
+			"+--------------+------------+-------+----------+----------+" comma
+		}, {
+			0x9E comma 0xFA comma  // MOV PSW, A
+			0x9E comma 0xFA comma  // MOV PSW, A
+			0x9E comma 0xFA comma  // MOV PSW, A
+		}
 	);
 
 	uint8_t pws;
@@ -858,16 +923,17 @@ utester_define_test(rl78inst_move_psw_a_test)
 
 utester_define_test(rl78inst_move_es_byte_test)
 {
-	utester_logger_info("    +-----------------+--------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction     | Template     | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-----------------+--------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV ES, #byte  |  ES <- byte  |   2   |    1     |    -     |");
-	utester_logger_info("    +-----------------+--------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x41, 0x0A,  // MOV ES, 0x0A
-		0x41, 0x00,  // MOV ES, 0x00
-		0x41, 0x0A,  // MOV ES, 0x0A
+	init_env_flash_rom_and_display_info({
+			"+-----------------+--------------+-------+----------+----------+" comma
+			"| Instruction     | Template     | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-----------------+--------------+-------+----------+----------+" comma
+			"|  MOV ES, #byte  |  ES <- byte  |   2   |    1     |    -     |" comma
+			"+-----------------+--------------+-------+----------+----------+" comma
+		}, {
+			0x41 comma 0x0A comma  // MOV ES, 0x0A
+			0x41 comma 0x00 comma  // MOV ES, 0x00
+			0x41 comma 0x0A comma  // MOV ES, 0x0A
+		}
 	);
 
 	uint8_t es;
@@ -882,16 +948,17 @@ utester_define_test(rl78inst_move_es_byte_test)
 
 utester_define_test(rl78inst_move_es_saddr_test)
 {
-	utester_logger_info("    +-----------------+-----------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction     | Template        | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-----------------+-----------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV ES, saddr  |  ES <- (saddr)  |   3   |    1     |    -     |");
-	utester_logger_info("    +-----------------+-----------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x61, 0xB8, 0x0A,  // MOV ES, saddr(0x0A)
-		0x61, 0xB8, 0x0A,  // MOV ES, saddr(0x0A)
-		0x61, 0xB8, 0x0A,  // MOV ES, saddr(0x0A)
+	init_env_flash_rom_and_display_info({
+			"+-----------------+-----------------+-------+----------+----------+" comma
+			"| Instruction     | Template        | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-----------------+-----------------+-------+----------+----------+" comma
+			"|  MOV ES, saddr  |  ES <- (saddr)  |   3   |    1     |    -     |" comma
+			"+-----------------+-----------------+-------+----------+----------+" comma
+		}, {
+			0x61 comma 0xB8 comma 0x0A comma  // MOV ES, saddr(0x0A)
+			0x61 comma 0xB8 comma 0x0A comma  // MOV ES, saddr(0x0A)
+			0x61 comma 0xB8 comma 0x0A comma  // MOV ES, saddr(0x0A)
+		}
 	);
 
 	uint8_t es;
@@ -906,16 +973,17 @@ utester_define_test(rl78inst_move_es_saddr_test)
 
 utester_define_test(rl78inst_move_a_es_test)
 {
-	utester_logger_info("    +-------------+-----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template  | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+-----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, ES  |  A <- ES  |   2   |    1     |    -     |");
-	utester_logger_info("    +-------------+-----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x8E, 0xFD,  // MOV A, ES
-		0x8E, 0xFD,  // MOV A, ES
-		0x8E, 0xFD,  // MOV A, ES
+	init_env_flash_rom_and_display_info({
+			"+-------------+-----------+-------+----------+----------+" comma
+			"| Instruction | Template  | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+-----------+-------+----------+----------+" comma
+			"|  MOV A, ES  |  A <- ES  |   2   |    1     |    -     |" comma
+			"+-------------+-----------+-------+----------+----------+" comma
+		}, {
+			0x8E comma 0xFD comma  // MOV A, ES
+			0x8E comma 0xFD comma  // MOV A, ES
+			0x8E comma 0xFD comma  // MOV A, ES
+		}
 	);
 
 	uint8_t a;
@@ -930,16 +998,17 @@ utester_define_test(rl78inst_move_a_es_test)
 
 utester_define_test(rl78inst_move_es_a_test)
 {
-	utester_logger_info("    +-------------+-----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template  | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+-----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV ES, A  |  ES <- A  |   2   |    1     |    -     |");
-	utester_logger_info("    +-------------+-----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x9E, 0xFD,  // MOV ES, A
-		0x9E, 0xFD,  // MOV ES, A
-		0x9E, 0xFD,  // MOV ES, A
+	init_env_flash_rom_and_display_info({
+			"+-------------+-----------+-------+----------+----------+" comma
+			"| Instruction | Template  | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+-----------+-------+----------+----------+" comma
+			"|  MOV ES, A  |  ES <- A  |   2   |    1     |    -     |" comma
+			"+-------------+-----------+-------+----------+----------+" comma
+		}, {
+			0x9E comma 0xFD comma  // MOV ES, A
+			0x9E comma 0xFD comma  // MOV ES, A
+			0x9E comma 0xFD comma  // MOV ES, A
+		}
 	);
 
 	uint8_t es;
@@ -954,17 +1023,19 @@ utester_define_test(rl78inst_move_es_a_test)
 
 utester_define_test(rl78inst_move_cs_byte_test)
 {
-	utester_logger_info("    +-----------------+--------------+-------+----------+----------+");
-	utester_logger_info("    | Instruction     | Template     | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-----------------+--------------+-------+----------+----------+");
-	utester_logger_info("    |  MOV CS, #byte  |  CS <- byte  |   3   |    1     |    -     |");
-	utester_logger_info("    +-----------------+--------------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0xCE, 0xFC, 0x0A,  // MOV CS, 0x0A
-		0xCE, 0xFC, 0x00,  // MOV CS, 0x00
-		0xCE, 0xFC, 0x0A,  // MOV CS, 0x0A
+	init_env_flash_rom_and_display_info({
+			"+-----------------+--------------+-------+----------+----------+" comma
+			"| Instruction     | Template     | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-----------------+--------------+-------+----------+----------+" comma
+			"|  MOV CS, #byte  |  CS <- byte  |   3   |    1     |    -     |" comma
+			"+-----------------+--------------+-------+----------+----------+" comma
+		}, {
+			0xCE comma 0xFC comma 0x0A comma  // MOV CS, 0x0A
+			0xCE comma 0xFC comma 0x00 comma  // MOV CS, 0x00
+			0xCE comma 0xFC comma 0x0A comma  // MOV CS, 0x0A
+		}
 	);
+
 
 	uint8_t cs;
 	tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x00);
@@ -981,16 +1052,17 @@ utester_define_test(rl78inst_move_cs_byte_test)
 
 utester_define_test(rl78inst_move_a_cs_test)
 {
-	utester_logger_info("    +-------------+-----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template  | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+-----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV A, CS  |  A <- CS  |   2   |    1     |    -     |");
-	utester_logger_info("    +-------------+-----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x8E, 0xFC,  // MOV A, CS
-		0x8E, 0xFC,  // MOV A, CS
-		0x8E, 0xFC,  // MOV A, CS
+	init_env_flash_rom_and_display_info({
+			"+-------------+-----------+-------+----------+----------+" comma
+			"| Instruction | Template  | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+-----------+-------+----------+----------+" comma
+			"|  MOV A, CS  |  A <- CS  |   2   |    1     |    -     |" comma
+			"+-------------+-----------+-------+----------+----------+" comma
+		}, {
+			0x8E comma 0xFC comma  // MOV A, CS
+			0x8E comma 0xFC comma  // MOV A, CS
+			0x8E comma 0xFC comma  // MOV A, CS
+		}
 	);
 
 	uint8_t a;
@@ -1005,16 +1077,17 @@ utester_define_test(rl78inst_move_a_cs_test)
 
 utester_define_test(rl78inst_move_cs_a_test)
 {
-	utester_logger_info("    +-------------+-----------+-------+----------+----------+");
-	utester_logger_info("    | Instruction | Template  | Bytes | Clocks 1 | Clocks 2 |");
-	utester_logger_info("    +-------------+-----------+-------+----------+----------+");
-	utester_logger_info("    |  MOV CS, A  |  CS <- A  |   2   |    1     |    -     |");
-	utester_logger_info("    +-------------+-----------+-------+----------+----------+");
-
-	init_and_flash_rom(
-		0x9E, 0xFC,  // MOV CS, A
-		0x9E, 0xFC,  // MOV CS, A
-		0x9E, 0xFC,  // MOV CS, A
+	init_env_flash_rom_and_display_info({
+			"+-------------+-----------+-------+----------+----------+" comma
+			"| Instruction | Template  | Bytes | Clocks 1 | Clocks 2 |" comma
+			"+-------------+-----------+-------+----------+----------+" comma
+			"|  MOV CS, A  |  CS <- A  |   2   |    1     |    -     |" comma
+			"+-------------+-----------+-------+----------+----------+" comma
+		}, {
+			0x9E comma 0xFC comma  // MOV CS, A
+			0x9E comma 0xFC comma  // MOV CS, A
+			0x9E comma 0xFC comma  // MOV CS, A
+		}
 	);
 
 	uint8_t cs;
