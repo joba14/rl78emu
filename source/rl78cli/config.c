@@ -34,14 +34,9 @@ static const char_t* const g_usage_banner =
 	"notice:\n"
 	"    this executable is distributed under the \"rl78f14emu gplv1\" license.\n";
 
-static bool_t match_option(
-	const char_t* const option,
-	const char_t* const long_name,
-	const char_t* const short_name);
+static bool_t match_option(const char_t* const option, const char_t* const long_name, const char_t* const short_name) nodiscard;
 
-rl78cli_config_s rl78cli_config_from_cli(
-	const uint64_t argc,
-	const char_t** const argv)
+rl78cli_config_s rl78cli_config_from_cli(const uint64_t argc, const char_t** const argv)
 {
 	rl78misc_debug_assert(argc > 0);
 	rl78misc_debug_assert(argv != NULL);
@@ -90,18 +85,14 @@ rl78cli_config_s rl78cli_config_from_cli(
 	};
 }
 
-void rl78cli_config_usage(
-	void)
+void rl78cli_config_usage(void)
 {
 	rl78misc_debug_assert(g_usage_banner != NULL);
 	rl78misc_debug_assert(g_program != NULL);
 	rl78misc_logger_log(g_usage_banner, g_program);
 }
 
-static bool_t match_option(
-	const char_t* const option,
-	const char_t* const long_name,
-	const char_t* const short_name)
+static bool_t match_option(const char_t* const option, const char_t* const long_name, const char_t* const short_name)
 {
 	rl78misc_debug_assert(option != NULL);
 	rl78misc_debug_assert(long_name != NULL);

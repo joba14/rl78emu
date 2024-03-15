@@ -62,7 +62,7 @@ static rl78core_cpu_s g_rl78core_cpu;
  * 
  * @return uint20_t absolute address
  */
-static uint20_t short_direct_address_to_absolute_address(const uint8_t address);
+static uint20_t short_direct_address_to_absolute_address(const uint8_t address) nodiscard;
 
 /**
  * @brief Convert special function register in the range of [0xFFF00; 0x100000)
@@ -72,7 +72,7 @@ static uint20_t short_direct_address_to_absolute_address(const uint8_t address);
  * 
  * @return uint20_t absolute address
  */
-static uint20_t special_function_register_to_absolute_address(const uint8_t address);
+static uint20_t special_function_register_to_absolute_address(const uint8_t address) nodiscard;
 
 /**
  * @brief Convert general purpose register in the range of [0xFFEE0; 0xFFF00)
@@ -82,7 +82,7 @@ static uint20_t special_function_register_to_absolute_address(const uint8_t addr
  * 
  * @return uint20_t absolute address
  */
-static uint20_t general_purpose_register_to_absolute_address(const uint8_t offset);
+static uint20_t general_purpose_register_to_absolute_address(const uint8_t offset) nodiscard;
 
 /**
  * @brief Convert direct address in the range of [0x00000; 0x100000) into an
@@ -93,16 +93,16 @@ static uint20_t general_purpose_register_to_absolute_address(const uint8_t offse
  * 
  * @return uint20_t absolute address
  */
-static uint20_t direct_address_to_absolute_address(const uint8_t address_low, const uint8_t address_high);
+static uint20_t direct_address_to_absolute_address(const uint8_t address_low, const uint8_t address_high) nodiscard;
 
 // todo: register indirect addressing [0x00000; 0x100000) } 1Mb
-/* static */ uint20_t indirect_register_address_to_absolute_address(const uint20_t address);
+/* static */ uint20_t indirect_register_address_to_absolute_address(const uint20_t address) nodiscard;
 
 // todo: based addressing [0x00000; 0x100000) } 1Mb
-/* static */ uint20_t based_address_to_absolute_address(const uint20_t address);
+/* static */ uint20_t based_address_to_absolute_address(const uint20_t address) nodiscard;
 
 // todo: based indexed addressing [0x00000; 0x100000) } 1Mb
-/* static */ uint20_t based_indexed_address_to_absolute_address(const uint20_t address);
+/* static */ uint20_t based_indexed_address_to_absolute_address(const uint20_t address) nodiscard;
 
 /**
  * @brief Fetch instruction from the flash (5 bytes).

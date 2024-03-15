@@ -22,6 +22,8 @@ typedef bool bool_t;
 typedef char char_t;
 typedef uint32_t uint20_t;
 
+#define nodiscard __attribute__((warn_unused_result))
+
 /**
  * @brief Wrapper for c's stdlib malloc function.
  * 
@@ -31,7 +33,7 @@ typedef uint32_t uint20_t;
  * 
  * @return void*
  */
-void* rl78misc_malloc(const uint64_t size);
+void* rl78misc_malloc(const uint64_t size) nodiscard;
 
 /**
  * @brief Wrapper for c's stdlib realloc function.
@@ -43,7 +45,7 @@ void* rl78misc_malloc(const uint64_t size);
  * 
  * @return void*
  */
-void* rl78misc_realloc(void* pointer, const uint64_t size);
+void* rl78misc_realloc(void* pointer, const uint64_t size) nodiscard;
 
 /**
  * @brief Wrapper for c's stdlib free function.
@@ -54,7 +56,7 @@ void* rl78misc_realloc(void* pointer, const uint64_t size);
  * 
  * @return void*
  */
-void* rl78misc_free(const void* pointer);
+void* rl78misc_free(const void* pointer) nodiscard;
 
 /**
  * @brief Wrapper for c's stdlib exit function.
@@ -90,7 +92,7 @@ void rl78misc_memcpy(void* const destination, const void* const source, const ui
  * 
  * @return int32_t
  */
-int32_t rl78misc_memcmp(const uint8_t* const left, const uint8_t* const right, const uint64_t length);
+int32_t rl78misc_memcmp(const uint8_t* const left, const uint8_t* const right, const uint64_t length) nodiscard;
 
 /**
  * @brief Wrapper for c's stdlib strlen function.
@@ -99,7 +101,7 @@ int32_t rl78misc_memcmp(const uint8_t* const left, const uint8_t* const right, c
  * 
  * @return uint64_t
  */
-uint64_t rl78misc_strlen(const char_t* const cstring);
+uint64_t rl78misc_strlen(const char_t* const cstring) nodiscard;
 
 /**
  * @brief Wrapper for c's stdlib strcmp function.
@@ -109,7 +111,7 @@ uint64_t rl78misc_strlen(const char_t* const cstring);
  * 
  * @return int32_t
  */
-int32_t rl78misc_strcmp(const char_t* const left, const char_t* const right);
+int32_t rl78misc_strcmp(const char_t* const left, const char_t* const right) nodiscard;
 
 /**
  * @brief Wrapper for c's stdlib strcmp function.
@@ -120,6 +122,6 @@ int32_t rl78misc_strcmp(const char_t* const left, const char_t* const right);
  * 
  * @return int32_t
  */
-int32_t rl78misc_strncmp(const char_t* const left, const char_t* const right, const uint64_t length);
+int32_t rl78misc_strncmp(const char_t* const left, const char_t* const right, const uint64_t length) nodiscard;
 
 #endif

@@ -71,14 +71,14 @@ void rl78core_cpu_halt(void);
  * 
  * @return bool_t halted flag
  */
-bool_t rl78core_cpu_halted(void);
+bool_t rl78core_cpu_halted(void) nodiscard;
 
 /**
  * @brief Read the 20-bit value of the pc register.
  * 
  * @param value value to write to the pc register
  */
-uint20_t rl78core_cpu_read_pc(void);
+uint20_t rl78core_cpu_read_pc(void) nodiscard;
 
 /**
  * @brief Read the 20-bit value of the pc register.
@@ -92,7 +92,7 @@ void rl78core_cpu_write_pc(const uint20_t value);
  * 
  * @return uint8_t value of the provided register
  */
-uint8_t rl78core_cpu_read_gpr08(const uint8_t gpr08);
+uint8_t rl78core_cpu_read_gpr08(const uint8_t gpr08) nodiscard;
 
 /**
  * @brief Write the 8-bit value to provided general purpose register.
@@ -109,7 +109,7 @@ void rl78core_cpu_write_gpr08(const uint8_t gpr08, const uint8_t value);
  * 
  * @return uint16_t value of the provided register
  */
-uint16_t rl78core_cpu_read_gpr16(const uint8_t gpr16);
+uint16_t rl78core_cpu_read_gpr16(const uint8_t gpr16) nodiscard;
 
 /**
  * @brief Write the 16-bit value of provided general purpose register.
@@ -126,7 +126,7 @@ void rl78core_cpu_write_gpr16(const uint8_t gpr16, const uint16_t value);
  * 
  * @return uint8_t value of the provided register
  */
-uint8_t rl78core_cpu_read_sfr08(const uint8_t sfr08);
+uint8_t rl78core_cpu_read_sfr08(const uint8_t sfr08) nodiscard;
 
 /**
  * @brief Write the 8-bit value to provided special function register.
@@ -143,7 +143,7 @@ void rl78core_cpu_write_sfr08(const uint8_t sfr08, const uint8_t value);
  * 
  * @return uint16_t value of the provided register
  */
-uint16_t rl78core_cpu_read_sfr16(const uint8_t sfr16);
+uint16_t rl78core_cpu_read_sfr16(const uint8_t sfr16) nodiscard;
 
 /**
  * @brief Write the 16-bit value of provided special function register.
@@ -160,7 +160,7 @@ void rl78core_cpu_write_sfr16(const uint8_t sfr16, const uint16_t value);
  * 
  * @return uint8_t value from the provided address
  */
-uint8_t rl78core_cpu_read_saddr(const uint8_t saddr);
+uint8_t rl78core_cpu_read_saddr(const uint8_t saddr) nodiscard;
 
 /**
  * @brief Write the 8-bit value to provided short direct address.
@@ -178,7 +178,7 @@ void rl78core_cpu_write_saddr(const uint8_t saddr, const uint8_t value);
  * 
  * @return uint8_t value from the provided address
  */
-uint8_t rl78core_cpu_read_daddr(const uint8_t addrl, const uint8_t addrh);
+uint8_t rl78core_cpu_read_daddr(const uint8_t addrl, const uint8_t addrh) nodiscard;
 
 /**
  * @brief Write the 8-bit value to provided direct address.

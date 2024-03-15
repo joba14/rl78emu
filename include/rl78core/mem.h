@@ -32,7 +32,7 @@ void rl78core_mem_reset(void);
  * 
  * @return uint8_t read 8-bit value
  */
-uint8_t rl78core_mem_read_u08(const uint20_t address);
+uint8_t rl78core_mem_read_u08(const uint20_t address) nodiscard;
 
 /**
  * @brief Write 8-bit value into a provided address in the memory.
@@ -54,7 +54,7 @@ void rl78core_mem_write_u08(const uint20_t address, const uint8_t value);
  * 
  * @return uint16_t read 16-bit value
  */
-uint16_t rl78core_mem_read_u16(const uint20_t address);
+uint16_t rl78core_mem_read_u16(const uint20_t address) nodiscard;
 
 /**
  * @brief Write 16-bit value from a provided address in the memory.

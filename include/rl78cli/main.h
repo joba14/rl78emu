@@ -13,6 +13,6 @@
 #ifndef __rl78emu__include__rl78cli__main_h__
 #define __rl78emu__include__rl78cli__main_h__
 
-int32_t main(const int32_t argc, const char_t* argv[]);
+int32_t main(const int32_t argc, const char_t* argv[]) nodiscard;
 
 #endif

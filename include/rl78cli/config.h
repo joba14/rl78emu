@@ -28,7 +28,7 @@ typedef struct
  * 
  * @return rl78cli_config_s
  */
-rl78cli_config_s rl78cli_config_from_cli(const uint64_t argc, const char_t** const argv);
+rl78cli_config_s rl78cli_config_from_cli(const uint64_t argc, const char_t** const argv) nodiscard;
 
 /**
  * @brief Print the usage banner.

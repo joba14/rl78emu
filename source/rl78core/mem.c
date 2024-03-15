@@ -32,7 +32,7 @@ static rl78core_mem_s g_rl78core_mem;
  * 
  * @return uint8_t* pointer to the referenced memory
  */
-static uint8_t* reference_mem_at(const uint20_t address, const uint20_t size);
+static uint8_t* reference_mem_at(const uint20_t address, const uint20_t size) nodiscard;
 
 void rl78core_mem_init(void)
 {
