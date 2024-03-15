@@ -835,7 +835,7 @@ static void decode_instruction(void)
 		} break;
 	}
 
-	g_rl78core_cpu.pc -= (rl78core_ins_max_size - g_rl78core_cpu.instruction.length);
+	g_rl78core_cpu.pc -= (uint20_t)(rl78core_ins_max_size - g_rl78core_cpu.instruction.length);
 	g_rl78core_cpu.instruction.decoded = true;
 }
 
