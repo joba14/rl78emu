@@ -21,9 +21,10 @@
  */
 utester_define_test(rl78misc_malloc_test)
 {
-	const void* const pointer = rl78misc_malloc(10);
+	const void* pointer = rl78misc_malloc(10);
 	utester_assert_not_equal(pointer, NULL);
-	rl78misc_free(pointer);
+	pointer = rl78misc_free(pointer);
+	utester_assert_equal(pointer, NULL);
 }
 
 /**
@@ -31,9 +32,10 @@ utester_define_test(rl78misc_malloc_test)
  */
 utester_define_test(rl78misc_realloc_test)
 {
-	const void* const pointer = rl78misc_realloc(NULL, 10);
+	const void* pointer = rl78misc_realloc(NULL, 10);
 	utester_assert_not_equal(pointer, NULL);
-	rl78misc_free(pointer);
+	pointer = rl78misc_free(pointer);
+	utester_assert_equal(pointer, NULL);
 }
 
 /**
