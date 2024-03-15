@@ -38,19 +38,24 @@
 		}                                                                      \
 		                                                                       \
 		utester_logger_info(                                                   \
-			"    * Bytes    - "                                                \
+			"    * Reference - "                                               \
+			"https://llvm-gcc-renesas.com/pdf/r01us0015ej0220_rl78.pdf"        \
+		);                                                                     \
+		                                                                       \
+		utester_logger_info(                                                   \
+			"    * Bytes     - "                                               \
 			"Length of the entire instruction in bytes."                       \
 		);                                                                     \
 		                                                                       \
 		utester_logger_info(                                                   \
-			"    * Clocks 1 - "                                                \
+			"    * Clocks 1  - "                                               \
 			"Number of CPU clocks (fCLK) when the internal RAM area, SFR "     \
 			"area, or extended SFR area is accessed, or when no data is "      \
 			"accessed."                                                        \
 		);                                                                     \
 		                                                                       \
 		utester_logger_info(                                                   \
-			"    * Clocks 2 - "                                                \
+			"    * Clocks 2  - "                                               \
 			"Number of CPU clocks (fCLK) when the code flash memory area "     \
 			"is accessed."                                                     \
 		);                                                                     \
