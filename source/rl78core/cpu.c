@@ -29,27 +29,26 @@ typedef struct
 {
 	#define rl78core_inst_max_size 5
 	uint8_t buffer[rl78core_inst_max_size];
-	bool_t fetched;
+	bool_t  fetched;
 } rl78core_fetch_s;
 
 typedef struct
 {
-	uint32_t opcode;
-	uint8_t cycles;
-	uint8_t length;
-	bool_t decoded;
+	uint64_t opcode;
+	uint8_t  cycles;
+	uint8_t  length;
+	bool_t   decoded;
 
 	uint20_t address;
-	uint8_t data;
+	uint8_t  data;
 } rl78core_inst_s;
 
 typedef struct
 {
 	rl78core_fetch_s fetch;
-	rl78core_inst_s instruction;
-
-	bool_t halted;
-	uint20_t pc;
+	rl78core_inst_s  inst;
+	uint20_t         pc;
+	bool_t           halted;
 } rl78core_cpu_s;
 
 static rl78core_cpu_s g_rl78core_cpu;
@@ -131,10 +130,10 @@ void rl78core_cpu_reset(void)
 {
 	g_rl78core_cpu = (const rl78core_cpu_s)
 	{
-		.fetch       = (const rl78core_fetch_s) {0},
-		.instruction = (const rl78core_inst_s)   {0},
-		.halted      = false,
-		.pc          = 0x00000,
+		.fetch  = (const rl78core_fetch_s) {0},
+		.inst   = (const rl78core_inst_s)  {0},
+		.pc     = 0x00000,
+		.halted = false,
 	};
 
 	// todo: finish implementing!
@@ -288,9 +287,9 @@ void rl78core_cpu_tick(void)
 	} 
 	
 	// note: emulating the cycles ~~~v~~~~~~~~
-	if (g_rl78core_cpu.instruction.cycles > 1)
+	if (g_rl78core_cpu.inst.cycles > 1)
 	{
-		--(g_rl78core_cpu.instruction.cycles);
+		--(g_rl78core_cpu.inst.cycles);
 		return;
 	}
 
@@ -423,7 +422,7 @@ static void decode_instruction(void)
 {
 	if (!g_rl78core_cpu.fetch.fetched)
 	{
-		g_rl78core_cpu.instruction.decoded = false;
+		g_rl78core_cpu.inst.decoded = false;
 		return;
 	}
 
@@ -436,7 +435,7 @@ static void decode_instruction(void)
 	{
 		case 0x50:  // MOV X, #byte
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode = first_byte,
 				.data   = second_byte,
@@ -447,7 +446,7 @@ static void decode_instruction(void)
 
 		case 0x51:  // MOV A, #byte
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode = first_byte,
 				.data   = second_byte,
@@ -458,7 +457,7 @@ static void decode_instruction(void)
 
 		case 0x52:  // MOV C, #byte
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode = first_byte,
 				.data   = second_byte,
@@ -469,7 +468,7 @@ static void decode_instruction(void)
 
 		case 0x53:  // MOV B, #byte
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode = first_byte,
 				.data   = second_byte,
@@ -480,7 +479,7 @@ static void decode_instruction(void)
 
 		case 0x54:  // MOV E, #byte
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode = first_byte,
 				.data   = second_byte,
@@ -491,7 +490,7 @@ static void decode_instruction(void)
 
 		case 0x55:  // MOV D, #byte
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode = first_byte,
 				.data   = second_byte,
@@ -502,7 +501,7 @@ static void decode_instruction(void)
 
 		case 0x56:  // MOV L, #byte
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode = first_byte,
 				.data   = second_byte,
@@ -513,7 +512,7 @@ static void decode_instruction(void)
 
 		case 0x57:  // MOV H, #byte
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode = first_byte,
 				.data   = second_byte,
@@ -524,7 +523,7 @@ static void decode_instruction(void)
 
 		case 0xCD:  // MOV saddr, #byte
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.address = short_direct_address_to_absolute_address(second_byte),
@@ -536,7 +535,7 @@ static void decode_instruction(void)
 
 		case 0xCE:  // MOV sfr, #byte
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.address = special_function_register_to_absolute_address(second_byte),
@@ -548,7 +547,7 @@ static void decode_instruction(void)
 
 		case 0xCF:  // MOV !addr16, #byte
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.address = direct_address_to_absolute_address(second_byte, third_byte),
@@ -560,7 +559,7 @@ static void decode_instruction(void)
 
 		case 0x60:  // MOV A, X
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -570,7 +569,7 @@ static void decode_instruction(void)
 
 		case 0x62:  // MOV A, C
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -580,7 +579,7 @@ static void decode_instruction(void)
 
 		case 0x63:  // MOV A, B
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -590,7 +589,7 @@ static void decode_instruction(void)
 
 		case 0x64:  // MOV A, E
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -600,7 +599,7 @@ static void decode_instruction(void)
 
 		case 0x65:  // MOV A, D
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -610,7 +609,7 @@ static void decode_instruction(void)
 
 		case 0x66:  // MOV A, L
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -620,7 +619,7 @@ static void decode_instruction(void)
 
 		case 0x67:  // MOV A, H
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -630,7 +629,7 @@ static void decode_instruction(void)
 
 		case 0x70:  // MOV X, A
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -640,7 +639,7 @@ static void decode_instruction(void)
 
 		case 0x72:  // MOV C, A
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -650,7 +649,7 @@ static void decode_instruction(void)
 
 		case 0x73:  // MOV B, A
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -660,7 +659,7 @@ static void decode_instruction(void)
 
 		case 0x74:  // MOV E, A
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -670,7 +669,7 @@ static void decode_instruction(void)
 
 		case 0x75:  // MOV D, A
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -680,7 +679,7 @@ static void decode_instruction(void)
 
 		case 0x76:  // MOV L, A
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -690,7 +689,7 @@ static void decode_instruction(void)
 
 		case 0x77:  // MOV H, A
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.length  = 1,
@@ -700,7 +699,7 @@ static void decode_instruction(void)
 
 		case 0x8D:  // MOV A, saddr
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.address = short_direct_address_to_absolute_address(second_byte),
@@ -711,7 +710,7 @@ static void decode_instruction(void)
 
 		case 0x9D:  // MOV saddr, A
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.address = short_direct_address_to_absolute_address(second_byte),
@@ -722,7 +721,7 @@ static void decode_instruction(void)
 
 		case 0x8E:  // MOV A, sfr
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.address = special_function_register_to_absolute_address(second_byte),
@@ -733,7 +732,7 @@ static void decode_instruction(void)
 
 		case 0x9E:  // MOV sfr, A
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.address = special_function_register_to_absolute_address(second_byte),
@@ -744,7 +743,7 @@ static void decode_instruction(void)
 
 		case 0x41:  // MOV ES, #byte
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.data = second_byte,
@@ -755,7 +754,7 @@ static void decode_instruction(void)
 
 		case 0x8F:  // MOV A, !addr16
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.address = direct_address_to_absolute_address(second_byte, third_byte),
@@ -766,7 +765,7 @@ static void decode_instruction(void)
 
 		case 0x9F:  // MOV !addr16, A
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode  = first_byte,
 				.address = direct_address_to_absolute_address(second_byte, third_byte),
@@ -777,7 +776,7 @@ static void decode_instruction(void)
 
 		case 0x00:  // NOP
 		{
-			g_rl78core_cpu.instruction = (const rl78core_inst_s)
+			g_rl78core_cpu.inst = (const rl78core_inst_s)
 			{
 				.opcode = first_byte,
 				.length = 1,
@@ -791,7 +790,7 @@ static void decode_instruction(void)
 			{
 				case 0xB8:  // MOV ES, saddr
 				{
-					g_rl78core_cpu.instruction = (const rl78core_inst_s)
+					g_rl78core_cpu.inst = (const rl78core_inst_s)
 					{
 						.opcode = (uint16_t)(first_byte | (uint16_t)(second_byte << 8)),
 						.address = short_direct_address_to_absolute_address(third_byte),
@@ -802,7 +801,7 @@ static void decode_instruction(void)
 
 				case 0xED:  // HALT
 				{
-					g_rl78core_cpu.instruction = (const rl78core_inst_s)
+					g_rl78core_cpu.inst = (const rl78core_inst_s)
 					{
 						.opcode = (uint16_t)(first_byte | (uint16_t)(second_byte << 8)),
 						.length = 2,
@@ -812,7 +811,7 @@ static void decode_instruction(void)
 
 				case 0xFD:  // STOP
 				{
-					g_rl78core_cpu.instruction = (const rl78core_inst_s)
+					g_rl78core_cpu.inst = (const rl78core_inst_s)
 					{
 						.opcode = (uint16_t)(first_byte | (uint16_t)(second_byte << 8)),
 						.length = 2,
@@ -835,72 +834,72 @@ static void decode_instruction(void)
 		} break;
 	}
 
-	g_rl78core_cpu.pc -= (uint20_t)(rl78core_inst_max_size - g_rl78core_cpu.instruction.length);
-	g_rl78core_cpu.instruction.decoded = true;
+	g_rl78core_cpu.pc -= (uint20_t)(rl78core_inst_max_size - g_rl78core_cpu.inst.length);
+	g_rl78core_cpu.inst.decoded = true;
 }
 
 static void execute_instruction(void)
 {
-	if (!g_rl78core_cpu.instruction.decoded)
+	if (!g_rl78core_cpu.inst.decoded)
 	{
 		return;
 	}
 
-	switch (g_rl78core_cpu.instruction.opcode)
+	switch (g_rl78core_cpu.inst.opcode)
 	{
 		case 0x50:  // MOV X, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_x, g_rl78core_cpu.instruction.data);
+			rl78core_cpu_write_gpr08(rl78core_gpr08_x, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x51:  // MOV A, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, g_rl78core_cpu.instruction.data);
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x52:  // MOV C, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_c, g_rl78core_cpu.instruction.data);
+			rl78core_cpu_write_gpr08(rl78core_gpr08_c, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x53:  // MOV B, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_b, g_rl78core_cpu.instruction.data);
+			rl78core_cpu_write_gpr08(rl78core_gpr08_b, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x54:  // MOV E, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_e, g_rl78core_cpu.instruction.data);
+			rl78core_cpu_write_gpr08(rl78core_gpr08_e, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x55:  // MOV D, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_d, g_rl78core_cpu.instruction.data);
+			rl78core_cpu_write_gpr08(rl78core_gpr08_d, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x56:  // MOV L, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_l, g_rl78core_cpu.instruction.data);
+			rl78core_cpu_write_gpr08(rl78core_gpr08_l, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x57:  // MOV H, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_h, g_rl78core_cpu.instruction.data);
+			rl78core_cpu_write_gpr08(rl78core_gpr08_h, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0xCD:  // MOV saddr, #byte
 		{
-			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, g_rl78core_cpu.instruction.data);
+			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0xCE:  // MOV sfr, #byte
 		{
-			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, g_rl78core_cpu.instruction.data);
+			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0xCF:  // MOV !addr16, #byte
 		{
-			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, g_rl78core_cpu.instruction.data);
+			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x60:  // MOV A, X
@@ -975,42 +974,42 @@ static void execute_instruction(void)
 
 		case 0x8D:  // MOV A, saddr
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.instruction.address));
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
 		} break;
 
 		case 0x9D:  // MOV saddr, A
 		{
-			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
 		} break;
 
 		case 0x8E:  // MOV A, sfr
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.instruction.address));
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
 		} break;
 
 		case 0x9E:  // MOV sfr, A
 		{
-			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
 		} break;
 
 		case 0x41:  // MOV ES, #byte
 		{
-			rl78core_cpu_write_sfr08(rl78core_sfr08_es, g_rl78core_cpu.instruction.data);
+			rl78core_cpu_write_sfr08(rl78core_sfr08_es, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0xB861:  // MOV ES, saddr
 		{
-			rl78core_cpu_write_sfr08(rl78core_sfr08_es, rl78core_mem_read_u08(g_rl78core_cpu.instruction.address));
+			rl78core_cpu_write_sfr08(rl78core_sfr08_es, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
 		} break;
 
 		case 0x8F:  // MOV A, !addr16
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.instruction.address));
+			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
 		} break;
 
 		case 0x9F:  // MOV !addr16, A
 		{
-			rl78core_mem_write_u08(g_rl78core_cpu.instruction.address, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
 		} break;
 
 		case 0x00:  // NOP
