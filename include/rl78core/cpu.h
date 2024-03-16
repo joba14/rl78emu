@@ -153,41 +153,50 @@ uint16_t rl78core_cpu_read_sfr16(const uint8_t sfr16) nodiscard;
  */
 void rl78core_cpu_write_sfr16(const uint8_t sfr16, const uint16_t value);
 
-/**
- * @brief Read the 8-bit value from provided short direct address.
- * 
- * @param saddr short direct address
- * 
- * @return uint8_t value from the provided address
- */
-uint8_t rl78core_cpu_read_saddr(const uint8_t saddr) nodiscard;
+// todo: define and implement addressing API for the cpu.
+//       use this reference - https://llvm-gcc-renesas.com/pdf/r01us0015ej0220_rl78.pdf
+//       every single addressing function (read/write) must have documented corner cases
+//       for support ed functions, exceptions, etc.
+//       these functions must be used in the unit tests - none rl78core_mem_* functions
+//       should be used in instructions tests.
+//       this will include the rework of the functions in the commented scope below:
+// [
+	/**
+	* @brief Read the 8-bit value from provided short direct address.
+	* 
+	* @param saddr short direct address
+	* 
+	* @return uint8_t value from the provided address
+	*/
+	uint8_t rl78core_cpu_read_saddr(const uint8_t saddr) nodiscard;
 
-/**
- * @brief Write the 8-bit value to provided short direct address.
- * 
- * @param saddr short direct address
- * @param value value to write to the provided address
- */
-void rl78core_cpu_write_saddr(const uint8_t saddr, const uint8_t value);
+	/**
+	* @brief Write the 8-bit value to provided short direct address.
+	* 
+	* @param saddr short direct address
+	* @param value value to write to the provided address
+	*/
+	void rl78core_cpu_write_saddr(const uint8_t saddr, const uint8_t value);
 
-/**
- * @brief Read the 8-bit value from provided direct address.
- * 
- * @param addrl lower 8-bits of the 16 bit direct address
- * @param addrh higher 8-bits of the 16 bit direct address
- * 
- * @return uint8_t value from the provided address
- */
-uint8_t rl78core_cpu_read_daddr(const uint8_t addrl, const uint8_t addrh) nodiscard;
+	/**
+	* @brief Read the 8-bit value from provided direct address.
+	* 
+	* @param addrl lower 8-bits of the 16 bit direct address
+	* @param addrh higher 8-bits of the 16 bit direct address
+	* 
+	* @return uint8_t value from the provided address
+	*/
+	uint8_t rl78core_cpu_read_daddr(const uint8_t addrl, const uint8_t addrh) nodiscard;
 
-/**
- * @brief Write the 8-bit value to provided direct address.
- * 
- * @param addrl lower 8-bits of the 16 bit direct address
- * @param addrh higher 8-bits of the 16 bit direct address
- * @param value value to write to the provided address
- */
-void rl78core_cpu_write_daddr(const uint8_t addrl, const uint8_t addrh, const uint8_t value);
+	/**
+	* @brief Write the 8-bit value to provided direct address.
+	* 
+	* @param addrl lower 8-bits of the 16 bit direct address
+	* @param addrh higher 8-bits of the 16 bit direct address
+	* @param value value to write to the provided address
+	*/
+	void rl78core_cpu_write_daddr(const uint8_t addrl, const uint8_t addrh, const uint8_t value);
+// ]
 
 #ifndef NDEBUG
 /**
