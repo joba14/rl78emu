@@ -96,13 +96,13 @@ utester_define_test(rl78inst_move_x_byte_test)
 	);
 
 	uint8_t x;
-	tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_x); utester_assert_equal(x, 0x00);
-	tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_x); utester_assert_equal(x, 0x00);
-	tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_x); utester_assert_equal(x, 0x0A);
-	tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_x); utester_assert_equal(x, 0x00);
-	tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_x); utester_assert_equal(x, 0x0A);
-	tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_x); utester_assert_equal(x, 0x0A);
-	tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_x); utester_assert_equal(x, 0x0A);
+	tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_x); utester_assert_equal(x, 0x00);
+	tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_x); utester_assert_equal(x, 0x00);
+	tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_x); utester_assert_equal(x, 0x0A);
+	tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_x); utester_assert_equal(x, 0x00);
+	tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_x); utester_assert_equal(x, 0x0A);
+	tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_x); utester_assert_equal(x, 0x0A);
+	tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_x); utester_assert_equal(x, 0x0A);
 }
 
 utester_define_test(rl78inst_move_a_byte_test)
@@ -124,13 +124,13 @@ utester_define_test(rl78inst_move_a_byte_test)
 
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_c_byte_test)
@@ -151,13 +151,13 @@ utester_define_test(rl78inst_move_c_byte_test)
 	);
 
 	uint8_t c;
-	tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_c); utester_assert_equal(c, 0x00);
-	tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_c); utester_assert_equal(c, 0x00);
-	tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_c); utester_assert_equal(c, 0x0A);
-	tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_c); utester_assert_equal(c, 0x00);
-	tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_c); utester_assert_equal(c, 0x0A);
-	tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_c); utester_assert_equal(c, 0x0A);
-	tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_c); utester_assert_equal(c, 0x0A);
+	tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_c); utester_assert_equal(c, 0x00);
+	tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_c); utester_assert_equal(c, 0x00);
+	tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_c); utester_assert_equal(c, 0x0A);
+	tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_c); utester_assert_equal(c, 0x00);
+	tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_c); utester_assert_equal(c, 0x0A);
+	tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_c); utester_assert_equal(c, 0x0A);
+	tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_c); utester_assert_equal(c, 0x0A);
 }
 
 utester_define_test(rl78inst_move_b_byte_test)
@@ -178,13 +178,13 @@ utester_define_test(rl78inst_move_b_byte_test)
 	);
 
 	uint8_t b;
-	tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_b); utester_assert_equal(b, 0x00);
-	tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_b); utester_assert_equal(b, 0x00);
-	tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_b); utester_assert_equal(b, 0x0A);
-	tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_b); utester_assert_equal(b, 0x00);
-	tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_b); utester_assert_equal(b, 0x0A);
-	tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_b); utester_assert_equal(b, 0x0A);
-	tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_b); utester_assert_equal(b, 0x0A);
+	tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_b); utester_assert_equal(b, 0x00);
+	tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_b); utester_assert_equal(b, 0x00);
+	tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_b); utester_assert_equal(b, 0x0A);
+	tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_b); utester_assert_equal(b, 0x00);
+	tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_b); utester_assert_equal(b, 0x0A);
+	tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_b); utester_assert_equal(b, 0x0A);
+	tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_b); utester_assert_equal(b, 0x0A);
 }
 
 utester_define_test(rl78inst_move_e_byte_test)
@@ -205,13 +205,13 @@ utester_define_test(rl78inst_move_e_byte_test)
 	);
 
 	uint8_t e;
-	tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_e); utester_assert_equal(e, 0x00);
-	tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_e); utester_assert_equal(e, 0x00);
-	tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_e); utester_assert_equal(e, 0x0A);
-	tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_e); utester_assert_equal(e, 0x00);
-	tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_e); utester_assert_equal(e, 0x0A);
-	tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_e); utester_assert_equal(e, 0x0A);
-	tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_e); utester_assert_equal(e, 0x0A);
+	tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_e); utester_assert_equal(e, 0x00);
+	tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_e); utester_assert_equal(e, 0x00);
+	tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_e); utester_assert_equal(e, 0x0A);
+	tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_e); utester_assert_equal(e, 0x00);
+	tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_e); utester_assert_equal(e, 0x0A);
+	tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_e); utester_assert_equal(e, 0x0A);
+	tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_e); utester_assert_equal(e, 0x0A);
 }
 
 utester_define_test(rl78inst_move_d_byte_test)
@@ -232,13 +232,13 @@ utester_define_test(rl78inst_move_d_byte_test)
 	);
 
 	uint8_t d;
-	tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_d); utester_assert_equal(d, 0x00);
-	tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_d); utester_assert_equal(d, 0x00);
-	tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_d); utester_assert_equal(d, 0x0A);
-	tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_d); utester_assert_equal(d, 0x00);
-	tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_d); utester_assert_equal(d, 0x0A);
-	tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_d); utester_assert_equal(d, 0x0A);
-	tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_d); utester_assert_equal(d, 0x0A);
+	tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_d); utester_assert_equal(d, 0x00);
+	tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_d); utester_assert_equal(d, 0x00);
+	tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_d); utester_assert_equal(d, 0x0A);
+	tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_d); utester_assert_equal(d, 0x00);
+	tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_d); utester_assert_equal(d, 0x0A);
+	tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_d); utester_assert_equal(d, 0x0A);
+	tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_d); utester_assert_equal(d, 0x0A);
 }
 
 utester_define_test(rl78inst_move_l_byte_test)
@@ -259,13 +259,13 @@ utester_define_test(rl78inst_move_l_byte_test)
 	);
 
 	uint8_t l;
-	tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_l); utester_assert_equal(l, 0x00);
-	tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_l); utester_assert_equal(l, 0x00);
-	tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_l); utester_assert_equal(l, 0x0A);
-	tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_l); utester_assert_equal(l, 0x00);
-	tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_l); utester_assert_equal(l, 0x0A);
-	tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_l); utester_assert_equal(l, 0x0A);
-	tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_l); utester_assert_equal(l, 0x0A);
+	tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_l); utester_assert_equal(l, 0x00);
+	tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_l); utester_assert_equal(l, 0x00);
+	tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_l); utester_assert_equal(l, 0x0A);
+	tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_l); utester_assert_equal(l, 0x00);
+	tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_l); utester_assert_equal(l, 0x0A);
+	tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_l); utester_assert_equal(l, 0x0A);
+	tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_l); utester_assert_equal(l, 0x0A);
 }
 
 utester_define_test(rl78inst_move_h_byte_test)
@@ -286,13 +286,13 @@ utester_define_test(rl78inst_move_h_byte_test)
 	);
 
 	uint8_t h;
-	tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_h); utester_assert_equal(h, 0x00);
-	tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_h); utester_assert_equal(h, 0x00);
-	tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_h); utester_assert_equal(h, 0x0A);
-	tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_h); utester_assert_equal(h, 0x00);
-	tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_h); utester_assert_equal(h, 0x0A);
-	tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_h); utester_assert_equal(h, 0x0A);
-	tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_h); utester_assert_equal(h, 0x0A);
+	tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_h); utester_assert_equal(h, 0x00);
+	tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_h); utester_assert_equal(h, 0x00);
+	tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_h); utester_assert_equal(h, 0x0A);
+	tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_h); utester_assert_equal(h, 0x00);
+	tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_h); utester_assert_equal(h, 0x0A);
+	tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_h); utester_assert_equal(h, 0x0A);
+	tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_h); utester_assert_equal(h, 0x0A);
 }
 
 utester_define_test(rl78inst_move_saddr_byte_test)
@@ -340,13 +340,13 @@ utester_define_test(rl78inst_move_sfr_byte_test)
 	);
 
 	uint8_t spl;
-	tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x00);
-	tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x00);
-	tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
-	tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x00);
-	tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
-	tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
-	tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
+	tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x00);
+	tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x00);
+	tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
+	tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x00);
+	tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
+	tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
+	tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
 }
 
 utester_define_test(rl78inst_move_addr16_byte_test)
@@ -394,13 +394,13 @@ utester_define_test(rl78inst_move_a_x_test)
 	);
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_x, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_x, 0x00); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_x, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_x, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_x, 0x00); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_x, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_a_c_test)
@@ -421,13 +421,13 @@ utester_define_test(rl78inst_move_a_c_test)
 	);
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_c, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_c, 0x00); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_c, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_c, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_c, 0x00); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_c, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_a_b_test)
@@ -448,13 +448,13 @@ utester_define_test(rl78inst_move_a_b_test)
 	);
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_b, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_b, 0x00); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_b, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_b, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_b, 0x00); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_b, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_a_e_test)
@@ -475,13 +475,13 @@ utester_define_test(rl78inst_move_a_e_test)
 	);
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_e, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_e, 0x00); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_e, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_e, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_e, 0x00); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_e, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_a_d_test)
@@ -502,13 +502,13 @@ utester_define_test(rl78inst_move_a_d_test)
 	);
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_d, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_d, 0x00); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_d, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_d, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_d, 0x00); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_d, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_a_l_test)
@@ -529,13 +529,13 @@ utester_define_test(rl78inst_move_a_l_test)
 	);
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_l, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_l, 0x00); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_l, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_l, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_l, 0x00); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_l, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_a_h_test)
@@ -556,13 +556,13 @@ utester_define_test(rl78inst_move_a_h_test)
 	);
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_h, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_h, 0x00); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_h, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_h, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_h, 0x00); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_h, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_x_a_test)
@@ -583,13 +583,13 @@ utester_define_test(rl78inst_move_x_a_test)
 	);
 
 	uint8_t x;
-	tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(x, 0x00);
-	tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(x, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_x); utester_assert_equal(x, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x00); tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_x); utester_assert_equal(x, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_x); utester_assert_equal(x, 0x0A);
-	tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(x, 0x0A);
-	tick_amount(1); x = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(x, 0x0A);
+	tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(x, 0x00);
+	tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(x, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_x); utester_assert_equal(x, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x00); tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_x); utester_assert_equal(x, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_x); utester_assert_equal(x, 0x0A);
+	tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(x, 0x0A);
+	tick_amount(1); x = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(x, 0x0A);
 }
 
 utester_define_test(rl78inst_move_c_a_test)
@@ -610,13 +610,13 @@ utester_define_test(rl78inst_move_c_a_test)
 	);
 
 	uint8_t c;
-	tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(c, 0x00);
-	tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(c, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_c); utester_assert_equal(c, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x00); tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_c); utester_assert_equal(c, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_c); utester_assert_equal(c, 0x0A);
-	tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(c, 0x0A);
-	tick_amount(1); c = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(c, 0x0A);
+	tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(c, 0x00);
+	tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(c, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_c); utester_assert_equal(c, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x00); tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_c); utester_assert_equal(c, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_c); utester_assert_equal(c, 0x0A);
+	tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(c, 0x0A);
+	tick_amount(1); c = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(c, 0x0A);
 }
 
 utester_define_test(rl78inst_move_b_a_test)
@@ -637,13 +637,13 @@ utester_define_test(rl78inst_move_b_a_test)
 	);
 
 	uint8_t b;
-	tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(b, 0x00);
-	tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(b, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_b); utester_assert_equal(b, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x00); tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_b); utester_assert_equal(b, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_b); utester_assert_equal(b, 0x0A);
-	tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(b, 0x0A);
-	tick_amount(1); b = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(b, 0x0A);
+	tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(b, 0x00);
+	tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(b, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_b); utester_assert_equal(b, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x00); tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_b); utester_assert_equal(b, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_b); utester_assert_equal(b, 0x0A);
+	tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(b, 0x0A);
+	tick_amount(1); b = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(b, 0x0A);
 }
 
 utester_define_test(rl78inst_move_e_a_test)
@@ -664,13 +664,13 @@ utester_define_test(rl78inst_move_e_a_test)
 	);
 
 	uint8_t e;
-	tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(e, 0x00);
-	tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(e, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_e); utester_assert_equal(e, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x00); tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_e); utester_assert_equal(e, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_e); utester_assert_equal(e, 0x0A);
-	tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(e, 0x0A);
-	tick_amount(1); e = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(e, 0x0A);
+	tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(e, 0x00);
+	tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(e, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_e); utester_assert_equal(e, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x00); tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_e); utester_assert_equal(e, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_e); utester_assert_equal(e, 0x0A);
+	tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(e, 0x0A);
+	tick_amount(1); e = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(e, 0x0A);
 }
 
 utester_define_test(rl78inst_move_d_a_test)
@@ -691,13 +691,13 @@ utester_define_test(rl78inst_move_d_a_test)
 	);
 
 	uint8_t d;
-	tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(d, 0x00);
-	tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(d, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_d); utester_assert_equal(d, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x00); tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_d); utester_assert_equal(d, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_d); utester_assert_equal(d, 0x0A);
-	tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(d, 0x0A);
-	tick_amount(1); d = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(d, 0x0A);
+	tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(d, 0x00);
+	tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(d, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_d); utester_assert_equal(d, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x00); tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_d); utester_assert_equal(d, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_d); utester_assert_equal(d, 0x0A);
+	tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(d, 0x0A);
+	tick_amount(1); d = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(d, 0x0A);
 }
 
 utester_define_test(rl78inst_move_l_a_test)
@@ -718,13 +718,13 @@ utester_define_test(rl78inst_move_l_a_test)
 	);
 
 	uint8_t l;
-	tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(l, 0x00);
-	tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(l, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_l); utester_assert_equal(l, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x00); tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_l); utester_assert_equal(l, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_l); utester_assert_equal(l, 0x0A);
-	tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(l, 0x0A);
-	tick_amount(1); l = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(l, 0x0A);
+	tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(l, 0x00);
+	tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(l, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_l); utester_assert_equal(l, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x00); tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_l); utester_assert_equal(l, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_l); utester_assert_equal(l, 0x0A);
+	tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(l, 0x0A);
+	tick_amount(1); l = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(l, 0x0A);
 }
 
 utester_define_test(rl78inst_move_h_a_test)
@@ -745,13 +745,13 @@ utester_define_test(rl78inst_move_h_a_test)
 	);
 
 	uint8_t h;
-	tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(h, 0x00);
-	tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(h, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_h); utester_assert_equal(h, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x00); tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_h); utester_assert_equal(h, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_h); utester_assert_equal(h, 0x0A);
-	tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(h, 0x0A);
-	tick_amount(1); h = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(h, 0x0A);
+	tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(h, 0x00);
+	tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(h, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_h); utester_assert_equal(h, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x00); tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_h); utester_assert_equal(h, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_h); utester_assert_equal(h, 0x0A);
+	tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(h, 0x0A);
+	tick_amount(1); h = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(h, 0x0A);
 }
 
 utester_define_test(rl78inst_move_a_saddr_test)
@@ -772,13 +772,13 @@ utester_define_test(rl78inst_move_a_saddr_test)
 	);
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_saddr(0x0A, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_saddr(0x0A, 0x00); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_saddr(0x0A, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_write_saddr(0x0A, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_write_saddr(0x0A, 0x00); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_write_saddr(0x0A, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_saddr_a_test)
@@ -801,9 +801,9 @@ utester_define_test(rl78inst_move_saddr_a_test)
 	uint8_t value;
 	tick_amount(1); value = rl78core_cpu_read_saddr(0x0A); utester_assert_equal(value, 0x00);
 	tick_amount(1); value = rl78core_cpu_read_saddr(0x0A); utester_assert_equal(value, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); value = rl78core_cpu_read_saddr(0x0A); utester_assert_equal(value, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x00); tick_amount(1); value = rl78core_cpu_read_saddr(0x0A); utester_assert_equal(value, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); value = rl78core_cpu_read_saddr(0x0A); utester_assert_equal(value, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); value = rl78core_cpu_read_saddr(0x0A); utester_assert_equal(value, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x00); tick_amount(1); value = rl78core_cpu_read_saddr(0x0A); utester_assert_equal(value, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); value = rl78core_cpu_read_saddr(0x0A); utester_assert_equal(value, 0x0A);
 	tick_amount(1); value = rl78core_cpu_read_saddr(0x0A); utester_assert_equal(value, 0x0A);
 	tick_amount(1); value = rl78core_cpu_read_saddr(0x0A); utester_assert_equal(value, 0x0A);
 }
@@ -826,13 +826,13 @@ utester_define_test(rl78inst_move_a_sfr_test)
 	);
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_sfr08(rl78core_sfr08_spl, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_sfr08(rl78core_sfr08_spl, 0x00); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_sfr08(rl78core_sfr08_spl, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_sfr08_write(rl78core_sfr08_spl, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_sfr08_write(rl78core_sfr08_spl, 0x00); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_sfr08_write(rl78core_sfr08_spl, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_sfr_a_test)
@@ -853,13 +853,13 @@ utester_define_test(rl78inst_move_sfr_a_test)
 	);
 
 	uint8_t spl;
-	tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x00);
-	tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x00); tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
-	tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
-	tick_amount(1); spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
+	tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x00);
+	tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x00); tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
+	tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
+	tick_amount(1); spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl); utester_assert_equal(spl, 0x0A);
 }
 
 utester_define_test(rl78inst_move_a_addr16_test)
@@ -886,21 +886,21 @@ utester_define_test(rl78inst_move_a_addr16_test)
 	// todo: handle both cases of clocks!
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_daddr(0xF0, 0x00, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_daddr(0xF0, 0x00, 0x00); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_daddr(0xF0, 0x00, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_write_daddr(0xF0, 0x00, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_write_daddr(0xF0, 0x00, 0x00); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_write_daddr(0xF0, 0x00, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 
-	tick_amount(4); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(4); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_daddr(0xF0, 0xFF, 0x0A); tick_amount(4); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_daddr(0xF0, 0xFF, 0x00); tick_amount(4); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_daddr(0xF0, 0xFF, 0x0A); tick_amount(4); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(4); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(4); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(4); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(4); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_write_daddr(0xF0, 0xFF, 0x0A); tick_amount(4); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_write_daddr(0xF0, 0xFF, 0x00); tick_amount(4); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_write_daddr(0xF0, 0xFF, 0x0A); tick_amount(4); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(4); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(4); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_addr16_a_test)
@@ -923,9 +923,9 @@ utester_define_test(rl78inst_move_addr16_a_test)
 	uint8_t value;
 	tick_amount(1); value = rl78core_cpu_read_daddr(0xF0, 0x00); utester_assert_equal(value, 0x00);
 	tick_amount(1); value = rl78core_cpu_read_daddr(0xF0, 0x00); utester_assert_equal(value, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); value = rl78core_cpu_read_daddr(0xF0, 0x00); utester_assert_equal(value, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x00); tick_amount(1); value = rl78core_cpu_read_daddr(0xF0, 0x00); utester_assert_equal(value, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); value = rl78core_cpu_read_daddr(0xF0, 0x00); utester_assert_equal(value, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); value = rl78core_cpu_read_daddr(0xF0, 0x00); utester_assert_equal(value, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x00); tick_amount(1); value = rl78core_cpu_read_daddr(0xF0, 0x00); utester_assert_equal(value, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); value = rl78core_cpu_read_daddr(0xF0, 0x00); utester_assert_equal(value, 0x0A);
 	tick_amount(1); value = rl78core_cpu_read_daddr(0xF0, 0x00); utester_assert_equal(value, 0x0A);
 	tick_amount(1); value = rl78core_cpu_read_daddr(0xF0, 0x00); utester_assert_equal(value, 0x0A);
 }
@@ -948,13 +948,13 @@ utester_define_test(rl78inst_move_psw_byte_test)
 	);
 
 	uint8_t psw;
-	tick_amount(3); psw = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(psw, 0x00);
-	tick_amount(3); psw = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(psw, 0x00);
-	tick_amount(3); psw = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(psw, 0x0A);
-	tick_amount(3); psw = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(psw, 0x00);
-	tick_amount(3); psw = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(psw, 0x0A);
-	tick_amount(3); psw = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(psw, 0x0A);
-	tick_amount(3); psw = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(psw, 0x0A);
+	tick_amount(3); psw = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(psw, 0x00);
+	tick_amount(3); psw = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(psw, 0x00);
+	tick_amount(3); psw = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(psw, 0x0A);
+	tick_amount(3); psw = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(psw, 0x00);
+	tick_amount(3); psw = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(psw, 0x0A);
+	tick_amount(3); psw = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(psw, 0x0A);
+	tick_amount(3); psw = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(psw, 0x0A);
 }
 
 utester_define_test(rl78inst_move_a_psw_test)
@@ -975,13 +975,13 @@ utester_define_test(rl78inst_move_a_psw_test)
 	);
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_sfr08(rl78core_sfr08_psw, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_sfr08(rl78core_sfr08_psw, 0x00); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_sfr08(rl78core_sfr08_psw, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_sfr08_write(rl78core_sfr08_psw, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_sfr08_write(rl78core_sfr08_psw, 0x00); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_sfr08_write(rl78core_sfr08_psw, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_psw_a_test)
@@ -1002,13 +1002,13 @@ utester_define_test(rl78inst_move_psw_a_test)
 	);
 
 	uint8_t pws;
-	tick_amount(3); pws = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(pws, 0x00);
-	tick_amount(3); pws = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(pws, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(3); pws = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(pws, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x00); tick_amount(3); pws = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(pws, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(3); pws = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(pws, 0x0A);
-	tick_amount(3); pws = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(pws, 0x0A);
-	tick_amount(3); pws = rl78core_cpu_read_sfr08(rl78core_sfr08_psw); utester_assert_equal(pws, 0x0A);
+	tick_amount(3); pws = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(pws, 0x00);
+	tick_amount(3); pws = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(pws, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(3); pws = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(pws, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x00); tick_amount(3); pws = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(pws, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(3); pws = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(pws, 0x0A);
+	tick_amount(3); pws = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(pws, 0x0A);
+	tick_amount(3); pws = rl78core_cpu_sfr08_read(rl78core_sfr08_psw); utester_assert_equal(pws, 0x0A);
 }
 
 utester_define_test(rl78inst_move_es_byte_test)
@@ -1029,13 +1029,13 @@ utester_define_test(rl78inst_move_es_byte_test)
 	);
 
 	uint8_t es;
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
 }
 
 utester_define_test(rl78inst_move_es_saddr_test)
@@ -1056,13 +1056,13 @@ utester_define_test(rl78inst_move_es_saddr_test)
 	);
 
 	uint8_t es;
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
-	rl78core_cpu_write_saddr(0x0A, 0x0A); tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
-	rl78core_cpu_write_saddr(0x0A, 0x00); tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
-	rl78core_cpu_write_saddr(0x0A, 0x0A); tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
+	rl78core_cpu_write_saddr(0x0A, 0x0A); tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
+	rl78core_cpu_write_saddr(0x0A, 0x00); tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
+	rl78core_cpu_write_saddr(0x0A, 0x0A); tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
 }
 
 utester_define_test(rl78inst_move_a_es_test)
@@ -1083,13 +1083,13 @@ utester_define_test(rl78inst_move_a_es_test)
 	);
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_sfr08(rl78core_sfr08_es, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_sfr08(rl78core_sfr08_es, 0x00); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_sfr08(rl78core_sfr08_es, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_sfr08_write(rl78core_sfr08_es, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_sfr08_write(rl78core_sfr08_es, 0x00); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_sfr08_write(rl78core_sfr08_es, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_es_a_test)
@@ -1110,13 +1110,13 @@ utester_define_test(rl78inst_move_es_a_test)
 	);
 
 	uint8_t es;
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x00); tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
-	tick_amount(1); es = rl78core_cpu_read_sfr08(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x00); tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
+	tick_amount(1); es = rl78core_cpu_sfr08_read(rl78core_sfr08_es); utester_assert_equal(es, 0x0A);
 }
 
 utester_define_test(rl78inst_move_cs_byte_test)
@@ -1138,13 +1138,13 @@ utester_define_test(rl78inst_move_cs_byte_test)
 
 
 	uint8_t cs;
-	tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x00);
-	tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x00);
-	tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
-	tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x00);
-	tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
-	tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
-	tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
+	tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x00);
+	tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x00);
+	tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
+	tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x00);
+	tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
+	tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
+	tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
 }
 
 // ------------------------------------- Page 1 End ------------------------------------- //
@@ -1168,13 +1168,13 @@ utester_define_test(rl78inst_move_a_cs_test)
 	);
 
 	uint8_t a;
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_sfr08(rl78core_sfr08_cs, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	rl78core_cpu_write_sfr08(rl78core_sfr08_cs, 0x00); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
-	rl78core_cpu_write_sfr08(rl78core_sfr08_cs, 0x0A); tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
-	tick_amount(1); a = rl78core_cpu_read_gpr08(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_sfr08_write(rl78core_sfr08_cs, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	rl78core_cpu_sfr08_write(rl78core_sfr08_cs, 0x00); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x00);
+	rl78core_cpu_sfr08_write(rl78core_sfr08_cs, 0x0A); tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
+	tick_amount(1); a = rl78core_cpu_gpr08_read(rl78core_gpr08_a); utester_assert_equal(a, 0x0A);
 }
 
 utester_define_test(rl78inst_move_cs_a_test)
@@ -1195,13 +1195,13 @@ utester_define_test(rl78inst_move_cs_a_test)
 	);
 
 	uint8_t cs;
-	tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x00);
-	tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x00); tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x00);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 0x0A); tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
-	tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
-	tick_amount(1); cs = rl78core_cpu_read_sfr08(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
+	tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x00);
+	tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x00); tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x00);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 0x0A); tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
+	tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
+	tick_amount(1); cs = rl78core_cpu_sfr08_read(rl78core_sfr08_cs); utester_assert_equal(cs, 0x0A);
 }
 
 utester_run_suite(

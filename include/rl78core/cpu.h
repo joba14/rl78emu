@@ -78,12 +78,12 @@ bool_t rl78core_cpu_halted(void) nodiscard;
  * 
  * @param value value to write to the pc register
  */
-uint20_t rl78core_cpu_read_pc(void) nodiscard;
+uint20_t rl78core_cpu_pc_read(void) nodiscard;
 
 /**
  * @brief Read the 20-bit value of the pc register.
  */
-void rl78core_cpu_write_pc(const uint20_t value);
+void rl78core_cpu_pc_write(const uint20_t value);
 
 /**
  * @brief Read the 8-bit value of provided general purpose register.
@@ -92,7 +92,7 @@ void rl78core_cpu_write_pc(const uint20_t value);
  * 
  * @return uint8_t value of the provided register
  */
-uint8_t rl78core_cpu_read_gpr08(const uint8_t gpr08) nodiscard;
+uint8_t rl78core_cpu_gpr08_read(const uint8_t gpr08) nodiscard;
 
 /**
  * @brief Write the 8-bit value to provided general purpose register.
@@ -100,7 +100,7 @@ uint8_t rl78core_cpu_read_gpr08(const uint8_t gpr08) nodiscard;
  * @param gpr08 offset of a 8-bit general purpose register in a bank
  * @param value value to write to the provided register
  */
-void rl78core_cpu_write_gpr08(const uint8_t gpr08, const uint8_t value);
+void rl78core_cpu_gpr08_write(const uint8_t gpr08, const uint8_t value);
 
 /**
  * @brief Read the 16-bit value of provided general purpose register.
@@ -109,7 +109,7 @@ void rl78core_cpu_write_gpr08(const uint8_t gpr08, const uint8_t value);
  * 
  * @return uint16_t value of the provided register
  */
-uint16_t rl78core_cpu_read_gpr16(const uint8_t gpr16) nodiscard;
+uint16_t rl78core_cpu_gpr16_read(const uint8_t gpr16) nodiscard;
 
 /**
  * @brief Write the 16-bit value of provided general purpose register.
@@ -117,7 +117,7 @@ uint16_t rl78core_cpu_read_gpr16(const uint8_t gpr16) nodiscard;
  * @param gpr16 offset of a 16-bit general purpose register in a bank
  * @param value value to write to the provided register
  */
-void rl78core_cpu_write_gpr16(const uint8_t gpr16, const uint16_t value);
+void rl78core_cpu_gpr16_write(const uint8_t gpr16, const uint16_t value);
 
 /**
  * @brief Read the 8-bit value of provided special function register.
@@ -126,7 +126,7 @@ void rl78core_cpu_write_gpr16(const uint8_t gpr16, const uint16_t value);
  * 
  * @return uint8_t value of the provided register
  */
-uint8_t rl78core_cpu_read_sfr08(const uint8_t sfr08) nodiscard;
+uint8_t rl78core_cpu_sfr08_read(const uint8_t sfr08) nodiscard;
 
 /**
  * @brief Write the 8-bit value to provided special function register.
@@ -134,7 +134,7 @@ uint8_t rl78core_cpu_read_sfr08(const uint8_t sfr08) nodiscard;
  * @param sfr08 offset of a 8-bit special function register
  * @param value value to write to the provided register
  */
-void rl78core_cpu_write_sfr08(const uint8_t sfr08, const uint8_t value);
+void rl78core_cpu_sfr08_write(const uint8_t sfr08, const uint8_t value);
 
 /**
  * @brief Read the 16-bit value of provided special function register.
@@ -143,7 +143,7 @@ void rl78core_cpu_write_sfr08(const uint8_t sfr08, const uint8_t value);
  * 
  * @return uint16_t value of the provided register
  */
-uint16_t rl78core_cpu_read_sfr16(const uint8_t sfr16) nodiscard;
+uint16_t rl78core_cpu_sfr16_read(const uint8_t sfr16) nodiscard;
 
 /**
  * @brief Write the 16-bit value of provided special function register.
@@ -151,7 +151,7 @@ uint16_t rl78core_cpu_read_sfr16(const uint8_t sfr16) nodiscard;
  * @param sfr16 offset of a 16-bit special function register
  * @param value value to write to the provided register
  */
-void rl78core_cpu_write_sfr16(const uint8_t sfr16, const uint16_t value);
+void rl78core_cpu_sfr16_write(const uint8_t sfr16, const uint16_t value);
 
 // todo: define and implement addressing API for the cpu.
 //       use this reference - https://llvm-gcc-renesas.com/pdf/r01us0015ej0220_rl78.pdf
@@ -159,6 +159,11 @@ void rl78core_cpu_write_sfr16(const uint8_t sfr16, const uint16_t value);
 //       for support ed functions, exceptions, etc.
 //       these functions must be used in the unit tests - none rl78core_mem_* functions
 //       should be used in instructions tests.
+// rework:
+// [
+	// ... 
+// ]
+// note:
 //       this will include the rework of the functions in the commented scope below:
 // [
 	/**

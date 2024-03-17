@@ -54,14 +54,14 @@ typedef struct
 static rl78core_cpu_s g_rl78core_cpu;
 
 /**
- * @brief Convert short direct address in the range of [0xFFE20; 0xFFF20) into
- * an absolute address in range of [0x00000; 0x100000).
+ * @brief Convert general purpose register in the range of [0xFFEE0; 0xFFF00)
+ * into an absolute address in range of [0x00000; 0x100000).
  * 
- * @param address relative short address
+ * @param offset general purpose register offset in registers bank
  * 
  * @return uint20_t absolute address
  */
-static uint20_t short_direct_address_to_absolute_address(const uint8_t address) nodiscard;
+static uint20_t general_purpose_register_to_absolute_address(const uint8_t offset) nodiscard;
 
 /**
  * @brief Convert special function register in the range of [0xFFF00; 0x100000)
@@ -74,14 +74,14 @@ static uint20_t short_direct_address_to_absolute_address(const uint8_t address) 
 static uint20_t special_function_register_to_absolute_address(const uint8_t address) nodiscard;
 
 /**
- * @brief Convert general purpose register in the range of [0xFFEE0; 0xFFF00)
- * into an absolute address in range of [0x00000; 0x100000).
+ * @brief Convert short direct address in the range of [0xFFE20; 0xFFF20) into
+ * an absolute address in range of [0x00000; 0x100000).
  * 
- * @param offset general purpose register offset in registers bank
+ * @param address relative short address
  * 
  * @return uint20_t absolute address
  */
-static uint20_t general_purpose_register_to_absolute_address(const uint8_t offset) nodiscard;
+static uint20_t short_direct_address_to_absolute_address(const uint8_t address) nodiscard;
 
 /**
  * @brief Convert direct address in the range of [0x00000; 0x100000) into an
@@ -93,15 +93,6 @@ static uint20_t general_purpose_register_to_absolute_address(const uint8_t offse
  * @return uint20_t absolute address
  */
 static uint20_t direct_address_to_absolute_address(const uint8_t address_low, const uint8_t address_high) nodiscard;
-
-// todo: register indirect addressing [0x00000; 0x100000) } 1Mb
-/* static */ uint20_t indirect_register_address_to_absolute_address(const uint20_t address) nodiscard;
-
-// todo: based addressing [0x00000; 0x100000) } 1Mb
-/* static */ uint20_t based_address_to_absolute_address(const uint20_t address) nodiscard;
-
-// todo: based indexed addressing [0x00000; 0x100000) } 1Mb
-/* static */ uint20_t based_indexed_address_to_absolute_address(const uint20_t address) nodiscard;
 
 /**
  * @brief Fetch instruction from the flash (5 bytes).
@@ -149,24 +140,24 @@ bool_t rl78core_cpu_halted(void)
 	return g_rl78core_cpu.halted;
 }
 
-uint20_t rl78core_cpu_read_pc(void)
+uint20_t rl78core_cpu_pc_read(void)
 {
 	return g_rl78core_cpu.pc;
 }
 
-void rl78core_cpu_write_pc(const uint20_t value)
+void rl78core_cpu_pc_write(const uint20_t value)
 {
 	g_rl78core_cpu.pc = value;
 }
 
-uint8_t rl78core_cpu_read_gpr08(const uint8_t gpr08)
+uint8_t rl78core_cpu_gpr08_read(const uint8_t gpr08)
 {
 	rl78misc_debug_assert(gpr08 < rl78core_gprs_count);
 	const uint20_t address = general_purpose_register_to_absolute_address(gpr08);
 	return rl78core_mem_read_u08(address);
 }
 
-void rl78core_cpu_write_gpr08(const uint8_t gpr08, const uint8_t value)
+void rl78core_cpu_gpr08_write(const uint8_t gpr08, const uint8_t value)
 {
 	rl78misc_debug_assert(gpr08 < rl78core_gprs_count);
 	const uint20_t address = general_purpose_register_to_absolute_address(gpr08);
@@ -174,7 +165,7 @@ void rl78core_cpu_write_gpr08(const uint8_t gpr08, const uint8_t value)
 	// todo: handle flags if needed!
 }
 
-uint16_t rl78core_cpu_read_gpr16(const uint8_t gpr16)
+uint16_t rl78core_cpu_gpr16_read(const uint8_t gpr16)
 {
 	rl78misc_debug_assert(0 == (gpr16 % 2));
 	rl78misc_debug_assert(gpr16 < rl78core_gprs_count);
@@ -182,7 +173,7 @@ uint16_t rl78core_cpu_read_gpr16(const uint8_t gpr16)
 	return rl78core_mem_read_u16(address);
 }
 
-void rl78core_cpu_write_gpr16(const uint8_t gpr16, const uint16_t value)
+void rl78core_cpu_gpr16_write(const uint8_t gpr16, const uint16_t value)
 {
 	rl78misc_debug_assert(0 == (gpr16 % 2));
 	rl78misc_debug_assert(gpr16 < rl78core_gprs_count);
@@ -191,14 +182,14 @@ void rl78core_cpu_write_gpr16(const uint8_t gpr16, const uint16_t value)
 	// todo: handle flags if needed!
 }
 
-uint8_t rl78core_cpu_read_sfr08(const uint8_t sfr08)
+uint8_t rl78core_cpu_sfr08_read(const uint8_t sfr08)
 {
 	// note: do not need to assert the sfr08 bounds as there are 256 sfrs.
 	const uint20_t address = special_function_register_to_absolute_address(sfr08);
 	return rl78core_mem_read_u08(address);
 }
 
-void rl78core_cpu_write_sfr08(const uint8_t sfr08, const uint8_t value)
+void rl78core_cpu_sfr08_write(const uint8_t sfr08, const uint8_t value)
 {
 	// note: do not need to assert the sfr08 bounds as there are 256 sfrs.
 	const uint20_t address = special_function_register_to_absolute_address(sfr08);
@@ -206,7 +197,7 @@ void rl78core_cpu_write_sfr08(const uint8_t sfr08, const uint8_t value)
 	// todo: handle flags if needed!
 }
 
-uint16_t rl78core_cpu_read_sfr16(const uint8_t sfr16)
+uint16_t rl78core_cpu_sfr16_read(const uint8_t sfr16)
 {
 	rl78misc_debug_assert(0 == (sfr16 % 2));
 	// note: do not need to assert the sfr08 bounds as there are 256 sfrs.
@@ -214,7 +205,7 @@ uint16_t rl78core_cpu_read_sfr16(const uint8_t sfr16)
 	return rl78core_mem_read_u16(address);
 }
 
-void rl78core_cpu_write_sfr16(const uint8_t sfr16, const uint16_t value)
+void rl78core_cpu_sfr16_write(const uint8_t sfr16, const uint16_t value)
 {
 	rl78misc_debug_assert(0 == (sfr16 % 2));
 	// note: do not need to assert the sfr08 bounds as there are 256 sfrs.
@@ -254,28 +245,28 @@ void rl78core_cpu_get_stats(rl78core_cpu_stats_s* const stats)
 {
 	rl78misc_debug_assert(stats != NULL);
 
-	stats->pc = rl78core_cpu_read_pc();
+	stats->pc = rl78core_cpu_pc_read();
 
-	stats->x  = rl78core_cpu_read_gpr08(rl78core_gpr08_x);
-	stats->a  = rl78core_cpu_read_gpr08(rl78core_gpr08_a);
-	stats->c  = rl78core_cpu_read_gpr08(rl78core_gpr08_c);
-	stats->b  = rl78core_cpu_read_gpr08(rl78core_gpr08_b);
-	stats->e  = rl78core_cpu_read_gpr08(rl78core_gpr08_e);
-	stats->d  = rl78core_cpu_read_gpr08(rl78core_gpr08_d);
-	stats->l  = rl78core_cpu_read_gpr08(rl78core_gpr08_l);
-	stats->h  = rl78core_cpu_read_gpr08(rl78core_gpr08_h);
-	stats->ax = rl78core_cpu_read_gpr16(rl78core_gpr16_ax);
-	stats->bc = rl78core_cpu_read_gpr16(rl78core_gpr16_bc);
-	stats->de = rl78core_cpu_read_gpr16(rl78core_gpr16_de);
-	stats->hl = rl78core_cpu_read_gpr16(rl78core_gpr16_hl);
+	stats->x  = rl78core_cpu_gpr08_read(rl78core_gpr08_x);
+	stats->a  = rl78core_cpu_gpr08_read(rl78core_gpr08_a);
+	stats->c  = rl78core_cpu_gpr08_read(rl78core_gpr08_c);
+	stats->b  = rl78core_cpu_gpr08_read(rl78core_gpr08_b);
+	stats->e  = rl78core_cpu_gpr08_read(rl78core_gpr08_e);
+	stats->d  = rl78core_cpu_gpr08_read(rl78core_gpr08_d);
+	stats->l  = rl78core_cpu_gpr08_read(rl78core_gpr08_l);
+	stats->h  = rl78core_cpu_gpr08_read(rl78core_gpr08_h);
+	stats->ax = rl78core_cpu_gpr16_read(rl78core_gpr16_ax);
+	stats->bc = rl78core_cpu_gpr16_read(rl78core_gpr16_bc);
+	stats->de = rl78core_cpu_gpr16_read(rl78core_gpr16_de);
+	stats->hl = rl78core_cpu_gpr16_read(rl78core_gpr16_hl);
 
-	stats->spl = rl78core_cpu_read_sfr08(rl78core_sfr08_spl);
-	stats->sph = rl78core_cpu_read_sfr08(rl78core_sfr08_sph);
-	stats->psw = rl78core_cpu_read_sfr08(rl78core_sfr08_psw);
-	stats->cs  = rl78core_cpu_read_sfr08(rl78core_sfr08_cs);
-	stats->es  = rl78core_cpu_read_sfr08(rl78core_sfr08_es);
-	stats->pmc = rl78core_cpu_read_sfr08(rl78core_sfr08_pmc);
-	stats->mem = rl78core_cpu_read_sfr08(rl78core_sfr08_mem);
+	stats->spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl);
+	stats->sph = rl78core_cpu_sfr08_read(rl78core_sfr08_sph);
+	stats->psw = rl78core_cpu_sfr08_read(rl78core_sfr08_psw);
+	stats->cs  = rl78core_cpu_sfr08_read(rl78core_sfr08_cs);
+	stats->es  = rl78core_cpu_sfr08_read(rl78core_sfr08_es);
+	stats->pmc = rl78core_cpu_sfr08_read(rl78core_sfr08_pmc);
+	stats->mem = rl78core_cpu_sfr08_read(rl78core_sfr08_mem);
 }
 #endif
 
@@ -318,16 +309,31 @@ void rl78core_cpu_tick(void)
 	fetch_instruction();
 }
 
-static uint20_t short_direct_address_to_absolute_address(const uint8_t address)
+static uint20_t general_purpose_register_to_absolute_address(const uint8_t offset)
 {
-	const uint20_t short_direct_addressing_start = 0xFFE20;
-	const uint16_t short_direct_addressing_length = 0x100;
+	const uint8_t  general_purpose_register_count_per_bank = 8;
+	const uint20_t general_purpose_register_start = 0xFFEE0;
+	const uint8_t  general_purpose_register_length = 0x20;
 
-	rl78misc_debug_assert((short_direct_addressing_start + address) <
-		(short_direct_addressing_start + short_direct_addressing_length)
+	rl78misc_debug_assert(offset < general_purpose_register_count_per_bank);
+	const uint8_t psw_value = rl78core_cpu_sfr08_read(rl78core_sfr08_psw);
+	// +----+---+------+----+------+------+------+----+      +------+------+
+	// | IE | Z | RBS1 | AC | RBS0 | ISP1 | ISP0 | CY |  ->  | RBS1 | RBS0 |
+	// +----+---+------+----+------+------+------+----+      +------+------+
+	const uint8_t current_gpr_bank = (const uint8_t)(
+		(const uint8_t)((const uint8_t)(psw_value & 0x08) >> 3) |
+		(const uint8_t)((const uint8_t)(psw_value & 0x20) >> 4)
 	);
 
-	const uint20_t absolute_address = short_direct_addressing_start + address;
+	const uint8_t address = (const uint8_t)(
+		(const uint8_t)(current_gpr_bank * general_purpose_register_count_per_bank) + offset
+	);
+
+	rl78misc_debug_assert((general_purpose_register_start + address) <
+		(general_purpose_register_start + general_purpose_register_length)
+	);
+
+	const uint20_t absolute_address = general_purpose_register_start + address;
 	return absolute_address;
 }
 
@@ -344,65 +350,32 @@ static uint20_t special_function_register_to_absolute_address(const uint8_t addr
 	return absolute_address;
 }
 
-static uint20_t general_purpose_register_to_absolute_address(const uint8_t offset)
+static uint20_t short_direct_address_to_absolute_address(const uint8_t address)
 {
-	const uint8_t  general_purpose_register_count_per_bank = 8;
-	const uint20_t general_purpose_register_start = 0xFFEE0;
-	const uint8_t  general_purpose_register_length = 0x20;
+	const uint20_t short_direct_addressing_start = 0xFFE20;
+	const uint16_t short_direct_addressing_length = 0x100;
 
-	rl78misc_debug_assert(offset < general_purpose_register_count_per_bank);
-	const uint8_t psw_value = rl78core_cpu_read_sfr08(rl78core_sfr08_psw);
-	// +----+---+------+----+------+------+------+----+      +------+------+
-	// | IE | Z | RBS1 | AC | RBS0 | ISP1 | ISP0 | CY |  ->  | RBS1 | RBS0 |
-	// +----+---+------+----+------+------+------+----+      +------+------+
-	const uint8_t current_gpr_bank = (uint8_t)(
-		(uint8_t)((uint8_t)(psw_value & 0x08) >> 3) |
-		(uint8_t)((uint8_t)(psw_value & 0x20) >> 4)
+	rl78misc_debug_assert((short_direct_addressing_start + address) <
+		(short_direct_addressing_start + short_direct_addressing_length)
 	);
 
-	const uint8_t address = (uint8_t)(
-		(uint8_t)(current_gpr_bank * general_purpose_register_count_per_bank) + offset
-	);
-
-	rl78misc_debug_assert((general_purpose_register_start + address) <
-		(general_purpose_register_start + general_purpose_register_length)
-	);
-
-	const uint20_t absolute_address = general_purpose_register_start + address;
+	const uint20_t absolute_address = short_direct_addressing_start + address;
 	return absolute_address;
 }
 
 static uint20_t direct_address_to_absolute_address(const uint8_t address_low, const uint8_t address_high)
 {
-	const uint8_t es_value = rl78core_cpu_read_sfr08(rl78core_sfr08_es);
+	const uint8_t es_value = rl78core_cpu_sfr08_read(rl78core_sfr08_es);
 	// +---+---+---+---+-----+-----+-----+-----+      +-----+-----+-----+-----+
 	// | 0 | 0 | 0 | 0 | ES3 | ES2 | ES1 | ES0 |  ->  | ES3 | ES2 | ES1 | ES0 |
 	// +---+---+---+---+-----+-----+-----+-----+      +-----+-----+-----+-----+
-	const uint20_t absolute_address = (uint20_t)(
-		(uint20_t)(address_low & 0xFF) |
-		(uint20_t)((uint20_t)(address_high & 0xFF) << 8) |
-		(uint20_t)((uint20_t)(es_value & 0x0F) << 16)
+	const uint20_t absolute_address = (const uint20_t)(
+		(const uint20_t)(address_low & 0xFF) |
+		(const uint20_t)((const uint20_t)(address_high & 0xFF) << 8) |
+		(const uint20_t)((const uint20_t)(es_value & 0x0F) << 16)
 	);
 
 	return absolute_address;
-}
-
-/* static */ uint20_t indirect_register_address_to_absolute_address(const uint20_t address)
-{
-	(void)address;
-	return 0;
-}
-
-/* static */ uint20_t based_address_to_absolute_address(const uint20_t address)
-{
-	(void)address;
-	return 0;
-}
-
-/* static */ uint20_t based_indexed_address_to_absolute_address(const uint20_t address)
-{
-	(void)address;
-	return 0;
 }
 
 static void fetch_instruction(void)
@@ -834,7 +807,7 @@ static void decode_instruction(void)
 		} break;
 	}
 
-	g_rl78core_cpu.pc -= (uint20_t)(rl78core_inst_max_size - g_rl78core_cpu.inst.length);
+	g_rl78core_cpu.pc -= (const uint20_t)(rl78core_inst_max_size - g_rl78core_cpu.inst.length);
 	g_rl78core_cpu.inst.decoded = true;
 }
 
@@ -849,42 +822,42 @@ static void execute_instruction(void)
 	{
 		case 0x50:  // MOV X, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_x, g_rl78core_cpu.inst.data);
+			rl78core_cpu_gpr08_write(rl78core_gpr08_x, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x51:  // MOV A, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, g_rl78core_cpu.inst.data);
+			rl78core_cpu_gpr08_write(rl78core_gpr08_a, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x52:  // MOV C, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_c, g_rl78core_cpu.inst.data);
+			rl78core_cpu_gpr08_write(rl78core_gpr08_c, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x53:  // MOV B, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_b, g_rl78core_cpu.inst.data);
+			rl78core_cpu_gpr08_write(rl78core_gpr08_b, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x54:  // MOV E, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_e, g_rl78core_cpu.inst.data);
+			rl78core_cpu_gpr08_write(rl78core_gpr08_e, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x55:  // MOV D, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_d, g_rl78core_cpu.inst.data);
+			rl78core_cpu_gpr08_write(rl78core_gpr08_d, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x56:  // MOV L, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_l, g_rl78core_cpu.inst.data);
+			rl78core_cpu_gpr08_write(rl78core_gpr08_l, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0x57:  // MOV H, #byte
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_h, g_rl78core_cpu.inst.data);
+			rl78core_cpu_gpr08_write(rl78core_gpr08_h, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0xCD:  // MOV saddr, #byte
@@ -904,112 +877,112 @@ static void execute_instruction(void)
 
 		case 0x60:  // MOV A, X
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_x));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_x));
 		} break;
 
 		case 0x62:  // MOV A, C
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_c));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_c));
 		} break;
 
 		case 0x63:  // MOV A, B
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_b));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_b));
 		} break;
 
 		case 0x64:  // MOV A, E
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_e));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_e));
 		} break;
 
 		case 0x65:  // MOV A, D
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_d));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_d));
 		} break;
 
 		case 0x66:  // MOV A, L
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_l));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_l));
 		} break;
 
 		case 0x67:  // MOV A, H
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_cpu_read_gpr08(rl78core_gpr08_h));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_h));
 		} break;
 
 		case 0x70:  // MOV X, A
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_x, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_x, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
 		} break;
 
 		case 0x72:  // MOV C, A
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_c, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_c, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
 		} break;
 
 		case 0x73:  // MOV B, A
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_b, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_b, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
 		} break;
 
 		case 0x74:  // MOV E, A
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_e, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_e, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
 		} break;
 
 		case 0x75:  // MOV D, A
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_d, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_d, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
 		} break;
 
 		case 0x76:  // MOV L, A
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_l, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_l, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
 		} break;
 
 		case 0x77:  // MOV H, A
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_h, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_h, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
 		} break;
 
 		case 0x8D:  // MOV A, saddr
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
 		} break;
 
 		case 0x9D:  // MOV saddr, A
 		{
-			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
 		} break;
 
 		case 0x8E:  // MOV A, sfr
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
 		} break;
 
 		case 0x9E:  // MOV sfr, A
 		{
-			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
 		} break;
 
 		case 0x41:  // MOV ES, #byte
 		{
-			rl78core_cpu_write_sfr08(rl78core_sfr08_es, g_rl78core_cpu.inst.data);
+			rl78core_cpu_sfr08_write(rl78core_sfr08_es, g_rl78core_cpu.inst.data);
 		} break;
 
 		case 0xB861:  // MOV ES, saddr
 		{
-			rl78core_cpu_write_sfr08(rl78core_sfr08_es, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
+			rl78core_cpu_sfr08_write(rl78core_sfr08_es, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
 		} break;
 
 		case 0x8F:  // MOV A, !addr16
 		{
-			rl78core_cpu_write_gpr08(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
+			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
 		} break;
 
 		case 0x9F:  // MOV !addr16, A
 		{
-			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, rl78core_cpu_read_gpr08(rl78core_gpr08_a));
+			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
 		} break;
 
 		case 0x00:  // NOP

@@ -80,17 +80,17 @@ utester_define_test(rl78core_mem_write_u16_test)
 utester_define_test(rl78core_cpu_read_pc_test)
 {
 	rl78core_cpu_init();
-	const uint20_t pc_value = rl78core_cpu_read_pc();
+	const uint20_t pc_value = rl78core_cpu_pc_read();
 	utester_assert_equal(pc_value, 0);
 }
 
 utester_define_test(rl78core_cpu_write_pc_test)
 {
 	rl78core_cpu_init();
-	uint20_t pc_value = rl78core_cpu_read_pc();
+	uint20_t pc_value = rl78core_cpu_pc_read();
 	utester_assert_equal(pc_value, 0);
-	rl78core_cpu_write_pc(10);
-	pc_value = rl78core_cpu_read_pc();
+	rl78core_cpu_pc_write(10);
+	pc_value = rl78core_cpu_pc_read();
 	utester_assert_equal(pc_value, 10);
 }
 
@@ -99,21 +99,21 @@ utester_define_test(rl78core_cpu_read_gpr08_test)
 	rl78core_mem_init();
 	rl78core_cpu_init();
 
-	const uint8_t x_value = rl78core_cpu_read_gpr08(rl78core_gpr08_x);
+	const uint8_t x_value = rl78core_cpu_gpr08_read(rl78core_gpr08_x);
 	utester_assert_equal(x_value, 0);
-	const uint8_t a_value = rl78core_cpu_read_gpr08(rl78core_gpr08_a);
+	const uint8_t a_value = rl78core_cpu_gpr08_read(rl78core_gpr08_a);
 	utester_assert_equal(a_value, 0);
-	const uint8_t c_value = rl78core_cpu_read_gpr08(rl78core_gpr08_c);
+	const uint8_t c_value = rl78core_cpu_gpr08_read(rl78core_gpr08_c);
 	utester_assert_equal(c_value, 0);
-	const uint8_t b_value = rl78core_cpu_read_gpr08(rl78core_gpr08_b);
+	const uint8_t b_value = rl78core_cpu_gpr08_read(rl78core_gpr08_b);
 	utester_assert_equal(b_value, 0);
-	const uint8_t e_value = rl78core_cpu_read_gpr08(rl78core_gpr08_e);
+	const uint8_t e_value = rl78core_cpu_gpr08_read(rl78core_gpr08_e);
 	utester_assert_equal(e_value, 0);
-	const uint8_t d_value = rl78core_cpu_read_gpr08(rl78core_gpr08_d);
+	const uint8_t d_value = rl78core_cpu_gpr08_read(rl78core_gpr08_d);
 	utester_assert_equal(d_value, 0);
-	const uint8_t l_value = rl78core_cpu_read_gpr08(rl78core_gpr08_l);
+	const uint8_t l_value = rl78core_cpu_gpr08_read(rl78core_gpr08_l);
 	utester_assert_equal(l_value, 0);
-	const uint8_t h_value = rl78core_cpu_read_gpr08(rl78core_gpr08_h);
+	const uint8_t h_value = rl78core_cpu_gpr08_read(rl78core_gpr08_h);
 	utester_assert_equal(h_value, 0);
 }
 
@@ -122,47 +122,47 @@ utester_define_test(rl78core_cpu_write_gpr08_test)
 	rl78core_mem_init();
 	rl78core_cpu_init();
 
-	uint8_t x_value = rl78core_cpu_read_gpr08(rl78core_gpr08_x);
+	uint8_t x_value = rl78core_cpu_gpr08_read(rl78core_gpr08_x);
 	utester_assert_equal(x_value, 0);
-	uint8_t a_value = rl78core_cpu_read_gpr08(rl78core_gpr08_a);
+	uint8_t a_value = rl78core_cpu_gpr08_read(rl78core_gpr08_a);
 	utester_assert_equal(a_value, 0);
-	uint8_t c_value = rl78core_cpu_read_gpr08(rl78core_gpr08_c);
+	uint8_t c_value = rl78core_cpu_gpr08_read(rl78core_gpr08_c);
 	utester_assert_equal(c_value, 0);
-	uint8_t b_value = rl78core_cpu_read_gpr08(rl78core_gpr08_b);
+	uint8_t b_value = rl78core_cpu_gpr08_read(rl78core_gpr08_b);
 	utester_assert_equal(b_value, 0);
-	uint8_t e_value = rl78core_cpu_read_gpr08(rl78core_gpr08_e);
+	uint8_t e_value = rl78core_cpu_gpr08_read(rl78core_gpr08_e);
 	utester_assert_equal(e_value, 0);
-	uint8_t d_value = rl78core_cpu_read_gpr08(rl78core_gpr08_d);
+	uint8_t d_value = rl78core_cpu_gpr08_read(rl78core_gpr08_d);
 	utester_assert_equal(d_value, 0);
-	uint8_t l_value = rl78core_cpu_read_gpr08(rl78core_gpr08_l);
+	uint8_t l_value = rl78core_cpu_gpr08_read(rl78core_gpr08_l);
 	utester_assert_equal(l_value, 0);
-	uint8_t h_value = rl78core_cpu_read_gpr08(rl78core_gpr08_h);
+	uint8_t h_value = rl78core_cpu_gpr08_read(rl78core_gpr08_h);
 	utester_assert_equal(h_value, 0);
 
-	rl78core_cpu_write_gpr08(rl78core_gpr08_x, 10);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_a, 10);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_c, 10);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_b, 10);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_e, 10);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_d, 10);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_l, 10);
-	rl78core_cpu_write_gpr08(rl78core_gpr08_h, 10);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_x, 10);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_a, 10);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_c, 10);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_b, 10);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_e, 10);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_d, 10);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_l, 10);
+	rl78core_cpu_gpr08_write(rl78core_gpr08_h, 10);
 	
-	x_value = rl78core_cpu_read_gpr08(rl78core_gpr08_x);
+	x_value = rl78core_cpu_gpr08_read(rl78core_gpr08_x);
 	utester_assert_equal(x_value, 10);
-	a_value = rl78core_cpu_read_gpr08(rl78core_gpr08_a);
+	a_value = rl78core_cpu_gpr08_read(rl78core_gpr08_a);
 	utester_assert_equal(a_value, 10);
-	c_value = rl78core_cpu_read_gpr08(rl78core_gpr08_c);
+	c_value = rl78core_cpu_gpr08_read(rl78core_gpr08_c);
 	utester_assert_equal(c_value, 10);
-	b_value = rl78core_cpu_read_gpr08(rl78core_gpr08_b);
+	b_value = rl78core_cpu_gpr08_read(rl78core_gpr08_b);
 	utester_assert_equal(b_value, 10);
-	e_value = rl78core_cpu_read_gpr08(rl78core_gpr08_e);
+	e_value = rl78core_cpu_gpr08_read(rl78core_gpr08_e);
 	utester_assert_equal(e_value, 10);
-	d_value = rl78core_cpu_read_gpr08(rl78core_gpr08_d);
+	d_value = rl78core_cpu_gpr08_read(rl78core_gpr08_d);
 	utester_assert_equal(d_value, 10);
-	l_value = rl78core_cpu_read_gpr08(rl78core_gpr08_l);
+	l_value = rl78core_cpu_gpr08_read(rl78core_gpr08_l);
 	utester_assert_equal(l_value, 10);
-	h_value = rl78core_cpu_read_gpr08(rl78core_gpr08_h);
+	h_value = rl78core_cpu_gpr08_read(rl78core_gpr08_h);
 	utester_assert_equal(h_value, 10);
 }
 
@@ -171,13 +171,13 @@ utester_define_test(rl78core_cpu_read_gpr16_test)
 	rl78core_mem_init();
 	rl78core_cpu_init();
 
-	const uint16_t ax_value = rl78core_cpu_read_gpr16(rl78core_gpr16_ax);
+	const uint16_t ax_value = rl78core_cpu_gpr16_read(rl78core_gpr16_ax);
 	utester_assert_equal(ax_value, 0);
-	const uint16_t bc_value = rl78core_cpu_read_gpr16(rl78core_gpr16_bc);
+	const uint16_t bc_value = rl78core_cpu_gpr16_read(rl78core_gpr16_bc);
 	utester_assert_equal(bc_value, 0);
-	const uint16_t de_value = rl78core_cpu_read_gpr16(rl78core_gpr16_de);
+	const uint16_t de_value = rl78core_cpu_gpr16_read(rl78core_gpr16_de);
 	utester_assert_equal(de_value, 0);
-	const uint16_t hl_value = rl78core_cpu_read_gpr16(rl78core_gpr16_hl);
+	const uint16_t hl_value = rl78core_cpu_gpr16_read(rl78core_gpr16_hl);
 	utester_assert_equal(hl_value, 0);
 }
 
@@ -186,27 +186,27 @@ utester_define_test(rl78core_cpu_write_gpr16_test)
 	rl78core_mem_init();
 	rl78core_cpu_init();
 
-	uint16_t ax_value = rl78core_cpu_read_gpr16(rl78core_gpr16_ax);
+	uint16_t ax_value = rl78core_cpu_gpr16_read(rl78core_gpr16_ax);
 	utester_assert_equal(ax_value, 0);
-	uint16_t bc_value = rl78core_cpu_read_gpr16(rl78core_gpr16_bc);
+	uint16_t bc_value = rl78core_cpu_gpr16_read(rl78core_gpr16_bc);
 	utester_assert_equal(bc_value, 0);
-	uint16_t de_value = rl78core_cpu_read_gpr16(rl78core_gpr16_de);
+	uint16_t de_value = rl78core_cpu_gpr16_read(rl78core_gpr16_de);
 	utester_assert_equal(de_value, 0);
-	uint16_t hl_value = rl78core_cpu_read_gpr16(rl78core_gpr16_hl);
+	uint16_t hl_value = rl78core_cpu_gpr16_read(rl78core_gpr16_hl);
 	utester_assert_equal(hl_value, 0);
 
-	rl78core_cpu_write_gpr16(rl78core_gpr16_ax, 0x0A0A);
-	rl78core_cpu_write_gpr16(rl78core_gpr16_bc, 0x0A0A);
-	rl78core_cpu_write_gpr16(rl78core_gpr16_de, 0x0A0A);
-	rl78core_cpu_write_gpr16(rl78core_gpr16_hl, 0x0A0A);
+	rl78core_cpu_gpr16_write(rl78core_gpr16_ax, 0x0A0A);
+	rl78core_cpu_gpr16_write(rl78core_gpr16_bc, 0x0A0A);
+	rl78core_cpu_gpr16_write(rl78core_gpr16_de, 0x0A0A);
+	rl78core_cpu_gpr16_write(rl78core_gpr16_hl, 0x0A0A);
 
-	ax_value = rl78core_cpu_read_gpr16(rl78core_gpr16_ax);
+	ax_value = rl78core_cpu_gpr16_read(rl78core_gpr16_ax);
 	utester_assert_equal(ax_value, 0x0A0A);
-	bc_value = rl78core_cpu_read_gpr16(rl78core_gpr16_bc);
+	bc_value = rl78core_cpu_gpr16_read(rl78core_gpr16_bc);
 	utester_assert_equal(bc_value, 0x0A0A);
-	de_value = rl78core_cpu_read_gpr16(rl78core_gpr16_de);
+	de_value = rl78core_cpu_gpr16_read(rl78core_gpr16_de);
 	utester_assert_equal(de_value, 0x0A0A);
-	hl_value = rl78core_cpu_read_gpr16(rl78core_gpr16_hl);
+	hl_value = rl78core_cpu_gpr16_read(rl78core_gpr16_hl);
 	utester_assert_equal(hl_value, 0x0A0A);
 }
 
