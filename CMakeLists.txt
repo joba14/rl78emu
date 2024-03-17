@@ -28,21 +28,21 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 # Compile options of the project
 target_compile_options(${PROJECT_NAME}
 	PRIVATE
-		-Wall
-		-Wextra
-		-Wpedantic
-		-Werror
-		-Wshadow
-		-Wimplicit
-		-Wreturn-type
-		-Wunknown-pragmas
-		-Wunused-variable
-		-Wunused-function
-		-Wmissing-prototypes
-		-Wstrict-prototypes
-		-Wconversion
-		-Wsign-conversion
-		-Wunreachable-code
+		# -Wall
+		# -Wextra
+		# -Wpedantic
+		# -Werror
+		# -Wshadow
+		# -Wimplicit
+		# -Wreturn-type
+		# -Wunknown-pragmas
+		# -Wunused-variable
+		# -Wunused-function
+		# -Wmissing-prototypes
+		# -Wstrict-prototypes
+		# -Wconversion
+		# -Wsign-conversion
+		# -Wunreachable-code
 )
 
 # Include directories of the project

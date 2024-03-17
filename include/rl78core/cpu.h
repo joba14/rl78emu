@@ -43,14 +43,6 @@
 #define rl78core_sfrs_count 0x100
 // todo: define all the sfrs here as offsets in their respective addressing ranges and functions to read and write.
 
-typedef struct
-{
-	uint20_t pc;
-	uint8_t x, a, c, b, e, d, l, h;
-	uint16_t ax, bc, de, hl;
-	uint8_t spl, sph, psw, cs, es, pmc, mem;
-} rl78core_cpu_stats_s;
-
 /**
  * @brief Initialize the cpu.
  */
@@ -86,131 +78,44 @@ uint20_t rl78core_cpu_pc_read(void) nodiscard;
 void rl78core_cpu_pc_write(const uint20_t value);
 
 /**
- * @brief Read the 8-bit value of provided general purpose register.
+ * @brief Get the absolute 20-bit address of a provided 8-bit general purpose
+ * register.
  * 
- * @param gpr08 offset of a 8-bit general purpose register in a bank
+ * @param gpr08 8-bit general purpose register
  * 
- * @return uint8_t value of the provided register
+ * @return uint20_t absolute address
  */
-uint8_t rl78core_cpu_gpr08_read(const uint8_t gpr08) nodiscard;
+uint20_t rl78core_cpu_gpr08_to_absolute_address(const uint8_t gpr08) nodiscard;
 
 /**
- * @brief Write the 8-bit value to provided general purpose register.
+ * @brief Get the absolute 20-bit address of a provided 16-bit general purpose
+ * register.
  * 
- * @param gpr08 offset of a 8-bit general purpose register in a bank
- * @param value value to write to the provided register
+ * @param gpr16 16-bit general purpose register
+ * 
+ * @return uint20_t absolute address
  */
-void rl78core_cpu_gpr08_write(const uint8_t gpr08, const uint8_t value);
+uint20_t rl78core_cpu_gpr16_to_absolute_address(const uint8_t gpr16) nodiscard;
 
 /**
- * @brief Read the 16-bit value of provided general purpose register.
+ * @brief Get the absolute 20-bit address of a provided 8-bit special function
+ * register.
  * 
- * @param gpr16 offset of a 16-bit general purpose register in a bank
+ * @param sfr08 8-bit special function register
  * 
- * @return uint16_t value of the provided register
+ * @return uint20_t absolute address
  */
-uint16_t rl78core_cpu_gpr16_read(const uint8_t gpr16) nodiscard;
+uint20_t rl78core_cpu_sfr08_to_absolute_address(const uint8_t sfr08) nodiscard;
 
 /**
- * @brief Write the 16-bit value of provided general purpose register.
+ * @brief Get the absolute 20-bit address of a provided 16-bit special function
+ * register.
  * 
- * @param gpr16 offset of a 16-bit general purpose register in a bank
- * @param value value to write to the provided register
+ * @param sfr16 16-bit special function register
+ * 
+ * @return uint20_t absolute address
  */
-void rl78core_cpu_gpr16_write(const uint8_t gpr16, const uint16_t value);
-
-/**
- * @brief Read the 8-bit value of provided special function register.
- * 
- * @param sfr08 offset of a 8-bit special function register
- * 
- * @return uint8_t value of the provided register
- */
-uint8_t rl78core_cpu_sfr08_read(const uint8_t sfr08) nodiscard;
-
-/**
- * @brief Write the 8-bit value to provided special function register.
- * 
- * @param sfr08 offset of a 8-bit special function register
- * @param value value to write to the provided register
- */
-void rl78core_cpu_sfr08_write(const uint8_t sfr08, const uint8_t value);
-
-/**
- * @brief Read the 16-bit value of provided special function register.
- * 
- * @param sfr16 offset of a 16-bit special function register
- * 
- * @return uint16_t value of the provided register
- */
-uint16_t rl78core_cpu_sfr16_read(const uint8_t sfr16) nodiscard;
-
-/**
- * @brief Write the 16-bit value of provided special function register.
- * 
- * @param sfr16 offset of a 16-bit special function register
- * @param value value to write to the provided register
- */
-void rl78core_cpu_sfr16_write(const uint8_t sfr16, const uint16_t value);
-
-// todo: define and implement addressing API for the cpu.
-//       use this reference - https://llvm-gcc-renesas.com/pdf/r01us0015ej0220_rl78.pdf
-//       every single addressing function (read/write) must have documented corner cases
-//       for support ed functions, exceptions, etc.
-//       these functions must be used in the unit tests - none rl78core_mem_* functions
-//       should be used in instructions tests.
-// rework:
-// [
-	// ... 
-// ]
-// note:
-//       this will include the rework of the functions in the commented scope below:
-// [
-	/**
-	* @brief Read the 8-bit value from provided short direct address.
-	* 
-	* @param saddr short direct address
-	* 
-	* @return uint8_t value from the provided address
-	*/
-	uint8_t rl78core_cpu_read_saddr(const uint8_t saddr) nodiscard;
-
-	/**
-	* @brief Write the 8-bit value to provided short direct address.
-	* 
-	* @param saddr short direct address
-	* @param value value to write to the provided address
-	*/
-	void rl78core_cpu_write_saddr(const uint8_t saddr, const uint8_t value);
-
-	/**
-	* @brief Read the 8-bit value from provided direct address.
-	* 
-	* @param addrl lower 8-bits of the 16 bit direct address
-	* @param addrh higher 8-bits of the 16 bit direct address
-	* 
-	* @return uint8_t value from the provided address
-	*/
-	uint8_t rl78core_cpu_read_daddr(const uint8_t addrl, const uint8_t addrh) nodiscard;
-
-	/**
-	* @brief Write the 8-bit value to provided direct address.
-	* 
-	* @param addrl lower 8-bits of the 16 bit direct address
-	* @param addrh higher 8-bits of the 16 bit direct address
-	* @param value value to write to the provided address
-	*/
-	void rl78core_cpu_write_daddr(const uint8_t addrl, const uint8_t addrh, const uint8_t value);
-// ]
-
-#ifndef NDEBUG
-/**
- * @brief Get the statistics of the cpu.
- * 
- * @param stats cpu statistics
- */
-void rl78core_cpu_get_stats(rl78core_cpu_stats_s* const stats);
-#endif
+uint20_t rl78core_cpu_sfr16_to_absolute_address(const uint8_t sfr16) nodiscard;
 
 /**
  * @brief Process a single tick with the cpu.

@@ -16,15 +16,6 @@
 #include "rl78core/mem.h"
 #include "rl78core/cpu.h"
 
-/**
- * note: regarding the instruction formats:
- * https://llvm-gcc-renesas.com/pdf/r01us0015ej0220_rl78.pdf @ 92 page.
- */
-
-// todo: define an enum or defines - it is near impossible to safely test and
-//       implement new instructions using hex literals as the ids for the
-//       instructions.
-
 typedef struct
 {
 	#define rl78core_inst_max_size 5
@@ -32,16 +23,142 @@ typedef struct
 	bool_t  fetched;
 } rl78core_fetch_s;
 
+typedef enum
+{
+	rl78core_inst_mov,
+	rl78core_inst_xch,
+	rl78core_inst_oneb,
+	rl78core_inst_clrb,
+	rl78core_inst_movs,
+
+	rl78core_inst_movw,
+	rl78core_inst_xchw,
+	rl78core_inst_onew,
+	rl78core_inst_clrw,
+
+	rl78core_inst_add,
+	rl78core_inst_addc,
+	rl78core_inst_sub,
+	rl78core_inst_subc,
+	rl78core_inst_and,
+	rl78core_inst_or,
+	rl78core_inst_xor,
+	rl78core_inst_cmp,
+	rl78core_inst_cmp0,
+	rl78core_inst_cmps,
+
+	rl78core_inst_addw,
+	rl78core_inst_subw,
+	rl78core_inst_cmpw,
+
+	rl78core_inst_mulu,
+	rl78core_inst_mulhu,
+	rl78core_inst_mulh,
+	rl78core_inst_divhu,
+	rl78core_inst_divwu,
+	rl78core_inst_machu,
+	rl78core_inst_mach,
+
+	rl78core_inst_inc,
+	rl78core_inst_dec,
+	rl78core_inst_incw,
+	rl78core_inst_decw,
+
+	rl78core_inst_shr,
+	rl78core_inst_shrw,
+	rl78core_inst_shl,
+	rl78core_inst_shlw,
+	rl78core_inst_sar,
+	rl78core_inst_sarw,
+
+	rl78core_inst_ror,
+	rl78core_inst_rol,
+	rl78core_inst_rorc,
+	rl78core_inst_rolc,
+	rl78core_inst_rolwc,
+
+	rl78core_inst_mov1,
+	rl78core_inst_and1,
+	rl78core_inst_or1,
+	rl78core_inst_xor1,
+	rl78core_inst_set1,
+	rl78core_inst_clr1,
+	rl78core_inst_not1,
+
+	rl78core_inst_call,
+	rl78core_inst_callt,
+	rl78core_inst_brk,
+	rl78core_inst_ret,
+	rl78core_inst_reti,
+	rl78core_inst_retb,
+
+	rl78core_inst_push,
+	rl78core_inst_pop,
+	rl78core_inst_movw_sp_src,
+	rl78core_inst_movw_rp_sp,
+	rl78core_inst_addw_sp_byte,
+	rl78core_inst_subw_sp_byte,
+
+	rl78core_inst_br,
+
+	rl78core_inst_bc,
+	rl78core_inst_bnc,
+	rl78core_inst_bz,
+	rl78core_inst_bnz,
+	rl78core_inst_bh,
+	rl78core_inst_bnh,
+	rl78core_inst_bt,
+	rl78core_inst_bf,
+	rl78core_inst_btclr,
+
+	rl78core_inst_skc,
+	rl78core_inst_sknc,
+	rl78core_inst_skz,
+	rl78core_inst_sknz,
+	rl78core_inst_skh,
+	rl78core_inst_sknh,
+
+	rl78core_inst_sel_rbn,
+	rl78core_inst_nop,
+	rl78core_inst_ei,
+	rl78core_inst_di,
+	rl78core_inst_halt,
+	rl78core_inst_stop,
+} rl78core_inst_e;
+
 typedef struct
 {
-	uint64_t opcode;
-	uint8_t  cycles;
-	uint8_t  length;
-	bool_t   decoded;
+	rl78core_inst_e type;
+	uint8_t cycles;
+	uint8_t length;
+	bool_t  decoded;
 
-	uint20_t address;
-	uint8_t  data;
+	union
+	{
+		struct
+		{
+			uint20_t address;
+			uint8_t  data;
+		} mov;
+	};
 } rl78core_inst_s;
+
+#define inst_cycles(_amount) _amount
+#define inst_length(_amount) _amount
+
+#define rl78core_inst_mov_create(_cycles, _length, _address, _data)            \
+	(const rl78core_inst_s)                                                    \
+	{                                                                          \
+		.type    = rl78core_inst_mov,                                          \
+		.cycles  = (_cycles),                                                  \
+		.length  = (_length),                                                  \
+		.decoded = false,                                                      \
+		.mov =                                                                 \
+		{                                                                      \
+			.address = (_address),                                             \
+			.data    = (_data),                                                \
+		}                                                                      \
+	}
 
 typedef struct
 {
@@ -52,47 +169,6 @@ typedef struct
 } rl78core_cpu_s;
 
 static rl78core_cpu_s g_rl78core_cpu;
-
-/**
- * @brief Convert general purpose register in the range of [0xFFEE0; 0xFFF00)
- * into an absolute address in range of [0x00000; 0x100000).
- * 
- * @param offset general purpose register offset in registers bank
- * 
- * @return uint20_t absolute address
- */
-static uint20_t general_purpose_register_to_absolute_address(const uint8_t offset) nodiscard;
-
-/**
- * @brief Convert special function register in the range of [0xFFF00; 0x100000)
- * into an absolute address in range of [0x00000; 0x100000).
- * 
- * @param address relative special function register address
- * 
- * @return uint20_t absolute address
- */
-static uint20_t special_function_register_to_absolute_address(const uint8_t address) nodiscard;
-
-/**
- * @brief Convert short direct address in the range of [0xFFE20; 0xFFF20) into
- * an absolute address in range of [0x00000; 0x100000).
- * 
- * @param address relative short address
- * 
- * @return uint20_t absolute address
- */
-static uint20_t short_direct_address_to_absolute_address(const uint8_t address) nodiscard;
-
-/**
- * @brief Convert direct address in the range of [0x00000; 0x100000) into an
- * absolute address in range of [0x00000; 0x100000).
- * 
- * @param address_low  lower 8 bits of the direct address
- * @param address_high higher 8 bits of the direct address
- * 
- * @return uint20_t absolute address
- */
-static uint20_t direct_address_to_absolute_address(const uint8_t address_low, const uint8_t address_high) nodiscard;
 
 /**
  * @brief Fetch instruction from the flash (5 bytes).
@@ -147,176 +223,20 @@ uint20_t rl78core_cpu_pc_read(void)
 
 void rl78core_cpu_pc_write(const uint20_t value)
 {
+	rl78misc_debug_assert(value < 0x000FFFFF);
 	g_rl78core_cpu.pc = value;
 }
 
-uint8_t rl78core_cpu_gpr08_read(const uint8_t gpr08)
+uint20_t rl78core_cpu_gpr08_to_absolute_address(const uint8_t gpr08)
 {
 	rl78misc_debug_assert(gpr08 < rl78core_gprs_count);
-	const uint20_t address = general_purpose_register_to_absolute_address(gpr08);
-	return rl78core_mem_read_u08(address);
-}
-
-void rl78core_cpu_gpr08_write(const uint8_t gpr08, const uint8_t value)
-{
-	rl78misc_debug_assert(gpr08 < rl78core_gprs_count);
-	const uint20_t address = general_purpose_register_to_absolute_address(gpr08);
-	rl78core_mem_write_u08(address, value);
-	// todo: handle flags if needed!
-}
-
-uint16_t rl78core_cpu_gpr16_read(const uint8_t gpr16)
-{
-	rl78misc_debug_assert(0 == (gpr16 % 2));
-	rl78misc_debug_assert(gpr16 < rl78core_gprs_count);
-	const uint20_t address = general_purpose_register_to_absolute_address(gpr16);
-	return rl78core_mem_read_u16(address);
-}
-
-void rl78core_cpu_gpr16_write(const uint8_t gpr16, const uint16_t value)
-{
-	rl78misc_debug_assert(0 == (gpr16 % 2));
-	rl78misc_debug_assert(gpr16 < rl78core_gprs_count);
-	const uint20_t address = general_purpose_register_to_absolute_address(gpr16);
-	rl78core_mem_write_u16(address, value);
-	// todo: handle flags if needed!
-}
-
-uint8_t rl78core_cpu_sfr08_read(const uint8_t sfr08)
-{
-	// note: do not need to assert the sfr08 bounds as there are 256 sfrs.
-	const uint20_t address = special_function_register_to_absolute_address(sfr08);
-	return rl78core_mem_read_u08(address);
-}
-
-void rl78core_cpu_sfr08_write(const uint8_t sfr08, const uint8_t value)
-{
-	// note: do not need to assert the sfr08 bounds as there are 256 sfrs.
-	const uint20_t address = special_function_register_to_absolute_address(sfr08);
-	rl78core_mem_write_u08(address, value);
-	// todo: handle flags if needed!
-}
-
-uint16_t rl78core_cpu_sfr16_read(const uint8_t sfr16)
-{
-	rl78misc_debug_assert(0 == (sfr16 % 2));
-	// note: do not need to assert the sfr08 bounds as there are 256 sfrs.
-	const uint20_t address = special_function_register_to_absolute_address(sfr16);
-	return rl78core_mem_read_u16(address);
-}
-
-void rl78core_cpu_sfr16_write(const uint8_t sfr16, const uint16_t value)
-{
-	rl78misc_debug_assert(0 == (sfr16 % 2));
-	// note: do not need to assert the sfr08 bounds as there are 256 sfrs.
-	const uint20_t address = special_function_register_to_absolute_address(sfr16);
-	rl78core_mem_write_u16(address, value);
-	// todo: handle flags if needed!
-}
-
-uint8_t rl78core_cpu_read_saddr(const uint8_t saddr)
-{
-	// note: do not need to assert the saddr bounds as there are 256 saddrs.
-	const uint20_t address = short_direct_address_to_absolute_address(saddr);
-	return rl78core_mem_read_u08(address);
-}
-
-void rl78core_cpu_write_saddr(const uint8_t saddr, const uint8_t value)
-{
-	// note: do not need to assert the saddr bounds as there are 256 saddrs.
-	const uint20_t address = short_direct_address_to_absolute_address(saddr);
-	rl78core_mem_write_u08(address, value);
-}
-
-uint8_t rl78core_cpu_read_daddr(const uint8_t addrl, const uint8_t addrh)
-{
-	const uint20_t address = direct_address_to_absolute_address(addrl, addrh);
-	return rl78core_mem_read_u08(address);
-}
-
-void rl78core_cpu_write_daddr(const uint8_t addrl, const uint8_t addrh, const uint8_t value)
-{
-	const uint20_t address = direct_address_to_absolute_address(addrl, addrh);
-	rl78core_mem_write_u08(address, value);
-}
-
-#ifndef NDEBUG
-void rl78core_cpu_get_stats(rl78core_cpu_stats_s* const stats)
-{
-	rl78misc_debug_assert(stats != NULL);
-
-	stats->pc = rl78core_cpu_pc_read();
-
-	stats->x  = rl78core_cpu_gpr08_read(rl78core_gpr08_x);
-	stats->a  = rl78core_cpu_gpr08_read(rl78core_gpr08_a);
-	stats->c  = rl78core_cpu_gpr08_read(rl78core_gpr08_c);
-	stats->b  = rl78core_cpu_gpr08_read(rl78core_gpr08_b);
-	stats->e  = rl78core_cpu_gpr08_read(rl78core_gpr08_e);
-	stats->d  = rl78core_cpu_gpr08_read(rl78core_gpr08_d);
-	stats->l  = rl78core_cpu_gpr08_read(rl78core_gpr08_l);
-	stats->h  = rl78core_cpu_gpr08_read(rl78core_gpr08_h);
-	stats->ax = rl78core_cpu_gpr16_read(rl78core_gpr16_ax);
-	stats->bc = rl78core_cpu_gpr16_read(rl78core_gpr16_bc);
-	stats->de = rl78core_cpu_gpr16_read(rl78core_gpr16_de);
-	stats->hl = rl78core_cpu_gpr16_read(rl78core_gpr16_hl);
-
-	stats->spl = rl78core_cpu_sfr08_read(rl78core_sfr08_spl);
-	stats->sph = rl78core_cpu_sfr08_read(rl78core_sfr08_sph);
-	stats->psw = rl78core_cpu_sfr08_read(rl78core_sfr08_psw);
-	stats->cs  = rl78core_cpu_sfr08_read(rl78core_sfr08_cs);
-	stats->es  = rl78core_cpu_sfr08_read(rl78core_sfr08_es);
-	stats->pmc = rl78core_cpu_sfr08_read(rl78core_sfr08_pmc);
-	stats->mem = rl78core_cpu_sfr08_read(rl78core_sfr08_mem);
-}
-#endif
-
-void rl78core_cpu_tick(void)
-{
-	if (g_rl78core_cpu.halted)
-	{
-		return;
-	} 
-	
-	// note: emulating the cycles ~~~v~~~~~~~~
-	if (g_rl78core_cpu.inst.cycles > 1)
-	{
-		--(g_rl78core_cpu.inst.cycles);
-		return;
-	}
-
-	// 1. MEM (memory access): Decoded instruction is executed and memory at target address is accessed.
-	if (g_rl78core_cpu.halted)
-	{
-		return;
-	}
-
-	execute_instruction();
-
-	// 2, ID (instruction decode): Instruction is decoded and address is calculated.
-	if (g_rl78core_cpu.halted)
-	{
-		return;
-	}
-
-	decode_instruction();
-
-	// 3. IF (instruction fetch): Instruction is fetched and fetch pointer is incremented.
-	if (g_rl78core_cpu.halted)
-	{
-		return;
-	}
-
-	fetch_instruction();
-}
-
-static uint20_t general_purpose_register_to_absolute_address(const uint8_t offset)
-{
 	const uint8_t  general_purpose_register_count_per_bank = 8;
 	const uint20_t general_purpose_register_start = 0xFFEE0;
 	const uint8_t  general_purpose_register_length = 0x20;
 
-	rl78misc_debug_assert(offset < general_purpose_register_count_per_bank);
-	const uint8_t psw_value = rl78core_cpu_sfr08_read(rl78core_sfr08_psw);
+	rl78misc_debug_assert(gpr08 < general_purpose_register_count_per_bank);
+	const uint20_t psw_absolute_address = rl78core_cpu_sfr08_to_absolute_address(rl78core_sfr08_psw);
+	const uint8_t psw_value = rl78core_mem_read_u08(psw_absolute_address);
 	// +----+---+------+----+------+------+------+----+      +------+------+
 	// | IE | Z | RBS1 | AC | RBS0 | ISP1 | ISP0 | CY |  ->  | RBS1 | RBS0 |
 	// +----+---+------+----+------+------+------+----+      +------+------+
@@ -326,7 +246,7 @@ static uint20_t general_purpose_register_to_absolute_address(const uint8_t offse
 	);
 
 	const uint8_t address = (const uint8_t)(
-		(const uint8_t)(current_gpr_bank * general_purpose_register_count_per_bank) + offset
+		(const uint8_t)(current_gpr_bank * general_purpose_register_count_per_bank) + gpr08
 	);
 
 	rl78misc_debug_assert((general_purpose_register_start + address) <
@@ -337,45 +257,52 @@ static uint20_t general_purpose_register_to_absolute_address(const uint8_t offse
 	return absolute_address;
 }
 
-static uint20_t special_function_register_to_absolute_address(const uint8_t address)
+uint20_t rl78core_cpu_gpr16_to_absolute_address(const uint8_t gpr16)
 {
+	rl78misc_debug_assert(0 == (gpr16 % 2));
+	return rl78core_cpu_gpr08_to_absolute_address(gpr16);
+}
+
+uint20_t rl78core_cpu_sfr08_to_absolute_address(const uint8_t sfr08)
+{
+	// note: do not need to assert the sfr08 bounds as there are 256 sfrs.
 	const uint20_t special_function_register_start = 0xFFF00;
 	const uint16_t special_function_register_length = 0x100;
 
-	rl78misc_debug_assert((special_function_register_start + address) <
+	rl78misc_debug_assert((special_function_register_start + sfr08) <
 		(special_function_register_start + special_function_register_length)
 	);
 
-	const uint20_t absolute_address = special_function_register_start + address;
+	const uint20_t absolute_address = special_function_register_start + sfr08;
 	return absolute_address;
 }
 
-static uint20_t short_direct_address_to_absolute_address(const uint8_t address)
+uint20_t rl78core_cpu_sfr16_to_absolute_address(const uint8_t sfr16)
 {
-	const uint20_t short_direct_addressing_start = 0xFFE20;
-	const uint16_t short_direct_addressing_length = 0x100;
-
-	rl78misc_debug_assert((short_direct_addressing_start + address) <
-		(short_direct_addressing_start + short_direct_addressing_length)
-	);
-
-	const uint20_t absolute_address = short_direct_addressing_start + address;
-	return absolute_address;
+	// note: do not need to assert the sfr08 bounds as there are 256 sfrs.
+	rl78misc_debug_assert(0 == (sfr16 % 2));
+	return rl78core_cpu_sfr08_to_absolute_address(sfr16);
 }
 
-static uint20_t direct_address_to_absolute_address(const uint8_t address_low, const uint8_t address_high)
+void rl78core_cpu_tick(void)
 {
-	const uint8_t es_value = rl78core_cpu_sfr08_read(rl78core_sfr08_es);
-	// +---+---+---+---+-----+-----+-----+-----+      +-----+-----+-----+-----+
-	// | 0 | 0 | 0 | 0 | ES3 | ES2 | ES1 | ES0 |  ->  | ES3 | ES2 | ES1 | ES0 |
-	// +---+---+---+---+-----+-----+-----+-----+      +-----+-----+-----+-----+
-	const uint20_t absolute_address = (const uint20_t)(
-		(const uint20_t)(address_low & 0xFF) |
-		(const uint20_t)((const uint20_t)(address_high & 0xFF) << 8) |
-		(const uint20_t)((const uint20_t)(es_value & 0x0F) << 16)
-	);
+	if (g_rl78core_cpu.halted) { return; }
 
-	return absolute_address;
+	// note: emulating the cycles ~v~~~
+	if (g_rl78core_cpu.inst.cycles > 1)
+	{
+		--(g_rl78core_cpu.inst.cycles);
+		return;
+	}
+
+	if (g_rl78core_cpu.halted) { return; }
+	execute_instruction();
+
+	if (g_rl78core_cpu.halted) { return; }
+	decode_instruction();
+
+	if (g_rl78core_cpu.halted) { return; }
+	fetch_instruction();
 }
 
 static void fetch_instruction(void)
@@ -385,7 +312,9 @@ static void fetch_instruction(void)
 	for (uint8_t index = 0; index < rl78core_inst_max_size; ++index)
 	{
 		// todo: handle the out of bounds event - reset?
-		g_rl78core_cpu.fetch.buffer[index] = rl78core_mem_read_u08(g_rl78core_cpu.pc++);
+		const uint20_t pc = rl78core_cpu_pc_read();
+		g_rl78core_cpu.fetch.buffer[index] = rl78core_mem_read_u08(pc);
+		rl78core_cpu_pc_write(pc + 1);
 	}
 
 	g_rl78core_cpu.fetch.fetched = true;
@@ -399,415 +328,88 @@ static void decode_instruction(void)
 		return;
 	}
 
-	const uint8_t first_byte  = g_rl78core_cpu.fetch.buffer[0];
-	const uint8_t second_byte = g_rl78core_cpu.fetch.buffer[1];
-	const uint8_t third_byte  = g_rl78core_cpu.fetch.buffer[2];
-	const uint8_t fourth_byte = g_rl78core_cpu.fetch.buffer[3];
+	const uint8_t first_byte  = g_rl78core_cpu.fetch.buffer[0]; (void)first_byte;
+	const uint8_t second_byte = g_rl78core_cpu.fetch.buffer[1]; (void)second_byte;
+	const uint8_t third_byte  = g_rl78core_cpu.fetch.buffer[2]; (void)third_byte;
+	const uint8_t fourth_byte = g_rl78core_cpu.fetch.buffer[3]; (void)fourth_byte;
+	const uint8_t fifth_byte  = g_rl78core_cpu.fetch.buffer[4]; (void)fifth_byte;
 
 	switch (first_byte)
 	{
-		case 0x50:  // MOV X, #byte
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode = first_byte,
-				.data   = second_byte,
-				.length = 2,
-				.cycles = 1,
-			};
-		} break;
+		case 0x50: { g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(1), inst_length(2), rl78core_cpu_gpr08_to_absolute_address(rl78core_gpr08_x), second_byte); } break;  // MOV X, #byte
+		case 0x51: { g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(1), inst_length(2), rl78core_cpu_gpr08_to_absolute_address(rl78core_gpr08_a), second_byte); } break;  // MOV A, #byte
+		case 0x52: { g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(1), inst_length(2), rl78core_cpu_gpr08_to_absolute_address(rl78core_gpr08_c), second_byte); } break;  // MOV C, #byte
+		case 0x53: { g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(1), inst_length(2), rl78core_cpu_gpr08_to_absolute_address(rl78core_gpr08_b), second_byte); } break;  // MOV B, #byte
+		case 0x54: { g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(1), inst_length(2), rl78core_cpu_gpr08_to_absolute_address(rl78core_gpr08_e), second_byte); } break;  // MOV E, #byte
+		case 0x55: { g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(1), inst_length(2), rl78core_cpu_gpr08_to_absolute_address(rl78core_gpr08_d), second_byte); } break;  // MOV D, #byte
+		case 0x56: { g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(1), inst_length(2), rl78core_cpu_gpr08_to_absolute_address(rl78core_gpr08_l), second_byte); } break;  // MOV L, #byte
+		case 0x57: { g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(1), inst_length(2), rl78core_cpu_gpr08_to_absolute_address(rl78core_gpr08_h), second_byte); } break;  // MOV H, #byte
 
-		case 0x51:  // MOV A, #byte
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode = first_byte,
-				.data   = second_byte,
-				.length = 2,
-				.cycles = 1,
-			};
-		} break;
-
-		case 0x52:  // MOV C, #byte
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode = first_byte,
-				.data   = second_byte,
-				.length = 2,
-				.cycles = 1,
-			};
-		} break;
-
-		case 0x53:  // MOV B, #byte
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode = first_byte,
-				.data   = second_byte,
-				.length = 2,
-				.cycles = 1,
-			};
-		} break;
-
-		case 0x54:  // MOV E, #byte
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode = first_byte,
-				.data   = second_byte,
-				.length = 2,
-				.cycles = 1,
-			};
-		} break;
-
-		case 0x55:  // MOV D, #byte
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode = first_byte,
-				.data   = second_byte,
-				.length = 2,
-				.cycles = 1,
-			};
-		} break;
-
-		case 0x56:  // MOV L, #byte
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode = first_byte,
-				.data   = second_byte,
-				.length = 2,
-				.cycles = 1,
-			};
-		} break;
-
-		case 0x57:  // MOV H, #byte
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode = first_byte,
-				.data   = second_byte,
-				.length = 2,
-				.cycles = 1,
-			};
-		} break;
-
-		case 0xCD:  // MOV saddr, #byte
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.address = short_direct_address_to_absolute_address(second_byte),
-				.data    = third_byte,
-				.length  = 3,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0xCE:  // MOV sfr, #byte
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.address = special_function_register_to_absolute_address(second_byte),
-				.data    = third_byte,
-				.length  = 3,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0xCF:  // MOV !addr16, #byte
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.address = direct_address_to_absolute_address(second_byte, third_byte),
-				.data    = fourth_byte,
-				.length  = 4,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x60:  // MOV A, X
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x62:  // MOV A, C
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x63:  // MOV A, B
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x64:  // MOV A, E
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x65:  // MOV A, D
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x66:  // MOV A, L
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x67:  // MOV A, H
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x70:  // MOV X, A
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x72:  // MOV C, A
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x73:  // MOV B, A
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x74:  // MOV E, A
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x75:  // MOV D, A
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x76:  // MOV L, A
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x77:  // MOV H, A
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.length  = 1,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x8D:  // MOV A, saddr
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.address = short_direct_address_to_absolute_address(second_byte),
-				.length  = 2,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x9D:  // MOV saddr, A
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.address = short_direct_address_to_absolute_address(second_byte),
-				.length  = 2,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x8E:  // MOV A, sfr
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.address = special_function_register_to_absolute_address(second_byte),
-				.length  = 2,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x9E:  // MOV sfr, A
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.address = special_function_register_to_absolute_address(second_byte),
-				.length  = 2,
-				.cycles  = 1,
-			};
-		} break;
-
-		case 0x41:  // MOV ES, #byte
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.data = second_byte,
-				.length  = 2,
-				.cycles  = 1,  // todo: set the actual value!
-			};
-		} break;
-
-		case 0x8F:  // MOV A, !addr16
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.address = direct_address_to_absolute_address(second_byte, third_byte),
-				.length  = 3,
-				.cycles  = 1,  // todo: set the actual value!
-			};
-		} break;
-
-		case 0x9F:  // MOV !addr16, A
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode  = first_byte,
-				.address = direct_address_to_absolute_address(second_byte, third_byte),
-				.length  = 3,
-				.cycles  = 1,  // todo: set the actual value!
-			};
-		} break;
-
-		case 0x00:  // NOP
-		{
-			g_rl78core_cpu.inst = (const rl78core_inst_s)
-			{
-				.opcode = first_byte,
-				.length = 1,
-				.cycles = 1,
-			};
-		} break;
-
-		case 0x61:  // MOV ES, saddr/HALT/STOP
+		case 0xCE:  // MOV PSW, #byte/MOV CS, #byte/MOV sfr, #byte
 		{
 			switch (second_byte)
 			{
-				case 0xB8:  // MOV ES, saddr
-				{
-					g_rl78core_cpu.inst = (const rl78core_inst_s)
-					{
-						.opcode = (uint16_t)(first_byte | (uint16_t)(second_byte << 8)),
-						.address = short_direct_address_to_absolute_address(third_byte),
-						.length = 3,
-						.cycles = 1,
-					};
-				} break;
-
-				case 0xED:  // HALT
-				{
-					g_rl78core_cpu.inst = (const rl78core_inst_s)
-					{
-						.opcode = (uint16_t)(first_byte | (uint16_t)(second_byte << 8)),
-						.length = 2,
-						.cycles = 3,
-					};
-				} break;
-
-				case 0xFD:  // STOP
-				{
-					g_rl78core_cpu.inst = (const rl78core_inst_s)
-					{
-						.opcode = (uint16_t)(first_byte | (uint16_t)(second_byte << 8)),
-						.length = 2,
-						.cycles = 3,
-					};
-				} break;
+				case 0xFA: { g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(3), inst_length(3), rl78core_cpu_sfr08_to_absolute_address(rl78core_sfr08_psw), third_byte); } break;  // MOV PSW, #byte
+				case 0xFC: { g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(1), inst_length(3), rl78core_cpu_sfr08_to_absolute_address(rl78core_sfr08_cs ), third_byte); } break;  // MOV CS,  #byte
 
 				default:
 				{
-					rl78core_cpu_reset();
-					return;
-				} break;
+					const uint20_t absolute_address = rl78core_cpu_sfr08_to_absolute_address(second_byte);
+					g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(1), inst_length(3), absolute_address, third_byte);
+				} break;  // MOV sfr, #byte
 			}
 		} break;
 
+		case 0x41: { g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(1), inst_length(2), rl78core_cpu_sfr08_to_absolute_address(rl78core_sfr08_es), second_byte); } break;  // MOV ES, #byte
+
+		case 0xCF:
+		{
+			const uint20_t absolute_address = (const uint20_t)(0xF0000 | (const uint20_t)(second_byte | (const uint20_t)(third_byte << 8)));
+			g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(1), inst_length(4), absolute_address, fourth_byte);
+		} break;  // MOV !addr16, #byte
+
+		case 0x11:
+		{
+			switch (second_byte)
+			{
+				case 0xCF:
+				{
+					const uint8_t es = rl78core_mem_read_u08(rl78core_cpu_sfr08_to_absolute_address(rl78core_sfr08_es));
+					const uint20_t absolute_address = (const uint20_t)((const uint20_t)(es << 16) | (const uint20_t)(third_byte | (const uint20_t)(fourth_byte << 8)));
+					g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(2), inst_length(5), absolute_address, fifth_byte);
+				} break;  // MOV ES:!addr16, #byte
+
+				default:
+				{
+					// note: uncomment?
+					// rl78core_cpu_reset();
+					// return;
+					g_rl78core_cpu.inst.decoded = false;
+					return;
+				} break;
+			}
+		} break;  // MOV !addr16, #byte
+
+		case 0xCD:
+		{
+			const uint20_t absolute_address = 0xFFE20 + (const uint20_t)(second_byte);
+			g_rl78core_cpu.inst = rl78core_inst_mov_create(inst_cycles(1), inst_length(3), absolute_address, third_byte);
+		} break;  // MOV saddr, #byte
+
 		default:
 		{
-			rl78core_cpu_reset();
+			// note: uncomment?
+			// rl78core_cpu_reset();
+			// return;
+			g_rl78core_cpu.inst.decoded = false;
 			return;
 		} break;
 	}
 
-	g_rl78core_cpu.pc -= (const uint20_t)(rl78core_inst_max_size - g_rl78core_cpu.inst.length);
+	const uint20_t pc = rl78core_cpu_pc_read();
+	rl78misc_debug_assert(rl78core_inst_max_size >= g_rl78core_cpu.inst.length);
+	const uint8_t offset = (const uint8_t)(rl78core_inst_max_size - g_rl78core_cpu.inst.length);
+	rl78core_cpu_pc_write(pc - offset);
 	g_rl78core_cpu.inst.decoded = true;
 }
 
@@ -818,191 +420,14 @@ static void execute_instruction(void)
 		return;
 	}
 
-	switch (g_rl78core_cpu.inst.opcode)
+	switch (g_rl78core_cpu.inst.type)
 	{
-		case 0x50:  // MOV X, #byte
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_x, g_rl78core_cpu.inst.data);
-		} break;
-
-		case 0x51:  // MOV A, #byte
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_a, g_rl78core_cpu.inst.data);
-		} break;
-
-		case 0x52:  // MOV C, #byte
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_c, g_rl78core_cpu.inst.data);
-		} break;
-
-		case 0x53:  // MOV B, #byte
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_b, g_rl78core_cpu.inst.data);
-		} break;
-
-		case 0x54:  // MOV E, #byte
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_e, g_rl78core_cpu.inst.data);
-		} break;
-
-		case 0x55:  // MOV D, #byte
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_d, g_rl78core_cpu.inst.data);
-		} break;
-
-		case 0x56:  // MOV L, #byte
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_l, g_rl78core_cpu.inst.data);
-		} break;
-
-		case 0x57:  // MOV H, #byte
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_h, g_rl78core_cpu.inst.data);
-		} break;
-
-		case 0xCD:  // MOV saddr, #byte
-		{
-			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, g_rl78core_cpu.inst.data);
-		} break;
-
-		case 0xCE:  // MOV sfr, #byte
-		{
-			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, g_rl78core_cpu.inst.data);
-		} break;
-
-		case 0xCF:  // MOV !addr16, #byte
-		{
-			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, g_rl78core_cpu.inst.data);
-		} break;
-
-		case 0x60:  // MOV A, X
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_x));
-		} break;
-
-		case 0x62:  // MOV A, C
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_c));
-		} break;
-
-		case 0x63:  // MOV A, B
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_b));
-		} break;
-
-		case 0x64:  // MOV A, E
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_e));
-		} break;
-
-		case 0x65:  // MOV A, D
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_d));
-		} break;
-
-		case 0x66:  // MOV A, L
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_l));
-		} break;
-
-		case 0x67:  // MOV A, H
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_cpu_gpr08_read(rl78core_gpr08_h));
-		} break;
-
-		case 0x70:  // MOV X, A
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_x, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
-		} break;
-
-		case 0x72:  // MOV C, A
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_c, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
-		} break;
-
-		case 0x73:  // MOV B, A
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_b, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
-		} break;
-
-		case 0x74:  // MOV E, A
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_e, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
-		} break;
-
-		case 0x75:  // MOV D, A
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_d, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
-		} break;
-
-		case 0x76:  // MOV L, A
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_l, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
-		} break;
-
-		case 0x77:  // MOV H, A
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_h, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
-		} break;
-
-		case 0x8D:  // MOV A, saddr
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
-		} break;
-
-		case 0x9D:  // MOV saddr, A
-		{
-			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
-		} break;
-
-		case 0x8E:  // MOV A, sfr
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
-		} break;
-
-		case 0x9E:  // MOV sfr, A
-		{
-			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
-		} break;
-
-		case 0x41:  // MOV ES, #byte
-		{
-			rl78core_cpu_sfr08_write(rl78core_sfr08_es, g_rl78core_cpu.inst.data);
-		} break;
-
-		case 0xB861:  // MOV ES, saddr
-		{
-			rl78core_cpu_sfr08_write(rl78core_sfr08_es, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
-		} break;
-
-		case 0x8F:  // MOV A, !addr16
-		{
-			rl78core_cpu_gpr08_write(rl78core_gpr08_a, rl78core_mem_read_u08(g_rl78core_cpu.inst.address));
-		} break;
-
-		case 0x9F:  // MOV !addr16, A
-		{
-			rl78core_mem_write_u08(g_rl78core_cpu.inst.address, rl78core_cpu_gpr08_read(rl78core_gpr08_a));
-		} break;
-
-		case 0x00:  // NOP
-		{
-		} break;
-
-		case 0xED61:  // HALT
-		{
-			rl78core_cpu_halt();
-		} break;
-
-		case 0xFD61:  // STOP
-		{
-			rl78misc_debug_assert(!"0xFD61 (STOP) is not implemented yet!");
-			// todo: implement!
-		} break;
+		case rl78core_inst_mov: { rl78core_mem_write_u08(g_rl78core_cpu.inst.mov.address, g_rl78core_cpu.inst.mov.data); } break;
 
 		default:
 		{
 			rl78core_cpu_reset();
+			return;
 		} break;
 	}
 }

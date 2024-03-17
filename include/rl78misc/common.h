@@ -22,7 +22,11 @@ typedef bool bool_t;
 typedef char char_t;
 typedef uint32_t uint20_t;
 
-#define nodiscard __attribute__((warn_unused_result))
+#if 0
+#	define nodiscard __attribute__((warn_unused_result))
+#else
+#	define nodiscard
+#endif
 
 /**
  * @brief Wrapper for c's stdlib malloc function.

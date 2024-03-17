@@ -21,7 +21,12 @@
  * @param format format of the log
  * @param ...    arguments of the log
  */
-void rl78misc_logger_log(const char_t* const format, ...) __attribute__ ((format (printf, 1, 2)));
+void rl78misc_logger_log(const char_t* const format, ...)
+#ifndef _WIN32
+	__attribute__ ((format (printf, 1, 2)));
+#else
+	;
+#endif
 
 /**
  * @brief Log info level formattable messages.
@@ -29,7 +34,12 @@ void rl78misc_logger_log(const char_t* const format, ...) __attribute__ ((format
  * @param format format of the log
  * @param ...    arguments of the log
  */
-void rl78misc_logger_info(const char_t* const format, ...) __attribute__ ((format (printf, 1, 2)));
+void rl78misc_logger_info(const char_t* const format, ...)
+#ifndef _WIN32
+	__attribute__ ((format (printf, 1, 2)));
+#else
+	;
+#endif
 
 /**
  * @brief Log warn level formattable messages.
@@ -37,7 +47,12 @@ void rl78misc_logger_info(const char_t* const format, ...) __attribute__ ((forma
  * @param format format of the log
  * @param ...    arguments of the log
  */
-void rl78misc_logger_warn(const char_t* const format, ...) __attribute__ ((format (printf, 1, 2)));
+void rl78misc_logger_warn(const char_t* const format, ...)
+#ifndef _WIN32
+	__attribute__ ((format (printf, 1, 2)));
+#else
+	;
+#endif
 
 /**
  * @brief Log error level formattable messages.
@@ -45,6 +60,11 @@ void rl78misc_logger_warn(const char_t* const format, ...) __attribute__ ((forma
  * @param format format of the log
  * @param ...    arguments of the log
  */
-void rl78misc_logger_error(const char_t* const format, ...) __attribute__ ((format (printf, 1, 2)));
+void rl78misc_logger_error(const char_t* const format, ...)
+#ifndef _WIN32
+	__attribute__ ((format (printf, 1, 2)));
+#else
+	;
+#endif
 
 #endif
